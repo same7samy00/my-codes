@@ -364,7 +364,7 @@
 
         .overlapping-grid-item {
             flex: 0 0 auto; /* Prevent items from shrinking/growing */
-            width: 280px; /* Fixed width for each image, slightly larger */
+            width: 280px; /* Default width for desktop/larger screens */
             height: 200px; /* Fixed height for each image */
             position: relative;
             background-color: var(--glass-bg);
@@ -378,6 +378,24 @@
             transform-origin: center center;
             z-index: 1; /* Default z-index */
         }
+
+        /* Responsive adjustments for overlapping-grid-item on smaller screens (e.g., mobile) */
+        @media (max-width: 767px) { /* Adjust breakpoint as needed for mobile */
+            .overlapping-grid-item {
+                width: calc(25% - 1.5rem); /* 4 items per row, accounting for gap */
+                height: 100px; /* Smaller height for mobile */
+            }
+            .overlapping-grid-item:nth-child(even) {
+                margin-top: 15px; /* Smaller offset for mobile */
+            }
+        }
+        @media (max-width: 480px) { /* Extra small screens */
+            .overlapping-grid-item {
+                width: calc(33.33% - 1.5rem); /* 3 items per row on very small screens */
+                height: 80px; /* Even smaller height */
+            }
+        }
+
 
         .overlapping-grid-item:nth-child(even) {
             margin-top: 30px; /* Offset even items for staggered effect, increased offset */
@@ -967,7 +985,7 @@
         let startX;
         let scrollLeft;
         let scrollInterval;
-        const autoScrollSpeed = 0.5; // Adjust speed of auto-scroll
+        const autoScrollSpeed = 0.2; // **تم تقليل سرعة التمرير التلقائي هنا (القيمة كانت 0.5)**
         const autoScrollDelay = 3000; // Time before auto-scroll resumes after manual interaction
 
         function startAutoScroll() {
@@ -975,7 +993,6 @@
             stopAutoScroll(); // Clear any existing interval
 
             // Check if content is actually wider than container before starting auto-scroll
-            // This prevents continuous scrolling animation when all content is visible
             if (scrollContent.scrollWidth <= scrollContainer.clientWidth + 5) { // +5 for minor precision issues
                 return;
             }
