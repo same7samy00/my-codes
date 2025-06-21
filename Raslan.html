@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسلان للحلول الذكية: تخريم خرسانة، قص خرسانة، ترميم وإنشاءات خرسانية</title> <meta name="description" content="نُقدّم خدمات متخصصة في تخريم وتزريع الأشاير، قص الخرسانة المسلحة، ترميم وصيانة المنشآت الخرسانية، وتنفيذ أعمال إنشاءات كاملة باستخدام أحدث المعدات المعتمدة."> <meta name="keywords" content="تخريم خرسانة, زرع الأشاير, تزريع كيميائي, قص خرسانة, تقطيع واير سو, منشار الأرضيات, منشار الحوائط, شروخ خرسانية, صيانة أعمدة, ترميم أساسات, مقاولات عامة, صب خرسانة, أعمال إنشاء, rebar drilling Egypt, chemical anchoring, wire saw cutting, concrete cutting company, wall saw, floor saw, structural crack repair, column strengthening, foundation repair Egypt, slab casting, civil construction services"> <link rel="canonical" href="https://www.example.com/" /> <link rel="icon" href="https://i.postimg.cc/mDcf1TN3/Untitle22d-8-01.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #0c4873;
+            --white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            overflow-x: hidden;
+            background-color: #f0f4f8;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-slider {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: rgba(12, 72, 115, 0.3);
+            backdrop-filter: blur(5px);
+            color: white;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .slider-nav:hover {
+            background-color: rgba(12, 72, 115, 0.7);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn-glass {
+            background-color: rgba(12, 72, 115, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-glass:hover {
+            background-color: rgba(12, 72, 115, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(12, 72, 115, 0.3);
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: rgba(37, 211, 102, 0.8);
+            backdrop-filter: blur(5px);
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: rgba(37, 211, 102, 1);
+        }
+
+        .whatsapp-notification {
+            position: fixed;
+            bottom: 45px; /* Adjust based on whatsapp-float size */
+            right: 100px; /* Adjust to position next to whatsapp-float */
+            background-color: #0c4873;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 999;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .whatsapp-notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .team-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .team-card img {
+            transition: transform 0.3s ease;
+        }
+
+        .service-icon {
+            background: linear-gradient(135deg, rgba(12, 72, 115, 0.8), rgba(12, 72, 115, 0.6));
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-switcher-btn { /* Unified class for the language switcher button */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--white);
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            display: flex;
+            align-items: center;
+        }
+        .lang-switcher-btn:hover {
+            color: #d1d5db; /* Lighter grey on hover */
+        }
+
+
+        .section-bg {
+            background-image: linear-gradient(135deg, #f0f4f8 0%, #e6eef5 100%);
+        }
+
+        .section-bg-alt {
+            background-image: linear-gradient(135deg, #e6eef5 0%, #f0f4f8 100%);
+        }
+
+        /* Styles for the sticky header */
+        .scrolled-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 0.5rem 0;
+            background-color: rgba(12, 72, 115, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 999; /* Adjust z-index as needed for layering */
+            transform: translateY(-100%); /* Start off-screen */
+            transition: transform 0.3s ease-out;
+            display: flex;
+            align-items: center;
+        }
+
+        .scrolled-header.visible {
+            transform: translateY(0); /* Slide in */
+        }
+        /* Specific layout for the container inside the scrolled header */
+        .scrolled-header .header-content-container {
+            width: 100%; /* Ensure container fills header width */
+            display: flex;
+            justify-content: space-between; /* Space between language switcher and logo */
+            align-items: center;
+            padding: 0 1rem; /* Adjust padding as needed */
+        }
+        /* Adjust logo position within header */
+        .scrolled-header .header-logo {
+            flex-grow: 1; /* Allow logo to take available space */
+            text-align: center; /* Center logo within its space */
+        }
+
+        /* Language specific styles - ensures only one language is displayed at a time */
+        /* These global styles will handle all data-lang attributes */
+        html[lang="en"] [data-lang="ar"] {
+            display: none;
+        }
+
+        html[lang="ar"] [data-lang="en"] {
+            display: none;
+        }
+
+        html[lang="en"] {
+            direction: ltr;
+        }
+
+        html[lang="ar"] {
+            direction: rtl;
+        }
+    </style>
+</head>
+<body>
+    <header id="scrolled-header" class="scrolled-header">
+        <div class="header-content-container">
+            <div id="language-switcher-btn" class="lang-switcher-btn" onclick="toggleLanguage()">
+                <span id="lang-text"></span>
+            </div>
+            <div class="header-logo">
+                <img src="https://i.postimg.cc/vTSqdn65/20250620-0236-Soapstone-on-Quarry-remix-01jy58qdz9eyxrq9wmb23hy49x-01.png" alt="شعار شركة رسلان للحلول الذكية" class="h-10 w-auto mx-auto"> </div>
+            <div class="w-[6rem] sm:w-[8rem] md:w-[10rem]"></div> </div>
+    </header>
+
+    <section class="hero-slider">
+        <div class="slide active" style="background-image: url('https://i.postimg.cc/nV5P6cLt/R.jpg');">
+            <div class="container mx-auto text-center relative z-10">
+                <img src="https://i.postimg.cc/vTSqdn65/20250620-0236-Soapstone-on-Quarry-remix-01jy58qdz9eyxrq9wmb23hy49x-01.png" alt="شعار رسلان للحلول الذكية" class="mx-auto w-48 mb-6 drop-shadow-2xl"> <h1 class="text-6xl font-bold text-white mb-4" data-lang="ar">رسلان</h1>
+                <h1 class="text-6xl font-bold text-white mb-4" data-lang="en">Raslan</h1>
+                <p class="text-2xl text-white mb-8 max-w-2xl mx-auto drop-shadow-md" data-lang="ar">رسلان للحلول الذكية... هندسة دقيقة، وجودة لا تُضاهى</p>
+                <p class="text-2xl text-white mb-8 max-w-2xl mx-auto drop-shadow-md" data-lang="en">Raslan for Smart Solutions... Precise Engineering, Unmatched Quality</p>
+                <a href="#services" class="btn-glass px-8 py-3 rounded-lg text-lg font-bold inline-block" data-lang="ar">خدماتنا</a>
+                <a href="#services" class="btn-glass px-8 py-3 rounded-lg text-lg font-bold inline-block" data-lang="en">Our Services</a>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('https://i.postimg.cc/9XqJ4DTg/Pengurusan-SKA-SBU-IUJK-ISO-OHSAS-SE-INDONESIA-MURAH-CEPAT-0812-81008374.jpg');">
+            <div class="container mx-auto text-center relative z-10">
+                <img src="https://i.postimg.cc/vTSqdn65/20250620-0236-Soapstone-on-Quarry-remix-01jy58qdz9eyxrq9wmb23hy49x-01.png" alt="شعار رسلان للحلول الذكية" class="mx-auto w-48 mb-6 drop-shadow-2xl"> <h1 class="text-6xl font-bold text-white mb-4" data-lang="ar">رسلان</h1>
+                <h1 class="text-6xl font-bold text-white mb-4" data-lang="en">Raslan</h1>
+                <p class="text-2xl text-white mb-8 max-w-2xl mx-auto drop-shadow-md" data-lang="ar">رسلان للحلول الذكية... هندسة دقيقة، وجودة لا تُضاهى</p>
+                <p class="text-2xl text-white mb-8 max-w-2xl mx-auto drop-shadow-md" data-lang="en">Raslan for Smart Solutions... Precise Engineering, Unmatched Quality</p>
+                <a href="#about" class="btn-glass px-8 py-3 rounded-lg text-lg font-bold inline-block" data-lang="ar">من نحن</a>
+                <a href="#about" class="btn-glass px-8 py-3 rounded-lg text-lg font-bold inline-block" data-lang="en">About Us</a>
+            </div>
+        </div>
+        </section>
+
+    <section id="about" class="py-20 section-bg">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">من نحن</h2> <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">About Us</h2> <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <div class="glass-card p-8 rounded-2xl mb-8">
+                        <p class="text-lg mb-6 text-gray-700" data-lang="ar">شركة رسلان للهدم الذكي هي شركة متخصصة في هدم وسحق وثقب وقطع الخرسانة وكذلك غرس المراسي والإصلاحات.</p>
+                        <p class="text-lg mb-6 text-gray-700" data-lang="en">Raslan Smart Demolition Company specializes in demolition, crushing, drilling, concrete cutting, as well as anchor installation and repairs.</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl mb-8 border-r-4 border-[#0c4873]">
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">رؤيتنا</h3> <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">Our Vision</h3> <p class="text-gray-700" data-lang="ar">رؤيتنا أن نصبح الشركة الأولى المتخصصة في الشرق الأوسط في مجال قطع الخرسانة والهدم الذكي</p>
+                        <p class="text-gray-700" data-lang="en">Our vision is to become the leading specialized company in the Middle East in concrete cutting and smart demolition</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl border-r-4 border-[#0c4873]">
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">مهمتنا</h3> <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">Our Mission</h3> <p class="text-gray-700 mb-4" data-lang="ar">السرعة مع الحفاظ على الجودة</p>
+                        <p class="text-gray-700 mb-4" data-lang="en">Speed while maintaining quality</p>
+                        <p class="text-gray-700 mb-6" data-lang="ar">مهمتنا هي دائمًا تسريع تنفيذ مشاريعنا مع الحفاظ دائمًا على أعلى جودة ممكنة ومراعاة الصحة والسلامة المهنية</p>
+                        <p class="text-gray-700 mb-6" data-lang="en">Our mission is to always accelerate the execution of our projects while maintaining the highest possible quality and considering occupational health and safety</p>
+                        <p class="text-gray-700 font-bold" data-lang="ar">أفضل سعر</p>
+                        <p class="text-gray-700 font-bold" data-lang="en">Best Price</p>
+                        <p class="text-gray-700" data-lang="ar">مهمتنا في رسلان هي تقديم أفضل سعر ممكن لعملائنا بأعلى جودة ممكنة</p>
+                        <p class="text-gray-700" data-lang="en">Our mission at Raslan is to provide the best possible price to our customers with the highest possible quality</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in">
+                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card">
+                        <img src="https://i.postimg.cc/7PGkCRGw/e5c05aae-4efa-4118-a057-1ec01768b033.jpg" alt="صورة عن شركة رسلان للحلول الذكية" class="w-full h-64 object-cover"> </div>
+                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card">
+                        <img src="https://i.postimg.cc/5NqHQyTB/bb0c1703-f3df-4287-836f-635ce5ef5262.jpg" alt="فريق عمل رسلان في موقع بناء" class="w-full h-64 object-cover"> </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 section-bg-alt">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">خدماتنا</h2> <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Services</h2> <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="glass-card rounded-2xl overflow-hidden fade-in">
+                    <div class="p-8 service-icon text-white text-center">
+                        <i class="fas fa-tools text-4xl mb-4"></i>
+                        <h3 class="text-xl font-bold" data-lang="ar">تخريم وتزريع الأشاير</h3> <h3 class="text-xl font-bold" data-lang="en">Drilling and Anchor Installation</h3> </div>
+                    <div class="p-6">
+                        <p class="text-gray-700" data-lang="ar">نقدم خدمات متخصصة في تخريم وتزريع الأشاير والجوايط باستخدام أحدث المعدات، وباعتماد كامل من جميع الشركات العالمية.</p>
+                        <p class="text-gray-700" data-lang="en">We provide specialized services in drilling and installing anchors using the latest equipment, with full accreditation from all international companies.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl overflow-hidden fade-in">
+                    <div class="p-8 service-icon text-white text-center">
+                        <i class="fas fa-cut text-4xl mb-4"></i>
+                        <h3 class="text-xl font-bold" data-lang="ar">تقطيع وقص الخرسانة</h3> <h3 class="text-xl font-bold" data-lang="en">Concrete Cutting</h3> </div>
+                    <div class="p-6">
+                        <p class="text-gray-700" data-lang="ar">نُتقن تنفيذ أعمال تقطيع وقص الخرسانة بجميع أنواعها باستخدام أحدث تقنيات المناشير مثل: الواير سو، منشار الأرضيات، والحوائط.</p>
+                        <p class="text-gray-700" data-lang="en">We excel in executing concrete cutting works of all types using the latest saw technologies such as: wire saw, floor saw, and wall saw.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl overflow-hidden fade-in">
+                    <div class="p-8 service-icon text-white text-center">
+                        <i class="fas fa-hammer text-4xl mb-4"></i>
+                        <h3 class="text-xl font-bold" data-lang="ar">أعمال الصيانة والترميم</h3> <h3 class="text-xl font-bold" data-lang="en">Maintenance and Restoration</h3> </div>
+                    <div class="p-6">
+                        <p class="text-gray-700" data-lang="ar">نُنفّذ أعمال الترميم الهيكلي والصيانة الإنشائية للمباني والمنشآت الخرسانية، بما في ذلك معالجة الشروخ وإصلاح الأعمدة.</p>
+                        <p class="text-gray-700" data-lang="en">We perform structural restoration and construction maintenance for buildings and concrete structures, including crack treatment and column repair.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl overflow-hidden fade-in">
+                    <div class="p-8 service-icon text-white text-center">
+                        <i class="fas fa-building text-4xl mb-4"></i>
+                        <h3 class="text-xl font-bold" data-lang="ar">أعمال الإنشاءات</h3> <h3 class="text-xl font-bold" data-lang="en">Construction Works</h3> </div>
+                    <div class="p-6">
+                        <p class="text-gray-700" data-lang="ar">نُقدّم خدمات إنشاءات متكاملة تشمل: تنفيذ الهياكل الخرسانية المسلحة، أساسات المباني والمصانع، وصب الأسقف والأعمدة.</p>
+                        <p class="text-gray-700" data-lang="en">We provide integrated construction services including: execution of reinforced concrete structures, building and factory foundations, and casting of ceilings and columns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-20 section-bg">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">مشاريعنا</h2> <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Projects</h2> <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="glass-card rounded-2xl overflow-hidden shadow-lg fade-in">
+                    <img src="https://i.postimg.cc/L6MDMqjL/90596459-89a6-4bf9-b76e-a55e5e5e52c9.jpg" alt="مشروع الهدم الذكي في العلمين" class="w-full h-64 object-cover"> <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">مشروع العلمين</h3> <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">Alamein Project</h3> <p class="text-gray-700" data-lang="ar">تنفيذ أعمال هدم ذكي ومحكم باستخدام أحدث التقنيات والمعدات، مع الحفاظ على سلامة المنشآت المجاورة وتحقيق أعلى معايير الجودة والسلامة.</p>
+                        <p class="text-gray-700" data-lang="en">Execution of smart and precise demolition works using the latest technologies and equipment, while maintaining the safety of neighboring facilities and achieving the highest standards of quality and safety.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl overflow-hidden shadow-lg fade-in">
+                    <img src="https://i.postimg.cc/C13cmq91/76a39dfa-25c3-4190-b990-34364a515446.jpg" alt="تقطيع الخرسانة في كوبري البحيرات بالعلمين" class="w-full h-64 object-cover"> <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">كوبري البحيرات بالعلمين</h3> <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">Alamein Lakes Bridge</h3> <p class="text-gray-700" data-lang="ar">تم قطع البلاطة العلوية للجسر، وفصل العوارض الخرسانية باستخدام 7 مناشير أرضية و9 مناشير سلكية. تم قطع 4500 متر طولي في فترة 45 يومًا.</p>
+                        <p class="text-gray-700" data-lang="en">The upper slab of the bridge was cut, and the concrete beams were separated using 7 floor saws and 9 wire saws. 4500 linear meters were cut in a period of 45 days.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="py-20 section-bg-alt">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">تعرف على فريقنا</h2> <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Meet Our Team</h2> <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="team-card glass-card rounded-2xl overflow-hidden fade-in">
+                    <div class="overflow-hidden h-80">
+                        <img src="https://i.postimg.cc/fb0DXgyG/1cf73fc3-a858-47b0-968b-0279c07a874a.jpg" alt="صورة محمد اسماعيل، الرئيس التنفيذي لشركة رسلان" class="w-full h-full object-cover"> </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="ar">محمد اسماعيل</h3> <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="en">Mohamed Esmail</h3> <p class="text-gray-600" data-lang="ar">الرئيس التنفيذي للشركة</p>
+                        <p class="text-gray-600" data-lang="en">CEO</p>
+                    </div>
+                </div>
+
+                <div class="team-card glass-card rounded-2xl overflow-hidden fade-in">
+                    <div class="overflow-hidden h-80">
+                        <img src="https://i.postimg.cc/htYKXqD8/ace85ba2-82fb-45f9-958a-79535482eb8c.jpg" alt="صورة محمد النجار، مدير التنفيذ في رسلان" class="w-full h-full object-cover"> </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="ar">محمد النجار</h3> <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="en">Mohamed El-Naggar</h3> <p class="text-gray-600" data-lang="ar">مدير التنفيذ</p>
+                        <p class="text-gray-600" data-lang="en">Execution Manager</p>
+                    </div>
+                </div>
+
+                <div class="team-card glass-card rounded-2xl overflow-hidden fade-in">
+                    <div class="overflow-hidden h-80">
+                        <img src="https://i.postimg.cc/k4KMrhdQ/ddf41c59-8109-4cb5-881a-98e28cd22818-1.jpg" alt="صورة محمد سويلم، مشرف في رسلان" class="w-full h-full object-cover"> </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="ar">محمد سويلم</h3> <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="en">Mohamed Sweilam</h3> <p class="text-gray-600" data-lang="ar">مشرف</p>
+                        <p class="text-gray-600" data-lang="en">Supervisor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="clients" class="py-20 section-bg">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">عملائنا</h2> <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Clients</h2> <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-center justify-items-center mx-auto max-w-fit"> <div class="glass-card p-6 rounded-2xl fade-in flex justify-center items-center">
+                    <img src="https://i.postimg.cc/vm9DMmrx/c3bf0079-57b8-4bad-ae60-8538f5b4d425.png" alt="شعار عميل لشركة رسلان" class="max-h-24 w-auto"> </div>
+                <div class="glass-card p-6 rounded-2xl fade-in flex justify-center items-center">
+                    <img src="https://i.postimg.cc/vBsTmdhq/cdef6c5a-81c3-4eab-83a3-991fef63734d.png" alt="شعار عميل آخر لشركة رسلان" class="max-h-24 w-auto"> </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 section-bg-alt">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">تواصل معنا</h2> <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Contact Us</h2> <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="fade-in">
+                    <div class="glass-card rounded-2xl p-8 mb-8">
+                        <div class="flex items-start mb-6" style="gap: 5px;">
+                            <div class="w-12 h-12 service-icon rounded-full flex items-center justify-center text-white flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="ar">العنوان</h3> <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="en">Address</h3> <p class="text-gray-600 mb-2" data-lang="ar">منيا القمح - الشرقية</p>
+                                <p class="text-gray-600 mb-2" data-lang="en">Minya Al-Qamh - Sharqia</p>
+                                <a href="https://maps.google.com" target="_blank" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="ar">اذهب الى الخريطة</a>
+                                <a href="https://maps.google.com" target="_blank" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="en">Go to Map</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start mb-6" style="gap: 5px;">
+                            <div class="w-12 h-12 service-icon rounded-full flex items-center justify-center text-white flex-shrink-0">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="ar">البريد الالكترونى</h3> <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="en">Email</h3> <p class="text-gray-600 mb-2">m.Esmaeil@raslan-eg.com</p>
+                                <a href="mailto:m.Esmaeil@raslan-eg.com" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="ar">راسلنا</a>
+                                <a href="mailto:m.Esmaeil@raslan-eg.com" target="_blank" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="en">Email Us</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start" style="gap: 5px;">
+                            <div class="w-12 h-12 service-icon rounded-full flex items-center justify-center text-white flex-shrink-0">
+                                <i class="fas fa-phone-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="ar">كلمنا</h3> <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="en">Call Us</h3> <p class="text-gray-600 mb-2" dir="ltr">01005619136</p>
+                                <a href="tel:01005619136" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="ar">اتصل بنا</a>
+                                <a href="tel:01005619136" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="en">Call Us</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4" data-lang="ar">تابعنا</h3> <h3 class="text-xl font-bold text-gray-800 mb-4" data-lang="en">Follow Us</h3> <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
+                            <a href="https://www.facebook.com/Raslan2001/" target="_blank" class="service-icon rounded-lg flex items-center justify-center text-white hover:bg-blue-700 transition-colors px-6 py-3 gap-x-2">
+                                <span data-lang="ar" class="text-lg font-bold">فيسبوك</span>
+                                <span data-lang="en" class="text-lg font-bold">Facebook</span>
+                                <i class="fab fa-facebook-f text-xl"></i>
+                            </a>
+                            <a href="#" class="service-icon rounded-lg flex items-center justify-center text-white hover:bg-pink-600 transition-colors px-6 py-3 gap-x-2">
+                                <span data-lang="ar" class="text-lg font-bold">انستجرام</span>
+                                <span data-lang="en" class="text-lg font-bold">Instagram</span>
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fade-in">
+                    <div class="glass-card rounded-2xl overflow-hidden h-full">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55251.37809870897!2d31.5665216!3d30.5167598!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f7e9a4f0f3d0c9%3A0x7ff9c5c7a9dc5e5d!2sMit%20Ghamr%2C%20Mit%20Ghamr%2C%20Dakahlia%20Governorate!5e0!3m2!1sen!2seg!4v1656522345678!5m2!1sen!2seg" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#0c4873] text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p data-lang="ar">© رسلان 2024. جميع الحقوق محفوظة.</p>
+                    <p data-lang="en">© Raslan 2024. All rights reserved.</p>
+                </div>
+                <div>
+                    <p data-lang="ar">تطوير بواسطة: <span class="font-bold">سامح رضا <a href="https://wa.me/201005619136" target="_blank" class="mr-2 inline-block"><i class="fab fa-whatsapp text-lg align-middle"></i></a></span></p>
+                    <p data-lang="en">Powered By: <span class="font-bold">Sameh Reda <a href="https://wa.me/201005619136" target="_blank" class="ml-2 inline-block"><i class="fab fa-whatsapp text-lg align-middle"></i></a></span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/201005619136" target="_blank" class="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <div class="whatsapp-notification" id="whatsapp-notification">
+        <span data-lang="ar">اطلب استشارتك المجانية الان</span>
+        <span data-lang="en">Get your free consultation now</span>
+    </div>
+
+    <script>
+        // Slider functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+
+            if (index >= totalSlides) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = index;
+            }
+
+            slides[currentSlide].classList.add('active');
+        }
+
+        // Auto slide every 2 seconds
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 2000); // 2 seconds
+
+        // Fade-in animation on scroll
+        function checkFadeElements() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const windowHeight = window.innerHeight;
+
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('visible');
+                } else {
+                    element.classList.remove('visible'); // Optional: remove if element scrolls out of view
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkFadeElements);
+        window.addEventListener('load', checkFadeElements); // Check on page load
+
+        // Language switching functionality
+        function setLanguage(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            localStorage.setItem('preferredLanguage', lang);
+            updateLanguageButtonText(lang); // Update button text after setting language
+        }
+
+        function toggleLanguage() {
+            const currentLang = document.documentElement.getAttribute('lang');
+            const newLang = (currentLang === 'ar') ? 'en' : 'ar';
+            setLanguage(newLang);
+        }
+
+        function updateLanguageButtonText(lang) {
+            const langButtonTextElement = document.getElementById('lang-text');
+            if (langButtonTextElement) {
+                if (lang === 'ar') {
+                    langButtonTextElement.textContent = 'English';
+                } else {
+                    langButtonTextElement.textContent = 'عربي';
+                }
+            }
+        }
+
+        // Set initial language and update button text on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            let initialLang = localStorage.getItem('preferredLanguage');
+
+            if (!initialLang) {
+                // Get preferred language from browser
+                const browserLang = navigator.language || navigator.languages[0];
+                if (browserLang.startsWith('ar')) {
+                    initialLang = 'ar';
+                } else {
+                    initialLang = 'en'; // Default to English if browser language is not Arabic or unknown
+                }
+            }
+            setLanguage(initialLang); // Use setLanguage to initialize both language and button text
+
+            // WhatsApp notification logic
+            setTimeout(() => {
+                showWhatsappNotification();
+            }, 2000); // Show after 2 seconds
+        });
+
+        function showWhatsappNotification() {
+            const notification = document.getElementById('whatsapp-notification');
+            const currentLang = document.documentElement.getAttribute('lang');
+
+            // Hide all language spans first
+            notification.querySelectorAll('span').forEach(span => {
+                span.style.display = 'none';
+            });
+
+            // Show the span for the current language
+            const currentLangSpan = notification.querySelector(`[data-lang="${currentLang}"]`);
+            if (currentLangSpan) {
+                currentLangSpan.style.display = 'inline';
+            }
+
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000); // Hide after 2 seconds
+        }
+
+        // Sticky header logic
+        const scrolledHeader = document.getElementById('scrolled-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) { // Adjust this value to control when the header appears
+                scrolledHeader.classList.add('visible');
+            } else {
+                scrolledHeader.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+</html>
