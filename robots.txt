@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yourdomain.github.io/sitemap.xml
+Sitemap: https://same7samy00.github.io/my-codes/sitemap.xml
