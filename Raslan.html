@@ -346,19 +346,55 @@
             -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
             padding-bottom: 1rem; /* Still keep some padding in case of native scrollbar showing */
             cursor: grab; /* Indicate draggable */
+            position: relative; /* Needed for ::before / ::after positioning */
+            /* Add padding to account for the blur/shadow */
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         .overlapping-grid-container.is-dragging {
             cursor: grabbing;
         }
 
+        /* Styles for the blurred edges */
+        .overlapping-grid-container::before,
+        .overlapping-grid-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 40px; /* Width of the blur/shadow effect */
+            height: 100%;
+            pointer-events: none; /* Allows clicks/drags to pass through */
+            z-index: 2; /* Ensures it's above the images */
+        }
+
+        /* RTL specific blur/shadow (Arabic) */
+        html[lang="ar"] .overlapping-grid-container::before {
+            right: 0;
+            background: linear-gradient(to left, rgba(230, 238, 245, 1), rgba(230, 238, 245, 0) 100%); /* Matches section-bg-alt color */
+        }
+        html[lang="ar"] .overlapping-grid-container::after {
+            left: 0;
+            background: linear-gradient(to right, rgba(230, 238, 245, 1), rgba(230, 238, 245, 0) 100%); /* Matches section-bg-alt color */
+        }
+
+        /* LTR specific blur/shadow (English) */
+        html[lang="en"] .overlapping-grid-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(230, 238, 245, 1), rgba(230, 238, 245, 0) 100%); /* Matches section-bg-alt color */
+        }
+        html[lang="en"] .overlapping-grid-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(230, 238, 245, 1), rgba(230, 238, 245, 0) 100%); /* Matches section-bg-alt color */
+        }
+
+
         .overlapping-grid {
             display: flex; /* Use flexbox for horizontal layout */
             flex-wrap: nowrap; /* Prevent wrapping to new lines */
             align-items: flex-start; /* Align items to the start of the cross axis */
             gap: 1.5rem; /* Space between items, increased for better visual separation */
-            padding-left: 1rem; /* Padding at the start of the scroll */
-            padding-right: 1rem; /* Padding at the end of the scroll */
+            /* Removed direct padding-left/right as it's now on container */
             transition: transform 0.3s ease-out; /* Smooth transition for auto-scroll */
         }
 
@@ -636,64 +672,49 @@
                         <img src="https://i.postimg.cc/N0Rks8KK/32-Images-To-Help-You-Better-Understand-RCC.jpg" alt="Work Hero 1">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/NMY75yXp/80b989bf-ae81-49d7-bd26-8c5a16b5be8c.jpg" alt="Work Hero 2">
+                        <img src="https://i.postimg.cc/4N3P6hS0/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 2">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/yxsQ4Qn6/8660aa2f-ef05-40fe-ac4e-d1ee6346ff38.jpg" alt="Work Hero 3">
+                        <img src="https://i.postimg.cc/wvdFLfC5/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 3">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/ZnHfT8D8/Construction-Workers-Pouring-Concrete-at-Building.jpg" alt="Work Hero 4">
+                        <img src="https://i.postimg.cc/2y0wpzVT/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 4">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/ryNZCTFD/dirt-work-near-me.jpg" alt="Work Hero 5">
+                        <img src="https://i.postimg.cc/y8tLYYnb/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 5">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/9FX8LkrJ/Is-Offsite-Modular-Construction-Right-for-Your.jpg" alt="Work Hero 6">
+                        <img src="https://i.postimg.cc/ncwk0h8h/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 6">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/4N3P6hS0/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 7">
+                        <img src="https://i.postimg.cc/50qg35Jh/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 7">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/wvdFLfC5/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 8">
+                        <img src="https://i.postimg.cc/L6yywVPR/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 8">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/2y0wpzVT/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 9">
+                        <img src="https://i.postimg.cc/y6jn3Tv9/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 9">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/y8tLYYnb/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 10">
+                        <img src="https://i.postimg.cc/DzGBWkMy/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 10">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/ncwk0h8h/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 11">
+                        <img src="https://i.postimg.cc/P5pMcnhz/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 11">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/50qg35Jh/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 12">
+                        <img src="https://i.postimg.cc/RhSRb3VN/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 12">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/L6yywVPR/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 13">
+                        <img src="https://i.postimg.cc/kgBjmtNS/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 13">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/y6jn3Tv9/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 14">
+                        <img src="https://i.postimg.cc/K865hp8X/Young-business-man-professional-engineer-worker-at-the-house-building-construction-site-with-bluepri.jpg" alt="Work Hero 14">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/DzGBWkMy/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 15">
+                        <img src="https://i.postimg.cc/bwhQ6DC8/6b850d0b-4379-487c-b292-4e53ada86450.jpg" alt="Work Hero 15">
                     </div>
                     <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/P5pMcnhz/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 16">
-                    </div>
-                    <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/RhSRb3VN/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 17">
-                    </div>
-                    <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/kgBjmtNS/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 18">
-                    </div>
-                    <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/K865hp8X/Young-business-man-professional-engineer-worker-at-the-house-building-construction-site-with-bluepri.jpg" alt="Work Hero 19">
-                    </div>
-                    <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/bwhQ6DC8/6b850d0b-4379-487c-b292-4e53ada86450.jpg" alt="Work Hero 20">
-                    </div>
-                    <div class="overlapping-grid-item">
-                        <img src="https://i.postimg.cc/P5Q10X9D/Step-into-a-world-where-Restoration-Architects.jpg" alt="Work Hero 21">
+                        <img src="https://i.postimg.cc/P5Q10X9D/Step-into-a-world-where-Restoration-Architects.jpg" alt="Work Hero 16">
                     </div>
                 </div>
             </div>
@@ -985,21 +1006,20 @@
         let startX;
         let scrollLeft;
         let scrollInterval;
-        const autoScrollSpeed = 0.2; // **تم تقليل سرعة التمرير التلقائي هنا (القيمة كانت 0.5)**
-        const autoScrollDelay = 3000; // Time before auto-scroll resumes after manual interaction
+        const autoScrollSpeed = 0.2; // سرعة التمرير التلقائي البطيئة
+        const autoScrollDelay = 3000; // وقت التأخير قبل استئناف التمرير التلقائي بعد التفاعل اليدوي
 
         function startAutoScroll() {
-            if (!scrollContainer || !scrollContent) return; // Ensure elements exist
-            stopAutoScroll(); // Clear any existing interval
+            if (!scrollContainer || !scrollContent) return;
+            stopAutoScroll();
 
-            // Check if content is actually wider than container before starting auto-scroll
-            if (scrollContent.scrollWidth <= scrollContainer.clientWidth + 5) { // +5 for minor precision issues
+            // تحقق مما إذا كان المحتوى أوسع من الحاوية قبل بدء التمرير التلقائي
+            if (scrollContent.scrollWidth <= scrollContainer.clientWidth + 5) {
                 return;
             }
 
             scrollInterval = setInterval(() => {
-                // If scroll reaches end, reset to beginning (loop)
-                if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContent.scrollWidth - 1) { // -1 to account for potential rounding
+                if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContent.scrollWidth - 1) {
                     scrollContainer.scrollTo({
                         left: 0,
                         behavior: 'smooth'
@@ -1007,20 +1027,17 @@
                 } else {
                     scrollContainer.scrollLeft += autoScrollSpeed;
                 }
-            }, 10); // Update scroll position every 10ms
+            }, 10);
         }
 
         function stopAutoScroll() {
             clearInterval(scrollInterval);
         }
 
-        // Start auto-scroll on load, ensuring content is rendered
-        window.addEventListener('load', () => {
-            // Give a moment for layout to settle, especially if images are still loading
-            setTimeout(startAutoScroll, 500);
-        });
+        // بدء التمرير التلقائي فور تحميل الصفحة
+        window.addEventListener('load', startAutoScroll);
 
-        // Mouse drag functionality
+        // وظيفة السحب بالماوس
         scrollContainer.addEventListener('mousedown', (e) => {
             isDown = true;
             scrollContainer.classList.add('is-dragging');
@@ -1030,7 +1047,7 @@
         });
 
         scrollContainer.addEventListener('mouseleave', () => {
-            if (isDown) { // Only resume if mouse was down when leaving
+            if (isDown) {
                 isDown = false;
                 scrollContainer.classList.remove('is-dragging');
                 setTimeout(startAutoScroll, autoScrollDelay);
@@ -1038,7 +1055,7 @@
         });
 
         scrollContainer.addEventListener('mouseup', () => {
-            if (isDown) { // Only resume if mouse was down when releasing
+            if (isDown) {
                 isDown = false;
                 scrollContainer.classList.remove('is-dragging');
                 setTimeout(startAutoScroll, autoScrollDelay);
@@ -1049,11 +1066,11 @@
             if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - scrollContainer.offsetLeft;
-            const walk = (x - startX) * 2; // Scroll-fast factor
+            const walk = (x - startX) * 2;
             scrollContainer.scrollLeft = scrollLeft - walk;
         });
 
-        // Touch drag functionality for mobile
+        // وظيفة السحب باللمس للأجهزة المحمولة
         scrollContainer.addEventListener('touchstart', (e) => {
             isDown = true;
             startX = e.touches[0].pageX - scrollContainer.offsetLeft;
@@ -1072,7 +1089,7 @@
             const walk = (x - startX) * 2;
             scrollContainer.scrollLeft = scrollLeft - walk;
         });
-        // --- End Horizontal Auto-Scrolling and Dragging ---
+        // --- نهاية التمرير التلقائي والسحب ---
     </script>
 </body>
 </html>
