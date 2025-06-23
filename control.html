@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة تحكم رسلان</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; background: #f5f5f5; }
+        form { background: #fff; padding: 20px; border-radius: 8px; width: 300px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
+        button { padding: 10px 20px; background: #d10000; color: #fff; border: none; cursor: pointer; }
+        h2 { color: #d10000; }
+    </style>
+</head>
+<body>
+
+<h2>لوحة تحكم - إضافة خدمة جديدة</h2>
+<form id="addServiceForm">
+    <input type="text" id="serviceTitle" placeholder="عنوان الخدمة" required><br>
+    <textarea id="serviceDesc" placeholder="وصف الخدمة" required></textarea><br>
+    <input type="text" id="serviceImg" placeholder="رابط الصورة" required><br>
+    <button type="submit">إضافة الخدمة</button>
+</form>
+
+<!-- أكواد Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAGlFOEITRIlPE6VVngiMEoNX0MUubW-RI",
+    authDomain: "raslan-control-panel.firebaseapp.com",
+    databaseURL: "https://raslan-control-panel-default-rtdb.firebaseio.com",
+    projectId: "raslan-control-panel",
+    storageBucket: "raslan-control-panel.appspot.com",
+    messagingSenderId: "5477499403",
+    appId: "1:5477499403:web:709dfad2f118becb00bd0e",
+    measurementId: "G-23QTMWE0JF"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+</script>
+
+<!-- كود إضافة بيانات -->
+<script>
+document.getElementById('addServiceForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const newService = {
+        "العنوان": document.getElementById('serviceTitle').value,
+        "الوصف": document.getElementById('serviceDesc').value,
+        "رابط الصورة": document.getElementById('serviceImg').value
+    };
+
+    db.ref('services').push(newService);
+    alert("تمت إضافة الخدمة بنجاح!");
+
+    document.getElementById('serviceTitle').value = "";
+    document.getElementById('serviceDesc').value = "";
+    document.getElementById('serviceImg').value = "";
+});
+</script>
+
+</body>
+</html>
