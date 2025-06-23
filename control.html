@@ -2,28 +2,72 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة تحكم رسلان</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 50px; background: #f5f5f5; }
-        form { background: #fff; padding: 20px; border-radius: 8px; width: 300px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        input, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
-        button { padding: 10px 20px; background: #d10000; color: #fff; border: none; cursor: pointer; }
-        h2 { color: #d10000; }
+        body {
+            background: linear-gradient(135deg, #0c4873, #000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        input, textarea, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: none;
+        }
+        button {
+            background: #0c4873;
+            color: white;
+            cursor: pointer;
+        }
+        h2 {
+            margin-bottom: 1rem;
+        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<h2>لوحة تحكم - إضافة خدمة جديدة</h2>
-<form id="addServiceForm">
-    <input type="text" id="serviceTitle" placeholder="عنوان الخدمة" required><br>
-    <textarea id="serviceDesc" placeholder="وصف الخدمة" required></textarea><br>
-    <input type="text" id="serviceImg" placeholder="رابط الصورة" required><br>
-    <button type="submit">إضافة الخدمة</button>
-</form>
+<div class="glass-card" id="login-section">
+    <h2>دخول لوحة التحكم</h2>
+    <input type="password" id="password" placeholder="ادخل كلمة المرور">
+    <button onclick="checkLogin()">دخول</button>
+</div>
 
-<!-- أكواد Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<div class="glass-card hidden" id="control-panel">
+    <h2>إدارة بيانات رسلان</h2>
+    <select id="dataType" onchange="loadItems()">
+        <option value="services">الخدمات</option>
+        <option value="projects">المشاريع</option>
+    </select>
+    <input type="text" id="title" placeholder="العنوان بالعربية">
+    <input type="text" id="title_en" placeholder="العنوان بالإنجليزية">
+    <textarea id="desc" placeholder="الوصف بالعربية"></textarea>
+    <textarea id="desc_en" placeholder="الوصف بالإنجليزية"></textarea>
+    <input type="text" id="image" placeholder="رابط الصورة">
+    <button onclick="addItem()">إضافة</button>
+    <div id="items-list"></div>
+</div>
+
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyAGlFOEITRIlPE6VVngiMEoNX0MUubW-RI",
@@ -36,28 +80,96 @@
     measurementId: "G-23QTMWE0JF"
   };
 
-  firebase.initializeApp(firebaseConfig);
+  const app = firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
-</script>
 
-<!-- كود إضافة بيانات -->
-<script>
-document.getElementById('addServiceForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+  function checkLogin() {
+    const pass = document.getElementById('password').value;
+    if (pass === '010274') {
+      document.getElementById('login-section').classList.add('hidden');
+      document.getElementById('control-panel').classList.remove('hidden');
+      loadItems();
+    } else {
+      alert('كلمة المرور غير صحيحة');
+    }
+  }
 
-    const newService = {
-        "العنوان": document.getElementById('serviceTitle').value,
-        "الوصف": document.getElementById('serviceDesc').value,
-        "رابط الصورة": document.getElementById('serviceImg').value
+  function addItem() {
+    const type = document.getElementById('dataType').value;
+    const title = document.getElementById('title').value;
+    const titleEn = document.getElementById('title_en').value;
+    const desc = document.getElementById('desc').value;
+    const descEn = document.getElementById('desc_en').value;
+    const img = document.getElementById('image').value;
+    if (!title || !desc || !img) return alert('اكمل جميع الحقول المطلوبة');
+
+    const newItem = {
+      "العنوان": title,
+      "عنوان إنجليزي": titleEn,
+      "الوصف": desc,
+      "وصف إنجليزي": descEn,
+      "رابط الصورة": img
     };
+    db.ref(`${type}`).push(newItem);
+    clearForm();
+    loadItems();
+  }
 
-    db.ref('services').push(newService);
-    alert("تمت إضافة الخدمة بنجاح!");
+  function loadItems() {
+    const type = document.getElementById('dataType').value;
+    const container = document.getElementById('items-list');
+    container.innerHTML = '';
 
-    document.getElementById('serviceTitle').value = "";
-    document.getElementById('serviceDesc').value = "";
-    document.getElementById('serviceImg').value = "";
-});
+    db.ref(type).once('value', snapshot => {
+      const data = snapshot.val();
+      for (const key in data) {
+        const item = data[key];
+        container.innerHTML += `
+          <div style="border: 1px solid #fff; padding: 10px; margin-top: 10px;">
+            <strong>${item["العنوان"]}</strong>
+            <button onclick="deleteItem('${type}','${key}')" style="background:red; margin:5px 5px 0 0;">حذف</button>
+            <button onclick="editItem('${type}','${key}','${item["العنوان"]}','${item["عنوان إنجليزي"]}','${item["الوصف"]}','${item["وصف إنجليزي"]}','${item["رابط الصورة"]}')" style="background:orange; margin-top:5px;">تعديل</button>
+          </div>
+        `;
+      }
+    });
+  }
+
+  function deleteItem(type, key) {
+    if (confirm('متأكد من الحذف؟')) {
+      db.ref(`${type}/${key}`).remove();
+      loadItems();
+    }
+  }
+
+  function editItem(type, key, title, titleEn, desc, descEn, img) {
+    document.getElementById('title').value = title;
+    document.getElementById('title_en').value = titleEn;
+    document.getElementById('desc').value = desc;
+    document.getElementById('desc_en').value = descEn;
+    document.getElementById('image').value = img;
+
+    if (confirm('بعد التعديل اضغط موافق للحفظ')) {
+      const updatedItem = {
+        "العنوان": document.getElementById('title').value,
+        "عنوان إنجليزي": document.getElementById('title_en').value,
+        "الوصف": document.getElementById('desc').value,
+        "وصف إنجليزي": document.getElementById('desc_en').value,
+        "رابط الصورة": document.getElementById('image').value
+      };
+      db.ref(`${type}/${key}`).set(updatedItem);
+      clearForm();
+      loadItems();
+    }
+  }
+
+  function clearForm() {
+    document.getElementById('title').value = '';
+    document.getElementById('title_en').value = '';
+    document.getElementById('desc').value = '';
+    document.getElementById('desc_en').value = '';
+    document.getElementById('image').value = '';
+  }
 </script>
 
 </body>
