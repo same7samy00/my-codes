@@ -6,88 +6,138 @@
     <title>لوحة تحكم رسلان</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
+    <style>
         body {
-            background: linear-gradient(135deg, #0c4873, #000);
+            /* Background Image with Blur and Animation */
+            background-image: url('https://i.postimg.cc/wTnsmsns/20250623-0200-Concrete-Construction-Progress-remix-01jycxtzpyexq8ptfnqz2gm819.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Use min-height to ensure it takes full height but can expand */
+            min-height: 100vh;
             margin: 0;
-            font-family: 'Cairo', Arial, sans-serif; /* Changed font to Cairo for better Arabic display */
+            font-family: 'Cairo', Arial, sans-serif;
             color: white;
-            padding: 20px; /* Add some padding for smaller screens */
-            box-sizing: border-box; /* Include padding in element's total width and height */
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow-y: auto;
         }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://i.postimg.cc/wTnsmsns/20250623-0200-Concrete-Construction-Progress-remix-01jycxtzpyexq8ptfnqz2gm819.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(15px);
+            z-index: -1;
+            opacity: 0.8;
+            animation: subtleBackgroundMove 30s infinite alternate ease-in-out; /* Added animation */
+        }
+
+        @keyframes subtleBackgroundMove {
+            from {
+                transform: scale(1) translateX(0) translateY(0);
+            }
+            to {
+                transform: scale(1.05) translateX(10px) translateY(10px);
+            }
+        }
+
         .container {
             display: flex;
-            flex-direction: column; /* Stack sections vertically */
-            gap: 25px; /* Space between sections */
-            max-width: 900px; /* Wider container for better layout */
+            flex-direction: column;
+            gap: 25px;
+            max-width: 900px;
             width: 100%;
+            z-index: 1;
         }
+
         .glass-section {
-            background: rgba(255, 255, 255, 0.08); /* Slightly less opaque for a softer look */
-            backdrop-filter: blur(12px); /* Increased blur for more glass effect */
-            border-radius: 25px; /* More rounded corners */
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 25px;
             padding: 2.5rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); /* Enhanced shadow for depth */
-            border: 1px solid rgba(255, 255, 255, 0.18); /* Subtle border for definition */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             text-align: center;
-            position: relative; /* For potential absolute positioning of elements inside */
-            overflow: hidden; /* Ensures content respects border-radius */
+            position: relative;
+            overflow: hidden;
         }
+
+        .logo {
+            margin-bottom: 20px;
+            max-width: 150px;
+            height: auto;
+        }
+
         h2 {
             margin-bottom: 1.5rem;
             font-size: 2.2rem;
-            color: #e0f2f7; /* Lighter blue for headings */
+            color: #e0f2f7;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
-        .input-group {
-            margin-bottom: 15px; /* Space between input groups */
-            text-align: right; /* Align labels to the right */
+
+        h3 {
+            font-size: 1.6rem;
+            color: #cceeff;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+
         label {
             display: block;
             margin-bottom: 8px;
             font-size: 0.95rem;
-            color: #cceeff; /* Lighter blue for labels */
+            color: #cceeff;
         }
-        input, textarea, select {
-            width: calc(100% - 20px); /* Adjust width for padding */
+
+        input, textarea {
+            width: 100%;
             padding: 12px;
-            margin: 0; /* Reset margin */
-            border-radius: 10px; /* More rounded input fields */
+            margin: 0;
+            border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             background: rgba(255, 255, 255, 0.1);
             color: white;
             font-size: 1rem;
-            transition: all 0.3s ease; /* Smooth transition for focus */
-            box-sizing: border-box; /* Include padding in element's total width and height */
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            direction: rtl; /* Ensure input text is RTL */
         }
+
         input::placeholder, textarea::placeholder {
             color: rgba(255, 255, 255, 0.6);
+            direction: rtl;
         }
-        input:focus, textarea:focus, select:focus {
+
+        input:focus, textarea:focus {
             border-color: #74a0c8;
             outline: none;
-            box-shadow: 0 0 10px rgba(116, 160, 200, 0.6); /* Blue glow on focus */
-            background: rgba(255, 255, 255, 0.15); /* Slightly brighter on focus */
+            box-shadow: 0 0 10px rgba(116, 160, 200, 0.6);
+            background: rgba(255, 255, 255, 0.15);
         }
-        select {
-            appearance: none; /* Remove default select arrow */
-            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M208.56%2C96.56l-80%2C80a8%2C8%2C0%2C0%2C1%2C-11.32%2C0l-80-80A8%2C8%2C0%2C0%2C1%2C42.88%2C85.44l74.56%2C74.56L192.56%2C85.44a8%2C8%2C0%2C0%2C1%2C16%2C11.32Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E'); /* Custom arrow */
-            background-repeat: no-repeat;
-            background-position: left 15px center; /* Position arrow on the left for RTL */
-            background-size: 16px;
-            padding-left: 40px; /* Space for the arrow */
-        }
+
         button {
-            width: auto; /* Buttons will size to content */
+            width: auto;
             padding: 12px 25px;
-            margin: 15px 5px 0; /* Adjusted margin for spacing between buttons */
+            margin: 15px 5px 0;
             border-radius: 10px;
             border: none;
             font-size: 1.05rem;
@@ -95,7 +145,18 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: inline-flex; /* For icon alignment */
+            align-items: center;
+            gap: 8px; /* Space between text and icon */
+            justify-content: center; /* Center content within button */
+            direction: rtl; /* For RTL text and icon order */
         }
+
+        button i {
+            margin-left: 0px; /* Adjust if needed */
+            margin-right: 0px; /* Adjust if needed */
+        }
+
         button.primary {
             background: #0c4873;
             color: white;
@@ -124,6 +185,53 @@
             box-shadow: 0 6px 15px rgba(0,0,0,0.4);
         }
 
+        /* Tabs Styling */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            flex-wrap: wrap; /* Allow tabs to wrap on smaller screens */
+        }
+
+        .tab-button {
+            flex: 1;
+            min-width: 120px; /* Ensure buttons don't get too small */
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin: 5px; /* Space between wrapped tabs */
+        }
+
+        .tab-button.active {
+            background: #0c4873;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .tab-button:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding-top: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .items-list-section {
             margin-top: 25px;
         }
@@ -133,7 +241,7 @@
             padding: 15px;
             margin-bottom: 15px;
             display: flex;
-            flex-direction: column; /* Stack elements inside item card */
+            flex-direction: column;
             align-items: flex-end; /* Align text to the right */
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -152,29 +260,41 @@
             justify-content: flex-start; /* Align action buttons to the left */
         }
         .item-card .actions button {
-            margin: 0; /* Reset button margin within actions */
+            margin: 0;
             padding: 8px 15px;
             font-size: 0.9rem;
         }
 
         .hidden {
-            display: none;
+            display: none !important;
         }
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
             .glass-section {
                 padding: 1.5rem;
             }
             h2 {
                 font-size: 1.8rem;
             }
+            h3 {
+                font-size: 1.4rem;
+            }
             .input-group label {
                 font-size: 0.9rem;
             }
-            input, textarea, select, button {
+            input, textarea, button {
                 padding: 10px;
                 font-size: 0.95rem;
+            }
+            .tab-button {
+                padding: 10px 15px;
+                font-size: 1rem;
+                flex: none; /* Disable flex-grow on small screens for better wrapping */
+                width: calc(50% - 10px); /* Two columns layout */
             }
             .item-card {
                 padding: 12px;
@@ -183,64 +303,107 @@
                 font-size: 1rem;
             }
             .item-card .actions {
-                flex-direction: column; /* Stack buttons on smaller screens */
-                gap: 5px;
+                flex-direction: column;
+                gap: 8px;
             }
             .item-card .actions button {
                 width: 100%;
+            }
+            .notification-toast {
+                width: auto;
+                min-width: unset;
+                left: 10px;
+                right: 10px;
+                transform: translateX(0);
             }
         }
     </style>
 </head>
 <body>
 
+<div id="notification-toast" class="notification-toast">
+    <span id="notification-message"></span>
+</div>
+
 <div class="container">
     <div class="glass-section" id="login-section">
+        <img src="https://i.postimg.cc/0yJDWC7f/Untitled-7-01.png" alt="Raslan Logo" class="logo">
         <h2>دخول لوحة التحكم</h2>
         <div class="input-group">
-            <label for="password">كلمة المرور</label>
+            <label for="password"><i class="fas fa-lock"></i> كلمة المرور</label>
             <input type="password" id="password" placeholder="ادخل كلمة المرور">
         </div>
-        <button class="primary" onclick="checkLogin()">دخول</button>
+        <button class="primary" onclick="checkLogin()"><i class="fas fa-sign-in-alt"></i> دخول</button>
     </div>
 
     <div class="glass-section hidden" id="control-panel">
+        <img src="https://i.postimg.cc/0yJDWC7f/Untitled-7-01.png" alt="Raslan Logo" class="logo">
         <h2>إدارة بيانات رسلان</h2>
-        <div class="input-group">
-            <label for="dataType">نوع البيانات</label>
-            <select id="dataType" onchange="loadItems()">
-                <option value="services">الخدمات</option>
-                <option value="projects">المشاريع</option>
-            </select>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('services')"><i class="fas fa-handshake"></i> الخدمات</button>
+            <button class="tab-button" onclick="showTab('projects')"><i class="fas fa-folder-open"></i> المشاريع</button>
         </div>
 
-        <div class="input-group">
-            <label for="title">العنوان بالعربية</label>
-            <input type="text" id="title" placeholder="ادخل العنوان باللغة العربية">
-        </div>
-        <div class="input-group">
-            <label for="title_en">العنوان بالإنجليزية</label>
-            <input type="text" id="title_en" placeholder="Enter title in English">
-        </div>
-        <div class="input-group">
-            <label for="desc">الوصف بالعربية</label>
-            <textarea id="desc" placeholder="ادخل الوصف باللغة العربية" rows="4"></textarea>
-        </div>
-        <div class="input-group">
-            <label for="desc_en">الوصف بالإنجليزية</label>
-            <textarea id="desc_en" placeholder="Enter description in English" rows="4"></textarea>
-        </div>
-        <div class="input-group">
-            <label for="image">رابط الصورة</label>
-            <input type="text" id="image" placeholder="ادخل رابط الصورة">
-        </div>
-        <button class="primary" onclick="addItem()">إضافة بيانات جديدة</button>
-
-        <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 30px 0;">
-
-        <h3>البيانات الموجودة</h3>
-        <div id="items-list" class="items-list-section">
+        <div id="services-tab-content" class="tab-content active">
+            <div class="input-group">
+                <label for="title"><i class="fas fa-heading"></i> العنوان بالعربية</label>
+                <input type="text" id="title" placeholder="ادخل العنوان باللغة العربية">
             </div>
+            <div class="input-group">
+                <label for="title_en"><i class="fas fa-heading"></i> العنوان بالإنجليزية</label>
+                <input type="text" id="title_en" placeholder="Enter title in English">
+            </div>
+            <div class="input-group">
+                <label for="desc"><i class="fas fa-file-alt"></i> الوصف بالعربية</label>
+                <textarea id="desc" placeholder="ادخل الوصف باللغة العربية" rows="4"></textarea>
+            </div>
+            <div class="input-group">
+                <label for="desc_en"><i class="fas fa-file-alt"></i> الوصف بالإنجليزية</label>
+                <textarea id="desc_en" placeholder="Enter description in English" rows="4"></textarea>
+            </div>
+            <div class="input-group">
+                <label for="image"><i class="fas fa-image"></i> رابط الصورة</label>
+                <input type="text" id="image" placeholder="ادخل رابط الصورة">
+            </div>
+            <button class="primary" onclick="addItem()"><i class="fas fa-plus-circle"></i> إضافة خدمة جديدة</button>
+
+            <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 30px 0;">
+
+            <h3>الخدمات الموجودة</h3>
+            <div id="services-list" class="items-list-section">
+                </div>
+        </div>
+
+        <div id="projects-tab-content" class="tab-content">
+            <div class="input-group">
+                <label for="project_title"><i class="fas fa-heading"></i> عنوان المشروع بالعربية</label>
+                <input type="text" id="project_title" placeholder="ادخل عنوان المشروع باللغة العربية">
+            </div>
+            <div class="input-group">
+                <label for="project_title_en"><i class="fas fa-heading"></i> عنوان المشروع بالإنجليزية</label>
+                <input type="text" id="project_title_en" placeholder="Enter project title in English">
+            </div>
+            <div class="input-group">
+                <label for="project_desc"><i class="fas fa-file-alt"></i> وصف المشروع بالعربية</label>
+                <textarea id="project_desc" placeholder="ادخل وصف المشروع باللغة العربية" rows="4"></textarea>
+            </div>
+            <div class="input-group">
+                <label for="project_desc_en"><i class="fas fa-file-alt"></i> وصف المشروع بالإنجليزية</label>
+                <textarea id="project_desc_en" placeholder="Enter project description in English" rows="4"></textarea>
+            </div>
+            <div class="input-group">
+                <label for="project_image"><i class="fas fa-image"></i> رابط صورة المشروع</label>
+                <input type="text" id="project_image" placeholder="ادخل رابط صورة المشروع">
+            </div>
+            <button class="primary" onclick="addProject()"><i class="fas fa-plus-circle"></i> إضافة مشروع جديد</button>
+
+            <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 30px 0;">
+
+            <h3>المشاريع الموجودة</h3>
+            <div id="projects-list" class="items-list-section">
+                </div>
+        </div>
     </div>
 </div>
 
@@ -259,19 +422,76 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+    let currentTab = 'services'; // Default tab
+
+    // Function to show custom notification toasts
+    function showNotification(message, type = 'success') {
+        const toast = document.getElementById('notification-toast');
+        const msgSpan = document.getElementById('notification-message');
+        msgSpan.innerHTML = ''; // Clear previous content
+
+        // Add icon based on type
+        const icon = document.createElement('i');
+        if (type === 'success') {
+            icon.classList.add('fas', 'fa-check-circle');
+            toast.style.backgroundColor = 'rgba(20, 180, 80, 0.9)';
+        } else if (type === 'error') {
+            icon.classList.add('fas', 'fa-exclamation-triangle');
+            toast.style.backgroundColor = 'rgba(220, 50, 50, 0.9)';
+        } else if (type === 'info') {
+            icon.classList.add('fas', 'fa-info-circle');
+            toast.style.backgroundColor = 'rgba(50, 150, 220, 0.9)';
+        }
+        msgSpan.appendChild(icon);
+        msgSpan.appendChild(document.createTextNode(` ${message}`)); // Add message text
+
+        toast.classList.add('show');
+
+        // Hide after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
     function checkLogin() {
         const pass = document.getElementById('password').value;
         if (pass === '010274') {
             document.getElementById('login-section').classList.add('hidden');
             document.getElementById('control-panel').classList.remove('hidden');
-            loadItems();
+            showTab(currentTab); // Load items for the default tab
+            showNotification('تم تسجيل الدخول بنجاح!', 'success');
         } else {
-            alert('كلمة المرور غير صحيحة');
+            showNotification('كلمة المرور غير صحيحة.', 'error');
         }
     }
 
+    function showTab(tabName) {
+        currentTab = tabName; // Update current tab
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        // Deactivate all tab buttons
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.classList.remove('active');
+        });
+
+        // Show the selected tab content and activate its button
+        document.getElementById(`${tabName}-tab-content`).classList.add('active');
+        document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`).classList.add('active');
+
+        // Load items specific to the selected tab
+        if (tabName === 'services') {
+            loadItems('services', 'services-list');
+        } else if (tabName === 'projects') {
+            loadItems('projects', 'projects-list');
+        }
+
+        clearForm(); // Clear the form when switching tabs
+        resetAddButton(); // Reset add button text
+    }
+
     function addItem() {
-        const type = document.getElementById('dataType').value;
         const title = document.getElementById('title').value;
         const titleEn = document.getElementById('title_en').value;
         const desc = document.getElementById('desc').value;
@@ -279,7 +499,7 @@
         const img = document.getElementById('image').value;
 
         if (!title || !desc || !img || !titleEn || !descEn) {
-            return alert('الرجاء تعبئة جميع الحقول المطلوبة (باللغتين العربية والإنجليزية).');
+            return showNotification('الرجاء تعبئة جميع حقول الخدمة المطلوبة.', 'error');
         }
 
         const newItem = {
@@ -289,20 +509,48 @@
             "وصف إنجليزي": descEn,
             "رابط الصورة": img
         };
-        db.ref(`${type}`).push(newItem)
+        db.ref('services').push(newItem)
             .then(() => {
-                alert('تمت الإضافة بنجاح!');
+                showNotification('تمت إضافة الخدمة بنجاح!', 'success');
                 clearForm();
-                loadItems();
+                loadItems('services', 'services-list');
             })
             .catch(error => {
-                alert('حدث خطأ أثناء الإضافة: ' + error.message);
+                showNotification('حدث خطأ أثناء إضافة الخدمة: ' + error.message, 'error');
             });
     }
 
-    function loadItems() {
-        const type = document.getElementById('dataType').value;
-        const container = document.getElementById('items-list');
+    function addProject() {
+        const title = document.getElementById('project_title').value;
+        const titleEn = document.getElementById('project_title_en').value;
+        const desc = document.getElementById('project_desc').value;
+        const descEn = document.getElementById('project_desc_en').value;
+        const img = document.getElementById('project_image').value;
+
+        if (!title || !desc || !img || !titleEn || !descEn) {
+            return showNotification('الرجاء تعبئة جميع حقول المشروع المطلوبة.', 'error');
+        }
+
+        const newItem = {
+            "العنوان": title,
+            "عنوان إنجليزي": titleEn,
+            "الوصف": desc,
+            "وصف إنجليزي": descEn,
+            "رابط الصورة": img
+        };
+        db.ref('projects').push(newItem)
+            .then(() => {
+                showNotification('تمت إضافة المشروع بنجاح!', 'success');
+                clearForm();
+                loadItems('projects', 'projects-list');
+            })
+            .catch(error => {
+                showNotification('حدث خطأ أثناء إضافة المشروع: ' + error.message, 'error');
+            });
+    }
+
+    function loadItems(type, containerId) {
+        const container = document.getElementById(containerId);
         container.innerHTML = '';
 
         db.ref(type).once('value', snapshot => {
@@ -315,8 +563,8 @@
                             <strong>${item["العنوان"]}</strong>
                             <p style="font-size:0.9rem; color: #aaffff; margin-top:5px;">(${item["عنوان إنجليزي"]})</p>
                             <div class="actions">
-                                <button class="danger" onclick="deleteItem('${type}','${key}')">حذف</button>
-                                <button class="warning" onclick="editItem('${type}','${key}','${item["العنوان"]}','${item["عنوان إنجليزي"]}','${item["الوصف"]}','${item["وصف إنجليزي"]}','${item["رابط الصورة"]}')">تعديل</button>
+                                <button class="danger" onclick="deleteItem('${type}','${key}')"><i class="fas fa-trash-alt"></i> حذف</button>
+                                <button class="warning" onclick="editItem('${type}','${key}','${item["العنوان"]}','${item["عنوان إنجليزي"]}','${item["الوصف"]}','${item["وصف إنجليزي"]}','${item["رابط الصورة"]}')"><i class="fas fa-edit"></i> تعديل</button>
                             </div>
                         </div>
                     `;
@@ -331,62 +579,109 @@
         if (confirm('هل أنت متأكد من حذف هذا العنصر؟')) {
             db.ref(`${type}/${key}`).remove()
                 .then(() => {
-                    alert('تم الحذف بنجاح!');
-                    loadItems();
+                    showNotification('تم الحذف بنجاح!', 'success');
+                    loadItems(type, type === 'services' ? 'services-list' : 'projects-list');
                 })
                 .catch(error => {
-                    alert('حدث خطأ أثناء الحذف: ' + error.message);
+                    showNotification('حدث خطأ أثناء الحذف: ' + error.message, 'error');
                 });
         }
     }
 
     function editItem(type, key, title, titleEn, desc, descEn, img) {
-        document.getElementById('title').value = title;
-        document.getElementById('title_en').value = titleEn;
-        document.getElementById('desc').value = desc;
-        document.getElementById('desc_en').value = descEn;
-        document.getElementById('image').value = img;
+        clearForm();
 
-        // Change the add button to an update button temporarily
-        const addButton = document.querySelector('#control-panel button.primary');
-        addButton.textContent = 'تحديث البيانات';
-        addButton.onclick = () => saveEditedItem(type, key);
+        if (type === 'services') {
+            document.getElementById('title').value = title;
+            document.getElementById('title_en').value = titleEn;
+            document.getElementById('desc').value = desc;
+            document.getElementById('desc_en').value = descEn;
+            document.getElementById('image').value = img;
 
-        alert('تم تحميل البيانات للتعديل. بعد إجراء التعديلات، اضغط على زر "تحديث البيانات".');
+            const addButton = document.querySelector('#services-tab-content button.primary');
+            addButton.innerHTML = '<i class="fas fa-save"></i> تحديث الخدمة';
+            addButton.onclick = () => saveEditedItem('services', key);
+        } else if (type === 'projects') {
+            document.getElementById('project_title').value = title;
+            document.getElementById('project_title_en').value = titleEn;
+            document.getElementById('project_desc').value = desc;
+            document.getElementById('project_desc_en').value = descEn;
+            document.getElementById('project_image').value = img;
+
+            const addButton = document.querySelector('#projects-tab-content button.primary');
+            addButton.innerHTML = '<i class="fas fa-save"></i> تحديث المشروع';
+            addButton.onclick = () => saveEditedItem('projects', key);
+        }
+
+        if (currentTab !== type) {
+            showTab(type);
+        }
+
+        showNotification('تم تحميل البيانات للتعديل. اضغط على زر "تحديث" بعد الانتهاء.', 'info');
     }
 
     function saveEditedItem(type, key) {
         if (confirm('هل أنت متأكد من حفظ التعديلات؟')) {
-            const updatedItem = {
-                "العنوان": document.getElementById('title').value,
-                "عنوان إنجليزي": document.getElementById('title_en').value,
-                "الوصف": document.getElementById('desc').value,
-                "وصف إنجليزي": document.getElementById('desc_en').value,
-                "رابط الصورة": document.getElementById('image').value
-            };
+            let updatedItem = {};
+            if (type === 'services') {
+                updatedItem = {
+                    "العنوان": document.getElementById('title').value,
+                    "عنوان إنجليزي": document.getElementById('title_en').value,
+                    "الوصف": document.getElementById('desc').value,
+                    "وصف إنجليزي": document.getElementById('desc_en').value,
+                    "رابط الصورة": document.getElementById('image').value
+                };
+            } else if (type === 'projects') {
+                updatedItem = {
+                    "العنوان": document.getElementById('project_title').value,
+                    "عنوان إنجليزي": document.getElementById('project_title_en').value,
+                    "الوصف": document.getElementById('project_desc').value,
+                    "وصف إنجليزي": document.getElementById('project_desc_en').value,
+                    "رابط الصورة": document.getElementById('project_image').value
+                };
+            }
 
             db.ref(`${type}/${key}`).set(updatedItem)
                 .then(() => {
-                    alert('تم تحديث البيانات بنجاح!');
+                    showNotification('تم تحديث البيانات بنجاح!', 'success');
                     clearForm();
-                    loadItems();
-                    // Revert button back to 'Add'
-                    const addButton = document.querySelector('#control-panel button.primary');
-                    addButton.textContent = 'إضافة بيانات جديدة';
-                    addButton.onclick = addItem;
+                    loadItems(type, type === 'services' ? 'services-list' : 'projects-list');
+                    resetAddButton();
                 })
                 .catch(error => {
-                    alert('حدث خطأ أثناء التحديث: ' + error.message);
+                    showNotification('حدث خطأ أثناء التحديث: ' + error.message, 'error');
                 });
         }
     }
 
     function clearForm() {
+        // Clear services form
         document.getElementById('title').value = '';
         document.getElementById('title_en').value = '';
         document.getElementById('desc').value = '';
         document.getElementById('desc_en').value = '';
         document.getElementById('image').value = '';
+
+        // Clear projects form
+        document.getElementById('project_title').value = '';
+        document.getElementById('project_title_en').value = '';
+        document.getElementById('project_desc').value = '';
+        document.getElementById('project_desc_en').value = '';
+        document.getElementById('project_image').value = '';
+    }
+
+    function resetAddButton() {
+        const serviceAddButton = document.querySelector('#services-tab-content button.primary');
+        if (serviceAddButton) {
+            serviceAddButton.innerHTML = '<i class="fas fa-plus-circle"></i> إضافة خدمة جديدة';
+            serviceAddButton.onclick = addItem;
+        }
+
+        const projectAddButton = document.querySelector('#projects-tab-content button.primary');
+        if (projectAddButton) {
+            projectAddButton.innerHTML = '<i class="fas fa-plus-circle"></i> إضافة مشروع جديد';
+            projectAddButton.onclick = addProject;
+        }
     }
 </script>
 
