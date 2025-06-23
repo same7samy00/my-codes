@@ -1031,41 +1031,53 @@ Specialized in utilizing the latest technologies in construction and structural 
         // --- نهاية التمرير التلقائي والسحب ---
 
         // الكود الجديد لجلب الخدمات من Google Sheet API
-        function fetchServices() {
-            const currentLang = document.documentElement.getAttribute('lang');
-            // هذا هو رابط Google Apps Script Web App الذي قدمته
-            fetch('https://script.google.com/macros/s/AKfycbydlUtbmsbH8VI84hZsFdcpk3eNbPDi67CmxA3-GijQCcP8-iXZfodRcQEBDHcKCMKG/exec')
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error(`HTTP error! status: ${res.status}`);
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    const container = document.querySelector('#services .grid');
-                    container.innerHTML = ""; // مسح المحتوى الحالي قبل الإضافة
+      function doGet(e) {
+  // اسم الورقة في Google Sheet. تأكد أنه مطابق تمامًا للاسم الفعلي (مثلاً "Services")
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Services"); 
 
-                    data.forEach(item => {
-                        // استخدام أسماء الأعمدة الدقيقة التي أكدتها: العنوان_العربي، العنوان_الإنجليزي، إلخ.
-                        const title = item[currentLang === 'ar' ? "العنوان_العربي" : "العنوان_الإنجليزي"];
-                        const description = item[currentLang === 'ar' ? "الوصف_العربي" : "الوصف_الإنجليزي"];
+  // تحقق مما إذا كانت الورقة موجودة
+  if (!sheet) {
+    return ContentService.createTextOutput(JSON.stringify({error: "Sheet 'Services' not found."}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 
-                        container.innerHTML += `
-                            <div class="service-card fade-in">
-                                <div class="service-card-header" style="background-image: url('${item["رابط الصورة"]}');">
-                                    <h3 class="text-2xl font-bold">${title}</h3>
-                                </div>
-                                <div class="service-card-description">
-                                    <p>${description}</p>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    checkFadeElements(); // أعد فحص عناصر الظهور بعد إضافة المحتوى الجديد
-                })
-                .catch(error => console.error('Error fetching services:', error));
-        }
+  // جلب جميع البيانات من الورقة
+  var rows = sheet.getDataRange().getValues();
 
+  // تحقق مما إذا كانت الورقة فارغة
+  if (rows.length === 0) {
+    return ContentService.createTextOutput(JSON.stringify([])) // إرجاع مصفوفة فارغة إذا كانت الورقة فارغة
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  // الصف الأول (rows[0]) يحتوي على رؤوس الأعمدة
+  var header = rows[0]; 
+
+  var data = [];
+
+  // البدء من الصف الثاني (i = 1) لتجنب قراءة رؤوس الأعمدة كبيانات
+  for (var i = 1; i < rows.length; i++) {
+    var row = rows[i];
+    var obj = {};
+
+    // بناء كائن لكل صف باستخدام رؤوس الأعمدة كمفاتيح
+    for (var j = 0; j < header.length; j++) {
+      obj[header[j]] = row[j];
+    }
+    data.push(obj);
+  }
+
+  // تحويل البيانات إلى JSON وإرجاعها كاستجابة HTTP
+  var jsonOutput = ContentService.createTextOutput(JSON.stringify(data)).setMimeType(ContentService.MimeType.JSON);
+  
+  // لتمكين الوصول من نطاقات مختلفة (CORS) - هذا هو التعديل الصحيح
+  // يجب إضافة هذا السطر مباشرة قبل return
+  return jsonOutput.setHeaders({"Access-Control-Allow-Origin": "*"}); 
+  
+  // ملاحظة: setXFrameOptionsMode غير متوفرة لـ ContentService.TextOutput
+  // إذا كنت تحتاج لضبط X-Frame-Options، فيجب أن تستخدم HtmlService بدلًا من ContentService
+  // ولكن لخدمة API بسيطة لجلب JSON، ContentService هو الأنسب.
+}
     </script>
 </body>
 </html>
