@@ -7,169 +7,387 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
         body {
             background: linear-gradient(135deg, #0c4873, #000);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh; /* Use min-height to ensure it takes full height but can expand */
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Cairo', Arial, sans-serif; /* Changed font to Cairo for better Arabic display */
             color: white;
+            padding: 20px; /* Add some padding for smaller screens */
+            box-sizing: border-box; /* Include padding in element's total width and height */
         }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            max-width: 400px;
+        .container {
+            display: flex;
+            flex-direction: column; /* Stack sections vertically */
+            gap: 25px; /* Space between sections */
+            max-width: 900px; /* Wider container for better layout */
             width: 100%;
+        }
+        .glass-section {
+            background: rgba(255, 255, 255, 0.08); /* Slightly less opaque for a softer look */
+            backdrop-filter: blur(12px); /* Increased blur for more glass effect */
+            border-radius: 25px; /* More rounded corners */
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); /* Enhanced shadow for depth */
+            border: 1px solid rgba(255, 255, 255, 0.18); /* Subtle border for definition */
             text-align: center;
-        }
-        input, textarea, select, button {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 8px;
-            border: none;
-        }
-        button {
-            background: #0c4873;
-            color: white;
-            cursor: pointer;
+            position: relative; /* For potential absolute positioning of elements inside */
+            overflow: hidden; /* Ensures content respects border-radius */
         }
         h2 {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            color: #e0f2f7; /* Lighter blue for headings */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
-        .hidden { display: none; }
+        .input-group {
+            margin-bottom: 15px; /* Space between input groups */
+            text-align: right; /* Align labels to the right */
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: #cceeff; /* Lighter blue for labels */
+        }
+        input, textarea, select {
+            width: calc(100% - 20px); /* Adjust width for padding */
+            padding: 12px;
+            margin: 0; /* Reset margin */
+            border-radius: 10px; /* More rounded input fields */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease; /* Smooth transition for focus */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: #74a0c8;
+            outline: none;
+            box-shadow: 0 0 10px rgba(116, 160, 200, 0.6); /* Blue glow on focus */
+            background: rgba(255, 255, 255, 0.15); /* Slightly brighter on focus */
+        }
+        select {
+            appearance: none; /* Remove default select arrow */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20256%20256%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M208.56%2C96.56l-80%2C80a8%2C8%2C0%2C0%2C1%2C-11.32%2C0l-80-80A8%2C8%2C0%2C0%2C1%2C42.88%2C85.44l74.56%2C74.56L192.56%2C85.44a8%2C8%2C0%2C0%2C1%2C16%2C11.32Z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E'); /* Custom arrow */
+            background-repeat: no-repeat;
+            background-position: left 15px center; /* Position arrow on the left for RTL */
+            background-size: 16px;
+            padding-left: 40px; /* Space for the arrow */
+        }
+        button {
+            width: auto; /* Buttons will size to content */
+            padding: 12px 25px;
+            margin: 15px 5px 0; /* Adjusted margin for spacing between buttons */
+            border-radius: 10px;
+            border: none;
+            font-size: 1.05rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        button.primary {
+            background: #0c4873;
+            color: white;
+        }
+        button.primary:hover {
+            background: #0a3d60;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+        }
+        button.danger {
+            background: #dc3545;
+            color: white;
+        }
+        button.danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+        }
+        button.warning {
+            background: #ffc107;
+            color: #333;
+        }
+        button.warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+        }
+
+        .items-list-section {
+            margin-top: 25px;
+        }
+        .item-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column; /* Stack elements inside item card */
+            align-items: flex-end; /* Align text to the right */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .item-card strong {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #e0f2f7;
+        }
+        .item-card .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            width: 100%;
+            justify-content: flex-start; /* Align action buttons to the left */
+        }
+        .item-card .actions button {
+            margin: 0; /* Reset button margin within actions */
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .glass-section {
+                padding: 1.5rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .input-group label {
+                font-size: 0.9rem;
+            }
+            input, textarea, select, button {
+                padding: 10px;
+                font-size: 0.95rem;
+            }
+            .item-card {
+                padding: 12px;
+            }
+            .item-card strong {
+                font-size: 1rem;
+            }
+            .item-card .actions {
+                flex-direction: column; /* Stack buttons on smaller screens */
+                gap: 5px;
+            }
+            .item-card .actions button {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="glass-card" id="login-section">
-    <h2>دخول لوحة التحكم</h2>
-    <input type="password" id="password" placeholder="ادخل كلمة المرور">
-    <button onclick="checkLogin()">دخول</button>
-</div>
+<div class="container">
+    <div class="glass-section" id="login-section">
+        <h2>دخول لوحة التحكم</h2>
+        <div class="input-group">
+            <label for="password">كلمة المرور</label>
+            <input type="password" id="password" placeholder="ادخل كلمة المرور">
+        </div>
+        <button class="primary" onclick="checkLogin()">دخول</button>
+    </div>
 
-<div class="glass-card hidden" id="control-panel">
-    <h2>إدارة بيانات رسلان</h2>
-    <select id="dataType" onchange="loadItems()">
-        <option value="services">الخدمات</option>
-        <option value="projects">المشاريع</option>
-    </select>
-    <input type="text" id="title" placeholder="العنوان بالعربية">
-    <input type="text" id="title_en" placeholder="العنوان بالإنجليزية">
-    <textarea id="desc" placeholder="الوصف بالعربية"></textarea>
-    <textarea id="desc_en" placeholder="الوصف بالإنجليزية"></textarea>
-    <input type="text" id="image" placeholder="رابط الصورة">
-    <button onclick="addItem()">إضافة</button>
-    <div id="items-list"></div>
+    <div class="glass-section hidden" id="control-panel">
+        <h2>إدارة بيانات رسلان</h2>
+        <div class="input-group">
+            <label for="dataType">نوع البيانات</label>
+            <select id="dataType" onchange="loadItems()">
+                <option value="services">الخدمات</option>
+                <option value="projects">المشاريع</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="title">العنوان بالعربية</label>
+            <input type="text" id="title" placeholder="ادخل العنوان باللغة العربية">
+        </div>
+        <div class="input-group">
+            <label for="title_en">العنوان بالإنجليزية</label>
+            <input type="text" id="title_en" placeholder="Enter title in English">
+        </div>
+        <div class="input-group">
+            <label for="desc">الوصف بالعربية</label>
+            <textarea id="desc" placeholder="ادخل الوصف باللغة العربية" rows="4"></textarea>
+        </div>
+        <div class="input-group">
+            <label for="desc_en">الوصف بالإنجليزية</label>
+            <textarea id="desc_en" placeholder="Enter description in English" rows="4"></textarea>
+        </div>
+        <div class="input-group">
+            <label for="image">رابط الصورة</label>
+            <input type="text" id="image" placeholder="ادخل رابط الصورة">
+        </div>
+        <button class="primary" onclick="addItem()">إضافة بيانات جديدة</button>
+
+        <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 30px 0;">
+
+        <h3>البيانات الموجودة</h3>
+        <div id="items-list" class="items-list-section">
+            </div>
+    </div>
 </div>
 
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyAGlFOEITRIlPE6VVngiMEoNX0MUubW-RI",
-    authDomain: "raslan-control-panel.firebaseapp.com",
-    databaseURL: "https://raslan-control-panel-default-rtdb.firebaseio.com",
-    projectId: "raslan-control-panel",
-    storageBucket: "raslan-control-panel.appspot.com",
-    messagingSenderId: "5477499403",
-    appId: "1:5477499403:web:709dfad2f118becb00bd0e",
-    measurementId: "G-23QTMWE0JF"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-
-  function checkLogin() {
-    const pass = document.getElementById('password').value;
-    if (pass === '010274') {
-      document.getElementById('login-section').classList.add('hidden');
-      document.getElementById('control-panel').classList.remove('hidden');
-      loadItems();
-    } else {
-      alert('كلمة المرور غير صحيحة');
-    }
-  }
-
-  function addItem() {
-    const type = document.getElementById('dataType').value;
-    const title = document.getElementById('title').value;
-    const titleEn = document.getElementById('title_en').value;
-    const desc = document.getElementById('desc').value;
-    const descEn = document.getElementById('desc_en').value;
-    const img = document.getElementById('image').value;
-    if (!title || !desc || !img) return alert('اكمل جميع الحقول المطلوبة');
-
-    const newItem = {
-      "العنوان": title,
-      "عنوان إنجليزي": titleEn,
-      "الوصف": desc,
-      "وصف إنجليزي": descEn,
-      "رابط الصورة": img
+    const firebaseConfig = {
+        apiKey: "AIzaSyAGlFOEITRIlPE6VVngiMEoNX0MUubW-RI",
+        authDomain: "raslan-control-panel.firebaseapp.com",
+        databaseURL: "https://raslan-control-panel-default-rtdb.firebaseio.com",
+        projectId: "raslan-control-panel",
+        storageBucket: "raslan-control-panel.appspot.com",
+        messagingSenderId: "5477499403",
+        appId: "1:5477499403:web:709dfad2f118becb00bd0e",
+        measurementId: "G-23QTMWE0JF"
     };
-    db.ref(`${type}`).push(newItem);
-    clearForm();
-    loadItems();
-  }
 
-  function loadItems() {
-    const type = document.getElementById('dataType').value;
-    const container = document.getElementById('items-list');
-    container.innerHTML = '';
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-    db.ref(type).once('value', snapshot => {
-      const data = snapshot.val();
-      for (const key in data) {
-        const item = data[key];
-        container.innerHTML += `
-          <div style="border: 1px solid #fff; padding: 10px; margin-top: 10px;">
-            <strong>${item["العنوان"]}</strong>
-            <button onclick="deleteItem('${type}','${key}')" style="background:red; margin:5px 5px 0 0;">حذف</button>
-            <button onclick="editItem('${type}','${key}','${item["العنوان"]}','${item["عنوان إنجليزي"]}','${item["الوصف"]}','${item["وصف إنجليزي"]}','${item["رابط الصورة"]}')" style="background:orange; margin-top:5px;">تعديل</button>
-          </div>
-        `;
-      }
-    });
-  }
-
-  function deleteItem(type, key) {
-    if (confirm('متأكد من الحذف؟')) {
-      db.ref(`${type}/${key}`).remove();
-      loadItems();
+    function checkLogin() {
+        const pass = document.getElementById('password').value;
+        if (pass === '010274') {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('control-panel').classList.remove('hidden');
+            loadItems();
+        } else {
+            alert('كلمة المرور غير صحيحة');
+        }
     }
-  }
 
-  function editItem(type, key, title, titleEn, desc, descEn, img) {
-    document.getElementById('title').value = title;
-    document.getElementById('title_en').value = titleEn;
-    document.getElementById('desc').value = desc;
-    document.getElementById('desc_en').value = descEn;
-    document.getElementById('image').value = img;
+    function addItem() {
+        const type = document.getElementById('dataType').value;
+        const title = document.getElementById('title').value;
+        const titleEn = document.getElementById('title_en').value;
+        const desc = document.getElementById('desc').value;
+        const descEn = document.getElementById('desc_en').value;
+        const img = document.getElementById('image').value;
 
-    if (confirm('بعد التعديل اضغط موافق للحفظ')) {
-      const updatedItem = {
-        "العنوان": document.getElementById('title').value,
-        "عنوان إنجليزي": document.getElementById('title_en').value,
-        "الوصف": document.getElementById('desc').value,
-        "وصف إنجليزي": document.getElementById('desc_en').value,
-        "رابط الصورة": document.getElementById('image').value
-      };
-      db.ref(`${type}/${key}`).set(updatedItem);
-      clearForm();
-      loadItems();
+        if (!title || !desc || !img || !titleEn || !descEn) {
+            return alert('الرجاء تعبئة جميع الحقول المطلوبة (باللغتين العربية والإنجليزية).');
+        }
+
+        const newItem = {
+            "العنوان": title,
+            "عنوان إنجليزي": titleEn,
+            "الوصف": desc,
+            "وصف إنجليزي": descEn,
+            "رابط الصورة": img
+        };
+        db.ref(`${type}`).push(newItem)
+            .then(() => {
+                alert('تمت الإضافة بنجاح!');
+                clearForm();
+                loadItems();
+            })
+            .catch(error => {
+                alert('حدث خطأ أثناء الإضافة: ' + error.message);
+            });
     }
-  }
 
-  function clearForm() {
-    document.getElementById('title').value = '';
-    document.getElementById('title_en').value = '';
-    document.getElementById('desc').value = '';
-    document.getElementById('desc_en').value = '';
-    document.getElementById('image').value = '';
-  }
+    function loadItems() {
+        const type = document.getElementById('dataType').value;
+        const container = document.getElementById('items-list');
+        container.innerHTML = '';
+
+        db.ref(type).once('value', snapshot => {
+            const data = snapshot.val();
+            if (data) {
+                for (const key in data) {
+                    const item = data[key];
+                    container.innerHTML += `
+                        <div class="item-card">
+                            <strong>${item["العنوان"]}</strong>
+                            <p style="font-size:0.9rem; color: #aaffff; margin-top:5px;">(${item["عنوان إنجليزي"]})</p>
+                            <div class="actions">
+                                <button class="danger" onclick="deleteItem('${type}','${key}')">حذف</button>
+                                <button class="warning" onclick="editItem('${type}','${key}','${item["العنوان"]}','${item["عنوان إنجليزي"]}','${item["الوصف"]}','${item["وصف إنجليزي"]}','${item["رابط الصورة"]}')">تعديل</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            } else {
+                container.innerHTML = '<p style="color: rgba(255,255,255,0.7);">لا توجد بيانات لعرضها في هذا القسم.</p>';
+            }
+        });
+    }
+
+    function deleteItem(type, key) {
+        if (confirm('هل أنت متأكد من حذف هذا العنصر؟')) {
+            db.ref(`${type}/${key}`).remove()
+                .then(() => {
+                    alert('تم الحذف بنجاح!');
+                    loadItems();
+                })
+                .catch(error => {
+                    alert('حدث خطأ أثناء الحذف: ' + error.message);
+                });
+        }
+    }
+
+    function editItem(type, key, title, titleEn, desc, descEn, img) {
+        document.getElementById('title').value = title;
+        document.getElementById('title_en').value = titleEn;
+        document.getElementById('desc').value = desc;
+        document.getElementById('desc_en').value = descEn;
+        document.getElementById('image').value = img;
+
+        // Change the add button to an update button temporarily
+        const addButton = document.querySelector('#control-panel button.primary');
+        addButton.textContent = 'تحديث البيانات';
+        addButton.onclick = () => saveEditedItem(type, key);
+
+        alert('تم تحميل البيانات للتعديل. بعد إجراء التعديلات، اضغط على زر "تحديث البيانات".');
+    }
+
+    function saveEditedItem(type, key) {
+        if (confirm('هل أنت متأكد من حفظ التعديلات؟')) {
+            const updatedItem = {
+                "العنوان": document.getElementById('title').value,
+                "عنوان إنجليزي": document.getElementById('title_en').value,
+                "الوصف": document.getElementById('desc').value,
+                "وصف إنجليزي": document.getElementById('desc_en').value,
+                "رابط الصورة": document.getElementById('image').value
+            };
+
+            db.ref(`${type}/${key}`).set(updatedItem)
+                .then(() => {
+                    alert('تم تحديث البيانات بنجاح!');
+                    clearForm();
+                    loadItems();
+                    // Revert button back to 'Add'
+                    const addButton = document.querySelector('#control-panel button.primary');
+                    addButton.textContent = 'إضافة بيانات جديدة';
+                    addButton.onclick = addItem;
+                })
+                .catch(error => {
+                    alert('حدث خطأ أثناء التحديث: ' + error.message);
+                });
+        }
+    }
+
+    function clearForm() {
+        document.getElementById('title').value = '';
+        document.getElementById('title_en').value = '';
+        document.getElementById('desc').value = '';
+        document.getElementById('desc_en').value = '';
+        document.getElementById('image').value = '';
+    }
 </script>
 
 </body>
