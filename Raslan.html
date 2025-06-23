@@ -1090,5 +1090,28 @@ Specialized in utilizing the latest technologies in construction and structural 
         });
         // --- نهاية التمرير التلقائي والسحب ---
     </script>
+    <script>
+fetch('https://script.google.com/macros/s/AKfycbypREFq6nyyAadjdfJVEkfuVsv1TcWm5WgSQIYiFKypAkLbkEW4GitBFRjNtkYCYBAP/exec')
+  .then(res => res.json())
+  .then(data => {
+    const container = document.querySelector('#services .grid');
+    container.innerHTML = "";
+
+    data.forEach(item => {
+      container.innerHTML += `
+        <div class="service-card fade-in">
+          <div class="service-card-header" style="background-image: url('${item["رابط الصورة"]}');">
+            <h3 data-lang="ar">${item["العنوان"]}</h3>
+            <h3 data-lang="en">${item["عنوان إنجليزي"] || ''}</h3>
+          </div>
+          <div class="service-card-description">
+            <p data-lang="ar">${item["الوصف"]}</p>
+            <p data-lang="en">${item["وصف إنجليزي"] || ''}</p>
+          </div>
+        </div>
+      `;
+    });
+  });
+</script>
 </body>
 </html>
