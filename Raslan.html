@@ -1090,26 +1090,19 @@ Specialized in utilizing the latest technologies in construction and structural 
             scrollContainer.scrollLeft = scrollLeft - walk;
         });
         // --- نهاية التمرير التلقائي والسحب ---
-        <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+    </script>
+    <!-- أكواد موقعك العادية -->
+
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js"></script>
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyAGlFOEITRIlPE6VVngiMEoNX0MUubW-RI",
-    authDomain: "raslan-control-panel.firebaseapp.com",
-    databaseURL: "https://raslan-control-panel-default-rtdb.firebaseio.com",
-    projectId: "raslan-control-panel",
-    storageBucket: "raslan-control-panel.appspot.com",
-    messagingSenderId: "5477499403",
-    appId: "1:5477499403:web:709dfad2f118becb00bd0e",
-    measurementId: "G-23QTMWE0JF"
-  };
-
+  const firebaseConfig = { /* بيانات مشروعك */ };
   const app = firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 </script>
+
 <script>
 const servicesContainer = document.querySelector('#services .grid');
-
 db.ref('services').on('value', snapshot => {
   const data = snapshot.val();
   servicesContainer.innerHTML = "";
@@ -1129,6 +1122,8 @@ db.ref('services').on('value', snapshot => {
   }
 });
 </script>
-    </script>
+
+</body>
+</html>
 </body>
 </html>
