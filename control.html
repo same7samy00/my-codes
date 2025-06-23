@@ -29,9 +29,10 @@
             overflow-y: auto;
         }
 
+        /* Pseudo-element for background blur and overlay */
         body::before {
             content: "";
-            position: absolute;
+            position: fixed; /* Use fixed to cover entire viewport consistently */
             top: 0;
             left: 0;
             right: 0;
@@ -39,10 +40,22 @@
             background-image: url('https://i.postimg.cc/wTnsmsns/20250623-0200-Concrete-Construction-Progress-remix-01jycxtzpyexq8ptfnqz2gm819.png');
             background-size: cover;
             background-position: center;
-            filter: blur(15px);
-            z-index: -1;
-            opacity: 0.8;
-            animation: subtleBackgroundMove 30s infinite alternate ease-in-out; /* Added animation */
+            background-attachment: fixed; /* Important for consistency with body */
+            filter: blur(30px); /* Increased blur */
+            z-index: -2; /* Placed behind the overlay and content */
+            animation: subtleBackgroundMove 30s infinite alternate ease-in-out;
+        }
+
+        /* Overlay for black tint */
+        body::after {
+            content: "";
+            position: fixed; /* Use fixed to cover entire viewport consistently */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* 50% black overlay */
+            z-index: -1; /* Between blurred background and content */
         }
 
         @keyframes subtleBackgroundMove {
@@ -57,104 +70,103 @@
         .container {
             display: flex;
             flex-direction: column;
-            gap: 25px;
-            max-width: 900px;
+            gap: 40px; /* Increased gap between sections */
+            max-width: 1100px; /* Wider container to spread out content */
             width: 100%;
-            z-index: 1;
+            z-index: 1; /* Ensure content is above blurred background */
+            padding: 20px; /* Add padding to the container itself */
+            box-sizing: border-box;
         }
 
-        .glass-section {
-            background: rgba(255, 255, 255, 0.08);
+        /* --- Global styles for elements previously inside glass-section --- */
+        .panel-area {
+            background: rgba(255, 255, 255, 0.08); /* Apply glass effect to logical groups */
             backdrop-filter: blur(12px);
             border-radius: 25px;
             padding: 2.5rem;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.18);
             text-align: center;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 25px; /* Space between areas */
         }
 
         .logo {
-            margin-bottom: 20px;
-            max-width: 150px;
+            margin-bottom: 30px; /* More space below logo */
+            max-width: 180px; /* Slightly larger logo */
             height: auto;
+            display: block; /* Ensure it takes its own line */
+            margin-left: auto;
+            margin-right: auto;
         }
 
         h2 {
-            margin-bottom: 1.5rem;
-            font-size: 2.2rem;
+            margin-bottom: 2rem; /* More space below main headings */
+            font-size: 2.8rem; /* Larger main headings */
             color: #e0f2f7;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         h3 {
-            font-size: 1.6rem;
+            font-size: 1.8rem; /* Larger sub-headings */
             color: #cceeff;
-            margin-top: 30px;
-            margin-bottom: 15px;
+            margin-top: 40px; /* More space above sub-headings */
+            margin-bottom: 20px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
 
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px; /* More space between input groups */
             text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* Align label and input to the right */
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
+            margin-bottom: 10px; /* More space between label and input */
+            font-size: 1rem; /* Slightly larger labels */
             color: #cceeff;
+            display: flex; /* For icon alignment */
+            align-items: center;
+            gap: 8px; /* Space between icon and label text */
         }
 
         input, textarea {
             width: 100%;
-            padding: 12px;
-            margin: 0;
-            border-radius: 10px;
+            padding: 15px; /* Larger padding for inputs */
+            border-radius: 12px; /* More rounded inputs */
             border: 1px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15); /* Slightly more opaque for better visibility */
             color: white;
-            font-size: 1rem;
+            font-size: 1.1rem; /* Larger font in inputs */
             transition: all 0.3s ease;
             box-sizing: border-box;
-            direction: rtl; /* Ensure input text is RTL */
+            direction: rtl;
         }
 
         input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-            direction: rtl;
+            color: rgba(255, 255, 255, 0.7); /* Clearer placeholders */
         }
 
         input:focus, textarea:focus {
             border-color: #74a0c8;
             outline: none;
-            box-shadow: 0 0 10px rgba(116, 160, 200, 0.6);
-            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 15px rgba(116, 160, 200, 0.8); /* Stronger glow on focus */
+            background: rgba(255, 255, 255, 0.25); /* More visible on focus */
         }
 
         button {
-            width: auto;
-            padding: 12px 25px;
-            margin: 15px 5px 0;
-            border-radius: 10px;
-            border: none;
-            font-size: 1.05rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            display: inline-flex; /* For icon alignment */
+            padding: 14px 30px; /* Larger buttons */
+            margin: 20px 10px 0; /* More space around buttons */
+            border-radius: 12px; /* More rounded buttons */
+            font-size: 1.15rem; /* Larger font in buttons */
+            display: inline-flex;
             align-items: center;
-            gap: 8px; /* Space between text and icon */
-            justify-content: center; /* Center content within button */
-            direction: rtl; /* For RTL text and icon order */
-        }
-
-        button i {
-            margin-left: 0px; /* Adjust if needed */
-            margin-right: 0px; /* Adjust if needed */
+            gap: 10px; /* More space for icons */
+            justify-content: center;
+            direction: rtl;
+            min-width: 150px; /* Ensure buttons have a minimum width */
         }
 
         button.primary {
@@ -163,8 +175,8 @@
         }
         button.primary:hover {
             background: #0a3d60;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            transform: translateY(-3px); /* Slightly more pronounced hover */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
         }
         button.danger {
             background: #dc3545;
@@ -172,8 +184,8 @@
         }
         button.danger:hover {
             background: #c82333;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
         }
         button.warning {
             background: #ffc107;
@@ -181,51 +193,64 @@
         }
         button.warning:hover {
             background: #e0a800;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
         }
 
-        /* Tabs Styling */
+        /* Tabs Styling - Applied directly within the main content area */
         .tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 25px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 10px;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-            flex-wrap: wrap; /* Allow tabs to wrap on smaller screens */
+            margin-bottom: 40px; /* More space below tabs */
+            background: rgba(255, 255, 255, 0.1); /* Lighter glass for tabs bar */
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+            flex-wrap: wrap;
+            gap: 15px; /* Gap between tab buttons themselves */
         }
 
         .tab-button {
             flex: 1;
-            min-width: 120px; /* Ensure buttons don't get too small */
-            padding: 12px 20px;
+            min-width: 150px; /* Ensure good minimum width for tab buttons */
+            padding: 15px 25px; /* Larger tab buttons */
             border: none;
-            border-radius: 10px;
+            border-radius: 15px; /* More rounded tab buttons */
             background: transparent;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem; /* Larger font in tabs */
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: bold;
-            margin: 5px; /* Space between wrapped tabs */
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            direction: rtl;
         }
 
         .tab-button.active {
             background: #0c4873;
             color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            transform: translateY(-2px);
         }
 
         .tab-button:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
         }
 
         .tab-content {
             display: none;
-            padding-top: 20px;
+            padding-top: 30px; /* Space between tabs bar and content */
+            /* Add individual glass effect for content within tab */
+            background: rgba(255, 255, 255, 0.05); /* Lighter glass for content area */
+            backdrop-filter: blur(8px); /* Slightly less blur for content */
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .tab-content.active {
@@ -233,89 +258,132 @@
         }
 
         .items-list-section {
-            margin-top: 25px;
+            margin-top: 35px; /* More space above item list */
         }
         .item-card {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
+            border-radius: 15px; /* More rounded item cards */
+            padding: 20px; /* More padding for item cards */
+            margin-bottom: 20px; /* More space between item cards */
             display: flex;
             flex-direction: column;
-            align-items: flex-end; /* Align text to the right */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            align-items: flex-end;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             position: relative;
         }
         .item-card strong {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
+            font-size: 1.2rem; /* Larger font for item titles */
+            margin-bottom: 10px;
             color: #e0f2f7;
+            text-align: right;
+            width: 100%;
+        }
+        .item-card p {
+            text-align: right;
+            width: 100%;
         }
         .item-card .actions {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            gap: 15px; /* More space between action buttons */
+            margin-top: 15px;
             width: 100%;
-            justify-content: flex-start; /* Align action buttons to the left */
+            justify-content: flex-start;
         }
         .item-card .actions button {
             margin: 0;
-            padding: 8px 15px;
-            font-size: 0.9rem;
+            padding: 10px 20px; /* Larger action buttons */
+            font-size: 1rem;
         }
 
         .hidden {
             display: none !important;
         }
 
+        /* Notification Toast */
+        .notification-toast {
+            position: fixed;
+            top: -100px; /* Start off-screen */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(20, 180, 80, 0.9); /* Default success color */
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000; /* Ensure it's on top */
+            transition: top 0.5s ease-out, background-color 0.3s ease; /* Animation */
+            min-width: 250px;
+            text-align: center;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            direction: rtl;
+        }
+
+        .notification-toast.show {
+            top: 20px; /* Slide down into view */
+        }
+
+        .notification-toast.error {
+            background-color: rgba(220, 50, 50, 0.9); /* Error color */
+        }
+
+        .notification-toast.info {
+            background-color: rgba(50, 150, 220, 0.9); /* Info color */
+        }
+
+        .notification-toast i {
+            font-size: 1.3rem;
+        }
+
         /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .container {
+                max-width: 90%; /* Adjust container width for medium screens */
+            }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.6rem; }
+            input, textarea, button, .tab-button { font-size: 1rem; padding: 12px 20px; }
+            .logo { max-width: 120px; }
+        }
+
         @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            .glass-section {
-                padding: 1.5rem;
-            }
-            h2 {
-                font-size: 1.8rem;
-            }
-            h3 {
-                font-size: 1.4rem;
-            }
-            .input-group label {
-                font-size: 0.9rem;
-            }
-            input, textarea, button {
-                padding: 10px;
-                font-size: 0.95rem;
-            }
+            body { padding: 15px; }
+            .container { gap: 30px; padding: 15px; }
+            .panel-area { padding: 2rem; }
+            h2 { font-size: 1.8rem; margin-bottom: 1.5rem; }
+            h3 { font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; }
+            .logo { max-width: 100px; margin-bottom: 20px; }
+            .input-group { margin-bottom: 15px; }
+            label { font-size: 0.9rem; margin-bottom: 8px; }
+            input, textarea { padding: 10px; font-size: 0.95rem; border-radius: 10px; }
+            button { padding: 10px 20px; font-size: 0.95rem; margin: 15px 5px 0; border-radius: 10px; min-width: unset; }
+            .tabs { padding: 8px; border-radius: 15px; margin-bottom: 25px; gap: 10px; }
             .tab-button {
                 padding: 10px 15px;
                 font-size: 1rem;
-                flex: none; /* Disable flex-grow on small screens for better wrapping */
-                width: calc(50% - 10px); /* Two columns layout */
+                flex: none;
+                width: calc(50% - 10px); /* Two columns layout for tabs */
+                margin: 0; /* Reset margin from tabs container */
             }
-            .item-card {
-                padding: 12px;
-            }
-            .item-card strong {
-                font-size: 1rem;
-            }
-            .item-card .actions {
-                flex-direction: column;
-                gap: 8px;
-            }
-            .item-card .actions button {
-                width: 100%;
-            }
-            .notification-toast {
-                width: auto;
-                min-width: unset;
-                left: 10px;
-                right: 10px;
-                transform: translateX(0);
-            }
+            .tab-content { padding-top: 20px; padding: 2rem; border-radius: 15px; }
+            .item-card { padding: 15px; margin-bottom: 15px; border-radius: 12px; }
+            .item-card strong { font-size: 1.1rem; margin-bottom: 5px; }
+            .item-card .actions { flex-direction: column; gap: 8px; }
+            .item-card .actions button { width: 100%; padding: 8px 15px; font-size: 0.9rem; }
+            .notification-toast { width: auto; min-width: unset; left: 10px; right: 10px; transform: translateX(0); }
+        }
+
+        @media (max-width: 480px) {
+            .panel-area { padding: 1.5rem; }
+            h2 { font-size: 1.5rem; }
+            h3 { font-size: 1.2rem; }
+            .logo { max-width: 80px; }
+            button { font-size: 0.9rem; padding: 8px 15px; }
+            .tab-button { font-size: 0.9rem; padding: 8px 12px; }
+            .tab-content { padding: 1.5rem; }
         }
     </style>
 </head>
@@ -326,7 +394,7 @@
 </div>
 
 <div class="container">
-    <div class="glass-section" id="login-section">
+    <div id="login-panel-area" class="panel-area">
         <img src="https://i.postimg.cc/0yJDWC7f/Untitled-7-01.png" alt="Raslan Logo" class="logo">
         <h2>دخول لوحة التحكم</h2>
         <div class="input-group">
@@ -336,7 +404,7 @@
         <button class="primary" onclick="checkLogin()"><i class="fas fa-sign-in-alt"></i> دخول</button>
     </div>
 
-    <div class="glass-section hidden" id="control-panel">
+    <div id="control-panel-area" class="panel-area hidden">
         <img src="https://i.postimg.cc/0yJDWC7f/Untitled-7-01.png" alt="Raslan Logo" class="logo">
         <h2>إدارة بيانات رسلان</h2>
 
@@ -368,7 +436,7 @@
             </div>
             <button class="primary" onclick="addItem()"><i class="fas fa-plus-circle"></i> إضافة خدمة جديدة</button>
 
-            <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 30px 0;">
+            <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 30px auto;">
 
             <h3>الخدمات الموجودة</h3>
             <div id="services-list" class="items-list-section">
@@ -390,7 +458,7 @@
             </div>
             <div class="input-group">
                 <label for="project_desc_en"><i class="fas fa-file-alt"></i> وصف المشروع بالإنجليزية</label>
-                <textarea id="project_desc_en" placeholder="Enter project description in English" rows="4"></textarea>
+                <textarea id="project_desc_en" placeholder="Enter description in English" rows="4"></textarea>
             </div>
             <div class="input-group">
                 <label for="project_image"><i class="fas fa-image"></i> رابط صورة المشروع</label>
@@ -398,7 +466,7 @@
             </div>
             <button class="primary" onclick="addProject()"><i class="fas fa-plus-circle"></i> إضافة مشروع جديد</button>
 
-            <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 30px 0;">
+            <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 30px auto;">
 
             <h3>المشاريع الموجودة</h3>
             <div id="projects-list" class="items-list-section">
@@ -456,8 +524,8 @@
     function checkLogin() {
         const pass = document.getElementById('password').value;
         if (pass === '010274') {
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('control-panel').classList.remove('hidden');
+            document.getElementById('login-panel-area').classList.add('hidden');
+            document.getElementById('control-panel-area').classList.remove('hidden');
             showTab(currentTab); // Load items for the default tab
             showNotification('تم تسجيل الدخول بنجاح!', 'success');
         } else {
