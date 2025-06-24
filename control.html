@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -45,25 +46,98 @@
         .btn-danger:hover { background-color: #b91c1c; }
         .btn:disabled { background-color: #9ca3af; cursor: not-allowed; }
         .ltr-input { direction: ltr; text-align: left; }
+
+        /* Custom styles for layout and responsiveness */
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid #334155; /* Darker border for contrast */
+            background-color: #1e293b; /* Slightly darker background for header */
+        }
+        .sidebar-header img {
+            width: 48px; /* Adjust logo size */
+            height: 48px;
+            object-fit: contain;
+        }
+        .sidebar-header h1 {
+            font-size: 1.75rem; /* Larger font for title */
+            color: #f8fafc; /* Lighter text color for title */
+        }
+
+        /* Adjusting main content area for mobile */
+        @media (max-width: 767px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -100%; /* Initially hidden off-screen */
+                width: 250px; /* Slightly narrower sidebar on mobile */
+                transition: left 0.3s ease-in-out;
+                z-index: 50; /* Ensure sidebar is above content */
+            }
+            .sidebar.open {
+                left: 0; /* Slide in when open */
+            }
+            .mr-64 {
+                margin-right: 0; /* Remove margin on mobile */
+            }
+            .main-content {
+                padding-top: 5rem; /* Add padding for fixed header */
+            }
+            .topbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: fixed;
+                top: 0;
+                right: 0;
+                left: 0;
+                height: 4rem; /* Height of the topbar */
+                background-color: #1e293b; /* Dark background for topbar */
+                color: white;
+                padding: 0 1rem;
+                z-index: 45; /* Below auth overlay, above sidebar */
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .topbar .logo-sm {
+                height: 32px; /* Smaller logo for topbar */
+                width: auto;
+            }
+            .topbar .menu-toggle {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            .auth-overlay {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-    <!-- Auth Overlay -->
-    <div id="auth-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+    <div id="auth-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 auth-overlay">
         <div class="bg-white p-8 rounded-lg shadow-xl text-center w-full max-w-md">
-            <h2 class="text-2xl font-bold mb-4 text-slate-800">الدخول إلى لوحة التحكم</h2>
+            <h2 class="text-2xl font-bold mb-4 text-slate-800">Admin Raslan</h2>
             <input type="password" id="password-input" class="form-input mb-4" placeholder="أدخل كلمة المرور">
-            <button id="login-button" class="btn btn-primary w-full">دخول</button>
+            <button id="login-button" class="btn btn-primary w-full">Login</button>
         </div>
     </div>
 
-    <!-- Main Layout -->
-    <div id="app-wrapper" class="hidden min-h-screen">
-        <!-- Sidebar -->
-        <aside class="fixed top-0 right-0 h-screen w-64 bg-slate-800 text-slate-200 shadow-lg z-40">
-            <div class="p-6 border-b border-slate-700">
-                <h1 class="text-2xl font-bold text-white">لوحة التحكم</h1>
+    <div id="app-wrapper" class="hidden min-h-screen relative">
+        <header id="topbar" class="topbar hidden">
+            <img src="https://i.postimg.cc/VNh9nvCV/Untitled-7-01.png" alt="Admin Raslan Logo" class="logo-sm">
+            <h1 class="text-xl font-bold text-white">Admin </h1>
+            <button id="menu-toggle" class="menu-toggle"><i class="fas fa-bars"></i></button>
+        </header>
+
+        <aside id="sidebar" class="fixed top-0 right-0 h-screen w-64 bg-slate-800 text-slate-200 shadow-lg z-40 sidebar">
+            <div class="sidebar-header">
+                <img src="https://i.postimg.cc/VNh9nvCV/Untitled-7-01.png" alt="Admin Raslan Logo">
+                <h1 class="text-white">Admin </h1>
             </div>
             <nav class="mt-6">
                 <a href="#" class="sidebar-link flex items-center gap-3 py-3 px-6 hover:bg-slate-700 transition" data-section="about"><i class="fas fa-info-circle w-5"></i><span>من نحن</span></a>
@@ -77,16 +151,13 @@
             </nav>
         </aside>
 
-        <!-- Main Content -->
-        <main class="mr-64 p-8">
+        <main class="mr-64 p-8 main-content">
             <div id="loader" class="flex items-center justify-center h-64"><i class="fas fa-spinner fa-spin fa-3x text-blue-600"></i></div>
 
-            <!-- About Section -->
             <section id="about-section" class="content-section hidden">
                 <h2 class="text-3xl font-bold mb-6 text-slate-800">تعديل قسم "من نحن"</h2>
                 <form id="about-form" class="bg-white p-8 rounded-lg shadow-md space-y-8">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <!-- Column 1: Main Texts -->
                         <div class="space-y-6">
                             <div>
                                 <label class="block font-semibold text-slate-600 mb-2">الفقرة الرئيسية (عربي)</label>
@@ -96,16 +167,15 @@
                                 <label class="block font-semibold text-slate-600 mb-2">الفقرة الرئيسية (إنجليزي)</label>
                                 <textarea id="aboutP1En" class="form-input h-28"></textarea>
                             </div>
-                             <div>
+                            <div>
                                 <label class="block font-semibold text-slate-600 mb-2">نص الرؤية (عربي)</label>
                                 <textarea id="visionP1Ar" class="form-input h-28"></textarea>
                             </div>
-                             <div>
+                            <div>
                                 <label class="block font-semibold text-slate-600 mb-2">نص الرؤية (إنجليزي)</label>
                                 <textarea id="visionP1En" class="form-input h-28"></textarea>
                             </div>
                         </div>
-                        <!-- Column 2: Mission & Images -->
                         <div class="space-y-6">
                             <div>
                                 <label class="block font-semibold text-slate-600 mb-2">وصف السرعة (عربي)</label>
@@ -115,7 +185,7 @@
                                 <label class="block font-semibold text-slate-600 mb-2">وصف السعر (عربي)</label>
                                 <textarea id="missionPriceDescAr" class="form-input h-28"></textarea>
                             </div>
-                             <div>
+                            <div>
                                 <label class="block font-semibold text-slate-600 mb-2">رابط الصورة الأولى</label>
                                 <input type="url" id="aboutImg1Url" class="form-input ltr-input">
                             </div>
@@ -131,47 +201,40 @@
                 </form>
             </section>
 
-            <!-- Dynamic Sections -->
             <section id="dynamic-list-section" class="content-section hidden">
                 <div class="flex justify-between items-center mb-6">
                     <h2 id="dynamic-section-title" class="text-3xl font-bold text-slate-800"></h2>
                     <button id="add-new-item-btn" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة عنصر جديد</button>
                 </div>
                 <div id="items-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <!-- Items will be rendered here -->
-                </div>
+                    </div>
             </section>
 
-             <!-- Contact & Footer Sections will be handled similarly -->
             <section id="contact-section" class="content-section hidden">
-                 <h2 class="text-3xl font-bold mb-6 text-slate-800">تعديل قسم "تواصل معنا"</h2>
-                 <form id="contact-form" class="bg-white p-8 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-6">
-                     <!-- Form fields will be populated by JS -->
-                      <div class="md:col-span-2 pt-6 border-t">
+                <h2 class="text-3xl font-bold mb-6 text-slate-800">تعديل قسم "تواصل معنا"</h2>
+                <form id="contact-form" class="bg-white p-8 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2 pt-6 border-t">
                         <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
                     </div>
-                 </form>
+                </form>
             </section>
             <section id="footer-section" class="content-section hidden">
-                  <h2 class="text-3xl font-bold mb-6 text-slate-800">تعديل التذييل</h2>
-                 <form id="footer-form" class="bg-white p-8 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-6">
-                     <!-- Form fields will be populated by JS -->
-                     <div class="md:col-span-2 pt-6 border-t">
+                <h2 class="text-3xl font-bold mb-6 text-slate-800">تعديل التذييل</h2>
+                <form id="footer-form" class="bg-white p-8 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2 pt-6 border-t">
                         <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
                     </div>
-                 </form>
+                </form>
             </section>
         </main>
     </div>
 
-    <!-- Modal for Add/Edit -->
     <div id="item-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden opacity-0">
         <div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl transform scale-95 max-h-[90vh] overflow-y-auto">
             <h3 id="modal-title" class="text-2xl font-bold mb-6 text-slate-800"></h3>
             <form id="modal-form" class="space-y-4">
-                <!-- Form fields will be dynamically added here -->
-            </form>
-             <div class="flex justify-end gap-4 mt-8 pt-6 border-t">
+                </form>
+            <div class="flex justify-end gap-4 mt-8 pt-6 border-t">
                 <button type="button" id="modal-cancel-btn" class="btn bg-slate-200 text-slate-700 hover:bg-slate-300">إلغاء</button>
                 <button type="submit" form="modal-form" id="modal-save-btn" class="btn btn-primary">حفظ</button>
             </div>
@@ -203,11 +266,17 @@
         document.addEventListener('DOMContentLoaded', () => {
             const loginButton = document.getElementById('login-button');
             const passwordInput = document.getElementById('password-input');
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
             
             const handleLogin = () => {
                 if (passwordInput.value === '12345') { // Change this password
                     document.getElementById('auth-overlay').classList.add('hidden');
                     document.getElementById('app-wrapper').classList.remove('hidden');
+                    // Show topbar on small screens after login
+                    if (window.innerWidth < 768) {
+                        document.getElementById('topbar').classList.remove('hidden');
+                    }
                     initializeAppLogic();
                 } else {
                     alert('كلمة المرور غير صحيحة!');
@@ -218,6 +287,48 @@
             passwordInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') handleLogin();
             });
+
+            // Toggle sidebar for mobile
+            if (menuToggle) {
+                menuToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('open');
+                });
+            }
+
+            // Close sidebar when a link is clicked on mobile
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.remove('open');
+                    }
+                });
+            });
+
+            // Handle window resize for responsive layout
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    sidebar.classList.remove('open'); // Ensure sidebar is closed on desktop if open
+                    sidebar.classList.remove('fixed', 'top-0', 'left-[-100%]'); // Remove mobile specific positioning
+                    sidebar.classList.add('fixed', 'top-0', 'right-0', 'w-64'); // Apply desktop positioning
+                    document.getElementById('topbar').classList.add('hidden'); // Hide topbar on desktop
+                    document.querySelector('main').classList.add('mr-64'); // Apply desktop margin
+                    document.querySelector('main').classList.remove('padding-top'); // Remove mobile padding
+                } else {
+                    sidebar.classList.add('fixed', 'top-0', 'left-[-100%]', 'w-64'); // Apply mobile specific positioning
+                    sidebar.classList.remove('right-0'); // Remove right positioning
+                    document.getElementById('topbar').classList.remove('hidden'); // Show topbar on mobile
+                    document.querySelector('main').classList.remove('mr-64'); // Remove desktop margin
+                    document.querySelector('main').classList.add('padding-top'); // Add mobile padding
+                }
+            });
+            // Initial check for mobile layout
+            if (window.innerWidth < 768 && !document.getElementById('app-wrapper').classList.contains('hidden')) {
+                document.getElementById('topbar').classList.remove('hidden');
+                document.querySelector('main').classList.remove('mr-64');
+            } else if (window.innerWidth >= 768) {
+                   document.getElementById('sidebar').classList.remove('left-[-100%]');
+                   document.getElementById('sidebar').classList.add('right-0');
+            }
         });
         
         async function initializeAppLogic() {
@@ -280,7 +391,7 @@
         const staticFormsConfig = {
             about: ['aboutP1Ar', 'aboutP1En', 'visionP1Ar', 'visionP1En', 'missionSpeedDescAr', 'missionPriceDescAr', 'aboutImg1Url', 'aboutImg2Url'],
             contact: ['addressAr', 'addressEn', 'email', 'phone', 'whatsappFloatPhone', 'mapIframeSrc', 'facebookLink', 'instagramLink'],
-            footer: ['copyrightAr', 'copyrightEn', 'poweredByAr', 'poweredByEn', 'developerWhatsapp']
+            footer: ['copyrightAr', 'copyrightEn'] // Removed 'poweredByAr', 'poweredByEn', 'developerWhatsapp'
         };
 
         function populateStaticForm(sectionId) {
@@ -331,9 +442,9 @@
 
         // --- Dynamic List & Modal Handlers ---
         const dynamicSectionsConfig = {
-            services:   { title: 'الخدمات', fields: { titleAr: 'العنوان (عربي)', titleEn: 'العنوان (إنجليزي)', descAr: 'الوصف (عربي)', descEn: 'الوصف (إنجليزي)', imageUrl: 'رابط الصورة' } },
-            projects:   { title: 'المشاريع', fields: { titleAr: 'العنوان (عربي)', titleEn: 'العنوان (إنجليزي)', descAr: 'الوصف (عربي)', descEn: 'الوصف (إنجليزي)', imageUrl: 'رابط الصورة' } },
-            team:       { title: 'فريق العمل', fields: { nameAr: 'الاسم (عربي)', nameEn: 'الاسم (إنجليزي)', positionAr: 'المنصب (عربي)', positionEn: 'المنصب (إنجليزي)', imageUrl: 'رابط الصورة' } },
+            services:    { title: 'الخدمات', fields: { titleAr: 'العنوان (عربي)', titleEn: 'العنوان (إنجليزي)', descAr: 'الوصف (عربي)', descEn: 'الوصف (إنجليزي)', imageUrl: 'رابط الصورة' } },
+            projects:    { title: 'المشاريع', fields: { titleAr: 'العنوان (عربي)', titleEn: 'العنوان (إنجليزي)', descAr: 'الوصف (عربي)', descEn: 'الوصف (إنجليزي)', imageUrl: 'رابط الصورة' } },
+            team:        { title: 'فريق العمل', fields: { nameAr: 'الاسم (عربي)', nameEn: 'الاسم (إنجليزي)', positionAr: 'المنصب (عربي)', positionEn: 'المنصب (إنجليزي)', imageUrl: 'رابط الصورة' } },
             workHeroes: { title: 'أبطال أعمالنا', fields: { imageUrl: 'رابط الصورة' } },
             clients:    { title: 'العملاء', fields: { nameAr: 'اسم العميل', logoUrl: 'رابط الشعار' } },
         };
@@ -366,7 +477,7 @@
                     container.appendChild(card);
                 });
             } else {
-                 container.innerHTML = `<p class="text-slate-500 col-span-full text-center py-8">لا توجد عناصر في هذا القسم بعد.</p>`;
+                container.innerHTML = `<p class="text-slate-500 col-span-full text-center py-8">لا توجد عناصر في هذا القسم بعد.</p>`;
             }
         }
         
@@ -392,7 +503,7 @@
 
             for (const [key, label] of Object.entries(fields)) {
                 const value = itemData[key] || '';
-                const type = key.includes('Url') ? 'url' : 'text';
+                const type = key.includes('Url') || key.includes('logoUrl') ? 'url' : 'text'; // Corrected for logoUrl
                 const isTextarea = key.includes('desc');
                 const fieldHtml = `
                     <div>
@@ -420,7 +531,13 @@
             });
             
             const path = itemId ? `${currentSection}/${itemId}` : currentSection;
-            const operation = itemId ? update(ref(db, path), dataToSave) : set(push(ref(db, path)), dataToSave);
+            let operation;
+            if (itemId) {
+                operation = update(ref(db, path), dataToSave);
+            } else {
+                const newItemRef = push(ref(db, currentSection)); // Push to get a new ID
+                operation = set(newItemRef, dataToSave); // Set the new item with data
+            }
 
             try {
                 await operation;
