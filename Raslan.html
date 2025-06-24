@@ -705,383 +705,354 @@
         <span data-lang="en">Get your free consultation now</span>
     </div>
 
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
-        
-        // Your web app's Firebase configuration (Replace with your actual values from Firebase Console)
-        const firebaseConfig = {
-            apiKey: "AIzaSyA12fSyvBCdVF62xVwGaEuJXlJOpGEMoKI",
-            authDomain: "raslan2025-47c6c.firebaseapp.com",
-            projectId: "raslan2025-47c6c",
-            storageBucket: "raslan2025-47c6c.appspot.com",
-            messagingSenderId: "320802083048",
-            appId: "1:320802883048:web:3c2d70b378442fb0e295d",
-            measurementId: "G-W1GWY4X7D6"
-        };
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+    
+    // --- START: MODIFICATION FOR REALTIME DATABASE ---
+    // 1. استيراد دوال Realtime Database و Storage
+    import { getDatabase, ref as dbRef, get } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+    import { getStorage, ref as storageRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
+    // --- END: MODIFICATION FOR REALTIME DATABASE ---
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        
-        // *** Firestore & Storage SDK Imports and Initialization ***
-        import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
-        import { getStorage, ref, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyA12fSyvBCdVF62xVwGaEuJXlJOpGEMoKI",
+        authDomain: "raslan2025-47c6c.firebaseapp.com",
+        // --- START: MODIFICATION FOR REALTIME DATABASE ---
+        // 2. إضافة databaseURL إلى إعدادات Firebase
+        databaseURL: "https://raslan2025-47c6c-default-rtdb.firebaseio.com",
+        // --- END: MODIFICATION FOR REALTIME DATABASE ---
+        projectId: "raslan2025-47c6c",
+        storageBucket: "raslan2025-47c6c.appspot.com",
+        messagingSenderId: "320802083048",
+        appId: "1:320802883048:web:3c2d279b270443bfbc395d",
+        measurementId: "G-W1GWY4X7D6"
+    };
 
-        const db = getFirestore(app); 
-        const storage = getStorage(app); 
-        
-        // *** Helper functions to fetch data from Firestore ***
-        
-        // Function to fetch data from a specific collection (for multiple items like Services, Projects, Team)
-        async function fetchCollectionData(collectionName) {
-            try {
-                const querySnapshot = await getDocs(collection(db, collectionName));
-                const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    // --- START: MODIFICATION FOR REALTIME DATABASE ---
+    // 3. تهيئة Realtime Database و Storage
+    const db = getDatabase(app);
+    const storage = getStorage(app);
+    // --- END: MODIFICATION FOR REALTIME DATABASE ---
+    
+    // *** دوال مساعدة لجلب البيانات من Realtime Database ***
+
+    // دالة مساعدة لجلب البيانات من مسار محدد في Realtime Database
+    async function fetchRealtimeData(path) {
+        try {
+            const snapshot = await get(dbRef(db, path));
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                // إذا كانت البيانات عبارة عن كائن (Object)، حوّله إلى مصفوفة (Array)
+                if (typeof data === 'object' && data !== null && !Array.isArray(data)) {
+                    return Object.keys(data).map(key => ({ id: key, ...data[key] }));
+                }
                 return data;
-            } catch (error) {
-                console.error(`Error fetching data from ${collectionName}:`, error);
-                return [];
-            }
-        }
-
-        // Function to fetch a single document (for sections like About and Contact)
-        async function fetchDocumentData(collectionName, documentId) {
-            try {
-                const docRef = doc(db, collectionName, documentId);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    return { id: docSnap.id, ...docSnap.data() };
-                } else {
-                    console.log(`Document "${documentId}" in collection "${collectionName}" does not exist!`);
-                    return null;
-                }
-            } catch (error) {
-                console.error(`Error fetching document ${documentId} from ${collectionName}:`, error);
+            } else {
+                console.log(`No data available at path: ${path}`);
                 return null;
             }
+        } catch (error) {
+            console.error(`Error fetching data from Realtime Database path "${path}":`, error);
+            return null;
         }
+    }
 
-        // Function to get image URL from Firebase Storage
-        async function getFirebaseImageUrl(imagePath) {
-            if (!imagePath) return null;
-            try {
-                const imageRef = ref(storage, imagePath);
-                const url = await getDownloadURL(imageRef);
-                return url;
-            } catch (error) {
-                console.error("Error getting download URL for path:", imagePath, error);
-                return null;
+    // دالة مساعدة لجلب رابط الصورة من Firebase Storage (تبقى كما هي)
+    async function getFirebaseImageUrl(imagePath) {
+        if (!imagePath) return null;
+        try {
+            const imageRef = storageRef(storage, imagePath);
+            const url = await getDownloadURL(imageRef);
+            return url;
+        } catch (error) {
+            console.error("Error getting download URL for path:", imagePath, error);
+            return null;
+        }
+    }
+
+    // دالة لملء قسم "من نحن" (About Section)
+    async function loadAboutSection() {
+        const aboutData = await fetchRealtimeData('about');
+        if (aboutData) {
+            document.getElementById('about-us-p1-ar').textContent = aboutData.aboutP1Ar || '';
+            document.getElementById('about-us-p1-en').textContent = aboutData.aboutP1En || '';
+            document.getElementById('vision-p1-ar').textContent = aboutData.visionP1Ar || '';
+            document.getElementById('vision-p1-en').textContent = aboutData.visionP1En || '';
+            document.getElementById('mission-speed-ar').textContent = aboutData.missionSpeedAr || '';
+            document.getElementById('mission-speed-en').textContent = aboutData.missionSpeedEn || '';
+            document.getElementById('mission-speed-desc-ar').textContent = aboutData.missionSpeedDescAr || '';
+            document.getElementById('mission-speed-desc-en').textContent = aboutData.missionSpeedDescEn || '';
+            document.getElementById('mission-price-ar').textContent = aboutData.missionPriceAr || '';
+            document.getElementById('mission-price-en').textContent = aboutData.missionPriceEn || '';
+            document.getElementById('mission-price-desc-ar').textContent = aboutData.missionPriceDescAr || '';
+            document.getElementById('mission-price-desc-en').textContent = aboutData.missionPriceDescEn || '';
+
+            if (aboutData.aboutImg1Path) { 
+                document.getElementById('about-img1').src = await getFirebaseImageUrl(aboutData.aboutImg1Path) || '';
+            } else if (aboutData.aboutImg1Url) {
+                document.getElementById('about-img1').src = aboutData.aboutImg1Url;
+            }
+            if (aboutData.aboutImg2Path) {
+                document.getElementById('about-img2').src = await getFirebaseImageUrl(aboutData.aboutImg2Path) || '';
+            } else if (aboutData.aboutImg2Url) {
+                document.getElementById('about-img2').src = aboutData.aboutImg2Url;
             }
         }
+    }
 
-        // Function to populate "About" Section
-        async function loadAboutSection() {
-            const aboutData = await fetchDocumentData('about', 'main'); 
-            if (aboutData) {
-                document.getElementById('about-us-p1-ar').textContent = aboutData.aboutP1Ar || '';
-                document.getElementById('about-us-p1-en').textContent = aboutData.aboutP1En || '';
-                document.getElementById('vision-p1-ar').textContent = aboutData.visionP1Ar || '';
-                document.getElementById('vision-p1-en').textContent = aboutData.visionP1En || '';
-                document.getElementById('mission-speed-ar').textContent = aboutData.missionSpeedAr || '';
-                document.getElementById('mission-speed-en').textContent = aboutData.missionSpeedEn || '';
-                document.getElementById('mission-speed-desc-ar').textContent = aboutData.missionSpeedDescAr || '';
-                document.getElementById('mission-speed-desc-en').textContent = aboutData.missionSpeedDescEn || '';
-                document.getElementById('mission-price-ar').textContent = aboutData.missionPriceAr || '';
-                document.getElementById('mission-price-en').textContent = aboutData.missionPriceEn || '';
-                document.getElementById('mission-price-desc-ar').textContent = aboutData.missionPriceDescAr || '';
-                document.getElementById('mission-price-desc-en').textContent = aboutData.missionPriceDescEn || '';
+    // دالة لملء قسم "خدماتنا" (Services)
+    async function loadServices() {
+        const servicesData = await fetchRealtimeData('services');
+        const container = document.getElementById('services-container');
+        container.innerHTML = ''; 
+        if (!servicesData) return;
 
-                if (aboutData.aboutImg1Path) { 
-                    document.getElementById('about-img1').src = await getFirebaseImageUrl(aboutData.aboutImg1Path) || '';
-                } else if (aboutData.aboutImg1Url) { 
-                    document.getElementById('about-img1').src = aboutData.aboutImg1Url;
-                }
-                if (aboutData.aboutImg2Path) {
-                    document.getElementById('about-img2').src = await getFirebaseImageUrl(aboutData.aboutImg2Path) || '';
-                } else if (aboutData.aboutImg2Url) {
-                    document.getElementById('about-img2').src = aboutData.aboutImg2Url;
-                }
+        for (const service of servicesData) {
+            let imageUrl = service.imageUrl;
+            if (service.imagePath) {
+                imageUrl = await getFirebaseImageUrl(service.imagePath);
             }
-        }
-
-        // Function to populate "Services" Section
-        async function loadServices() {
-            const servicesData = await fetchCollectionData('services');
-            const container = document.getElementById('services-container');
-            container.innerHTML = ''; 
-
-            for (const service of servicesData) {
-                let imageUrl = service.imageUrl; 
-                if (service.imagePath) { 
-                    imageUrl = await getFirebaseImageUrl(service.imagePath);
-                }
-
-                const serviceCard = `
-                    <div class="service-card fade-in">
-                        <div class="service-card-header" style="background-image: url('${imageUrl || ''}');">
-                            <h3 data-lang="ar">${service.titleAr || ''}</h3>
-                            <h3 data-lang="en">${service.titleEn || ''}</h3>
-                        </div>
-                        <div class="service-card-description">
-                            <p data-lang="ar">${service.descAr || ''}</p>
-                            <p data-lang="en">${service.descEn || ''}</p>
-                        </div>
+            const serviceCard = `
+                <div class="service-card fade-in">
+                    <div class="service-card-header" style="background-image: url('${imageUrl || ''}');">
+                        <h3 data-lang="ar">${service.titleAr || ''}</h3>
+                        <h3 data-lang="en">${service.titleEn || ''}</h3>
                     </div>
-                `;
-                container.innerHTML += serviceCard;
-            }
-        }
-
-        // Function to populate "Projects" Section
-        async function loadProjects() {
-            const projectsData = await fetchCollectionData('projects');
-            const container = document.getElementById('projects-container');
-            container.innerHTML = ''; 
-
-            for (const project of projectsData) {
-                let imageUrl = project.imageUrl;
-                if (project.imagePath) {
-                    imageUrl = await getFirebaseImageUrl(project.imagePath);
-                }
-                const projectCard = `
-                    <div class="glass-card rounded-2xl overflow-hidden shadow-lg fade-in">
-                        <img src="${imageUrl || ''}" alt="${project.titleAr || ''}" class="w-full h-64 object-cover">
-                        <div class="p-8">
-                            <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">${project.titleAr || ''}</h3>
-                            <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">${project.titleEn || ''}</h3>
-                            <p class="text-gray-700" data-lang="ar">${project.descAr || ''}</p>
-                            <p class="text-gray-700" data-lang="en">${project.descEn || ''}</p>
-                        </div>
+                    <div class="service-card-description">
+                        <p data-lang="ar">${service.descAr || ''}</p>
+                        <p data-lang="en">${service.descEn || ''}</p>
                     </div>
-                `;
-                container.innerHTML += projectCard;
-            }
+                </div>
+            `;
+            container.innerHTML += serviceCard;
         }
+    }
+    
+    // دالة لملء قسم "مشاريعنا" (Projects)
+    async function loadProjects() {
+        const projectsData = await fetchRealtimeData('projects');
+        const container = document.getElementById('projects-container');
+        container.innerHTML = ''; 
+        if (!projectsData) return;
 
-        // Function to populate "Work Heroes" Section
-        async function loadWorkHeroes() {
-            const heroesData = await fetchCollectionData('workHeroes');
-            const container = document.getElementById('work-heroes-container');
-            container.innerHTML = ''; 
-
-            for (const hero of heroesData) {
-                let imageUrl = hero.imageUrl;
-                if (hero.imagePath) {
-                    imageUrl = await getFirebaseImageUrl(hero.imagePath);
-                }
-                const heroItem = `
-                    <div class="overlapping-grid-item">
-                        <img src="${imageUrl || ''}" alt="Work Hero ${hero.id || ''}">
+        for (const project of projectsData) {
+            let imageUrl = project.imageUrl;
+            if (project.imagePath) {
+                imageUrl = await getFirebaseImageUrl(project.imagePath);
+            }
+            const projectCard = `
+                <div class="glass-card rounded-2xl overflow-hidden shadow-lg fade-in">
+                    <img src="${imageUrl || ''}" alt="${project.titleAr || ''}" class="w-full h-64 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">${project.titleAr || ''}</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">${project.titleEn || ''}</h3>
+                        <p class="text-gray-700" data-lang="ar">${project.descAr || ''}</p>
+                        <p class="text-gray-700" data-lang="en">${project.descEn || ''}</p>
                     </div>
-                `;
-                container.innerHTML += heroItem;
-            }
+                </div>
+            `;
+            container.innerHTML += projectCard;
         }
+    }
 
-        // Function to populate "Team" Section
-        async function loadTeam() {
-            const teamData = await fetchCollectionData('team');
-            const container = document.getElementById('team-container');
-            container.innerHTML = ''; 
+    // دالة لملء قسم "أبطال أعمالنا" (Work Heroes)
+    async function loadWorkHeroes() {
+        const heroesData = await fetchRealtimeData('workHeroes');
+        const container = document.getElementById('work-heroes-container');
+        container.innerHTML = '';
+        if (!heroesData) return;
 
-            for (const member of teamData) {
-                let imageUrl = member.imageUrl;
-                if (member.imagePath) {
-                    imageUrl = await getFirebaseImageUrl(member.imagePath);
-                }
-                const memberCard = `
-                    <div class="team-card glass-card rounded-2xl overflow-hidden fade-in">
-                        <div class="overflow-hidden h-80">
-                            <img src="${imageUrl || ''}" alt="${member.nameAr || ''}" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6 text-center">
-                            <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="ar">${member.nameAr || ''}</h3>
-                            <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="en">${member.nameEn || ''}</h3>
-                            <p class="text-gray-600" data-lang="ar">${member.positionAr || ''}</p>
-                            <p class="text-gray-600" data-lang="en">${member.positionEn || ''}</p>
-                        </div>
+        for (const hero of heroesData) {
+            let imageUrl = hero.imageUrl;
+            if (hero.imagePath) {
+                imageUrl = await getFirebaseImageUrl(hero.imagePath);
+            }
+            const heroItem = `
+                <div class="overlapping-grid-item">
+                    <img src="${imageUrl || ''}" alt="Work Hero ${hero.id || ''}">
+                </div>
+            `;
+            container.innerHTML += heroItem;
+        }
+    }
+
+    // دالة لملء قسم "فريقنا" (Team)
+    async function loadTeam() {
+        const teamData = await fetchRealtimeData('team');
+        const container = document.getElementById('team-container');
+        container.innerHTML = '';
+        if (!teamData) return;
+
+        for (const member of teamData) {
+            let imageUrl = member.imageUrl;
+            if (member.imagePath) {
+                imageUrl = await getFirebaseImageUrl(member.imagePath);
+            }
+            const memberCard = `
+                <div class="team-card glass-card rounded-2xl overflow-hidden fade-in">
+                    <div class="overflow-hidden h-80">
+                        <img src="${imageUrl || ''}" alt="${member.nameAr || ''}" class="w-full h-full object-cover">
                     </div>
-                `;
-                container.innerHTML += memberCard;
-            }
-        }
-
-        // Function to populate "Clients" Section
-        async function loadClients() {
-            const clientsData = await fetchCollectionData('clients');
-            const container = document.getElementById('clients-container');
-            container.innerHTML = ''; 
-
-            for (const client of clientsData) {
-                let logoUrl = client.logoUrl;
-                if (client.logoPath) {
-                    logoUrl = await getFirebaseImageUrl(client.logoPath);
-                }
-                const clientCard = `
-                    <div class="glass-card p-6 rounded-2xl fade-in flex justify-center items-center">
-                        <img src="${logoUrl || ''}" alt="Client ${client.id || ''}" class="max-h-24 w-auto">
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="ar">${member.nameAr || ''}</h3>
+                        <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="en">${member.nameEn || ''}</h3>
+                        <p class="text-gray-600" data-lang="ar">${member.positionAr || ''}</p>
+                        <p class="text-gray-600" data-lang="en">${member.positionEn || ''}</p>
                     </div>
-                `;
-                container.innerHTML += clientCard;
+                </div>
+            `;
+            container.innerHTML += memberCard;
+        }
+    }
+
+    // دالة لملء قسم "عملائنا" (Clients)
+    async function loadClients() {
+        const clientsData = await fetchRealtimeData('clients');
+        const container = document.getElementById('clients-container');
+        container.innerHTML = '';
+        if (!clientsData) return;
+
+        for (const client of clientsData) {
+            let logoUrl = client.logoUrl;
+            if (client.logoPath) {
+                logoUrl = await getFirebaseImageUrl(client.logoPath);
             }
+            const clientCard = `
+                <div class="glass-card p-6 rounded-2xl fade-in flex justify-center items-center">
+                    <img src="${logoUrl || ''}" alt="Client ${client.id || ''}" class="max-h-24 w-auto">
+                </div>
+            `;
+            container.innerHTML += clientCard;
         }
+    }
 
-        // Function to populate "Contact" Section
-        async function loadContactInfo() {
-            const contactData = await fetchDocumentData('contact', 'main'); 
-            if (contactData) {
-                document.getElementById('contact-address-ar').textContent = contactData.addressAr || '';
-                document.getElementById('contact-address-en').textContent = contactData.addressEn || '';
-                document.getElementById('contact-map-link-ar').href = contactData.mapLink || '#';
-                document.getElementById('contact-map-link-en').href = contactData.mapLink || '#';
-                document.getElementById('contact-map-iframe').src = contactData.mapLink || ''; 
-                
-                document.getElementById('contact-email').textContent = contactData.email || '';
-                document.getElementById('contact-email-link-ar').href = `mailto:${contactData.email || ''}`; 
-                document.getElementById('contact-email-link-en').href = `mailto:${contactData.email || ''}`; 
+    // دالة لملء قسم "تواصل معنا" (Contact)
+    async function loadContactInfo() {
+        const contactData = await fetchRealtimeData('contact');
+        if (contactData) {
+            document.getElementById('contact-address-ar').textContent = contactData.addressAr || '';
+            document.getElementById('contact-address-en').textContent = contactData.addressEn || '';
+            document.getElementById('contact-map-link-ar').href = contactData.mapLink || '#';
+            document.getElementById('contact-map-link-en').href = contactData.mapLink || '#';
+            document.getElementById('contact-map-iframe').src = contactData.mapLink || '';
+            
+            document.getElementById('contact-email').textContent = contactData.email || '';
+            document.getElementById('contact-email-link-ar').href = `mailto:${contactData.email || ''}`; 
+            document.getElementById('contact-email-link-en').href = `mailto:${contactData.email || ''}`; 
 
-                document.getElementById('contact-phone').textContent = contactData.phone || '';
-                document.getElementById('contact-phone-link-ar').href = `tel:${contactData.phone || ''}`; 
-                document.getElementById('contact-phone-link-en').href = `tel:${contactData.phone || ''}`; 
+            document.getElementById('contact-phone').textContent = contactData.phone || '';
+            document.getElementById('contact-phone-link-ar').href = `tel:${contactData.phone || ''}`; 
+            document.getElementById('contact-phone-link-en').href = `tel:${contactData.phone || ''}`; 
 
-                document.getElementById('whatsapp-float-link').href = `https://wa.me/${contactData.whatsappFloatPhone || ''}`; 
-                document.getElementById('footer-whatsapp-samah-ar').href = `https://wa.me/${contactData.whatsappSamahPhone || ''}`; 
-                document.getElementById('footer-whatsapp-samah-en').href = `https://wa.me/${contactData.whatsappSamahPhone || ''}`; 
+            document.getElementById('whatsapp-float-link').href = `https://wa.me/${contactData.whatsappFloatPhone || ''}`; 
+            document.getElementById('footer-whatsapp-samah-ar').href = `https://wa.me/${contactData.whatsappSamahPhone || ''}`; 
+            document.getElementById('footer-whatsapp-samah-en').href = `https://wa.me/${contactData.whatsappSamahPhone || ''}`; 
 
-                document.getElementById('facebook-link').href = contactData.facebookLink || '#';
-                document.getElementById('instagram-link').href = contactData.instagramLink || '#';
-            }
+            document.getElementById('facebook-link').href = contactData.facebookLink || '#';
+            document.getElementById('instagram-link').href = contactData.instagramLink || '#';
         }
+    }
 
-        // *** Slider, Fade-in, Language Switcher, and Horizontal Scrolling functions (no core changes) ***
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
+    // *** بقية الدوال (Slider, Fade-in, Language Switcher, etc.) تبقى كما هي بدون تغيير ***
+    // Slider functionality
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
 
-        function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            if (index >= totalSlides) {
-                currentSlide = 0;
-            } else if (index < 0) {
-                currentSlide = totalSlides - 1;
-            } else {
-                currentSlide = index;
-            }
-            slides[currentSlide].classList.add('active');
-        }
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        if (index >= totalSlides) currentSlide = 0;
+        else if (index < 0) currentSlide = totalSlides - 1;
+        else currentSlide = index;
+        slides[currentSlide].classList.add('active');
+    }
 
-        setInterval(() => {
-            showSlide(currentSlide + 1);
-        }, 2000); 
+    setInterval(() => showSlide(currentSlide + 1), 2000);
 
-        function checkFadeElements() {
-            const fadeElements = document.querySelectorAll('.fade-in');
-            const windowHeight = window.innerHeight;
-            fadeElements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) {
-                    element.classList.add('visible');
-                } else {
-                    element.classList.remove('visible'); 
-                }
-            });
-        }
-
-        window.addEventListener('scroll', checkFadeElements);
-        window.addEventListener('load', checkFadeElements); 
-
-        function setLanguage(lang) {
-            document.documentElement.setAttribute('lang', lang);
-            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-            localStorage.setItem('preferredLanguage', lang);
-            updateLanguageButtonText(lang); 
-            showWhatsappNotification(); 
-        }
-
-        function toggleLanguage() {
-            const currentLang = document.documentElement.getAttribute('lang');
-            const newLang = (currentLang === 'ar') ? 'en' : 'ar';
-            setLanguage(newLang);
-        }
-
-        function updateLanguageButtonText(lang) {
-            const langButtonTextElement = document.getElementById('lang-text');
-            if (langButtonTextElement) {
-                if (lang === 'ar') {
-                    langButtonTextElement.textContent = 'English';
-                } else {
-                    langButtonTextElement.textContent = 'عربي';
-                }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            await loadAboutSection();
-            await loadServices(); 
-            await loadProjects();
-            await loadWorkHeroes();
-            await loadTeam();
-            await loadClients();
-            await loadContactInfo();
-
-            let initialLang = localStorage.getItem('preferredLanguage');
-            if (!initialLang) {
-                const browserLang = navigator.language || navigator.languages[0];
-                if (browserLang.startsWith('ar')) {
-                    initialLang = 'ar';
-                } else {
-                    initialLang = 'en';
-                }
-            }
-            setLanguage(initialLang);
-
-            setTimeout(() => {
-                showWhatsappNotification();
-            }, 2000);
+    // Fade-in animation on scroll
+    function checkFadeElements() {
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const windowHeight = window.innerHeight;
+        fadeElements.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            if (elementTop < windowHeight - 100) element.classList.add('visible');
+            else element.classList.remove('visible');
         });
+    }
 
-        function showWhatsappNotification() {
-            const notification = document.getElementById('whatsapp-notification');
-            const currentLang = document.documentElement.getAttribute('lang');
-            notification.querySelectorAll('span').forEach(span => {
-                if (span.getAttribute('data-lang') === currentLang) {
-                    span.style.display = 'inline';
-                } else {
-                    span.style.display = 'none';
-                }
-            });
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 2000);
+    window.addEventListener('scroll', checkFadeElements);
+    window.addEventListener('load', checkFadeElements);
+
+    // Language switching functionality
+    function setLanguage(lang) {
+        document.documentElement.setAttribute('lang', lang);
+        document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+        localStorage.setItem('preferredLanguage', lang);
+        updateLanguageButtonText(lang);
+        showWhatsappNotification();
+    }
+
+    window.toggleLanguage = function() { // Attach to window object to be accessible from HTML onclick
+        const currentLang = document.documentElement.getAttribute('lang');
+        const newLang = (currentLang === 'ar') ? 'en' : 'ar';
+        setLanguage(newLang);
+    }
+
+    function updateLanguageButtonText(lang) {
+        const langButtonTextElement = document.getElementById('lang-text');
+        if (langButtonTextElement) {
+            langButtonTextElement.textContent = (lang === 'ar') ? 'English' : 'عربي';
         }
+    }
 
-        const scrolledHeader = document.getElementById('scrolled-header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                scrolledHeader.classList.add('visible');
-            } else {
-                scrolledHeader.classList.remove('visible');
-            }
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadAboutSection();
+        await loadServices(); 
+        await loadProjects();
+        await loadWorkHeroes();
+        await loadTeam();
+        await loadClients();
+        await loadContactInfo();
+
+        let initialLang = localStorage.getItem('preferredLanguage') || ((navigator.language || navigator.languages[0]).startsWith('ar') ? 'ar' : 'en');
+        setLanguage(initialLang);
+
+        setTimeout(showWhatsappNotification, 2000);
+    });
+
+    function showWhatsappNotification() {
+        const notification = document.getElementById('whatsapp-notification');
+        const currentLang = document.documentElement.getAttribute('lang');
+        notification.querySelectorAll('span').forEach(span => {
+            span.style.display = (span.getAttribute('data-lang') === currentLang) ? 'inline' : 'none';
         });
+        notification.classList.add('show');
+        setTimeout(() => notification.classList.remove('show'), 2000);
+    }
 
-        const scrollContainer = document.querySelector('.overlapping-grid-container');
-        const scrollContent = document.querySelector('.overlapping-grid');
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-        let scrollInterval;
-        const autoScrollSpeed = 0.2; 
-        const autoScrollDelay = 3000; 
+    // Sticky header logic
+    const scrolledHeader = document.getElementById('scrolled-header');
+    window.addEventListener('scroll', () => {
+        scrolledHeader.classList.toggle('visible', window.scrollY > 100);
+    });
+
+    // Horizontal Auto-Scrolling and Dragging for Work Heroes
+    const scrollContainer = document.querySelector('.overlapping-grid-container');
+    const scrollContent = document.querySelector('.overlapping-grid');
+    if (scrollContainer && scrollContent) {
+        let isDown = false, startX, scrollLeft, scrollInterval;
+        const autoScrollSpeed = 0.2, autoScrollDelay = 3000;
 
         function startAutoScroll() {
-            if (!scrollContainer || !scrollContent) return;
             stopAutoScroll();
-            if (scrollContent.scrollWidth <= scrollContainer.clientWidth + 5) {
-                return;
-            }
+            if (scrollContent.scrollWidth <= scrollContainer.clientWidth + 5) return;
             scrollInterval = setInterval(() => {
                 if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContent.scrollWidth - 1) {
                     scrollContainer.scrollTo({ left: 0, behavior: 'smooth' });
@@ -1091,62 +1062,37 @@
             }, 10);
         }
 
-        function stopAutoScroll() {
-            clearInterval(scrollInterval);
-        }
-
+        function stopAutoScroll() { clearInterval(scrollInterval); }
         window.addEventListener('load', startAutoScroll);
 
-        scrollContainer.addEventListener('mousedown', (e) => {
+        const commonStart = (e, pageX) => {
             isDown = true;
-            scrollContainer.classList.add('is-dragging');
-            startX = e.pageX - scrollContainer.offsetLeft;
-            scrollLeft = scrollContainer.scrollLeft;
+            if (e.currentTarget) e.currentTarget.classList.add('is-dragging');
+            startX = pageX - e.currentTarget.offsetLeft;
+            scrollLeft = e.currentTarget.scrollLeft;
             stopAutoScroll();
-        });
-
-        scrollContainer.addEventListener('mouseleave', () => {
-            if (isDown) {
-                isDown = false;
-                scrollContainer.classList.remove('is-dragging');
-                setTimeout(startAutoScroll, autoScrollDelay);
-            }
-        });
-
-        scrollContainer.addEventListener('mouseup', () => {
-            if (isDown) {
-                isDown = false;
-                scrollContainer.classList.remove('is-dragging');
-                setTimeout(startAutoScroll, autoScrollDelay);
-            }
-        });
-
-        scrollContainer.addEventListener('mousemove', (e) => {
+        };
+        const commonEnd = (e) => {
+            isDown = false;
+            if (e.currentTarget) e.currentTarget.classList.remove('is-dragging');
+            setTimeout(startAutoScroll, autoScrollDelay);
+        };
+        const commonMove = (e, pageX) => {
             if (!isDown) return;
             e.preventDefault();
-            const x = e.pageX - scrollContainer.offsetLeft;
+            const x = pageX - e.currentTarget.offsetLeft;
             const walk = (x - startX) * 2;
-            scrollContainer.scrollLeft = scrollLeft - walk;
-        });
+            e.currentTarget.scrollLeft = scrollLeft - walk;
+        };
 
-        scrollContainer.addEventListener('touchstart', (e) => {
-            isDown = true;
-            startX = e.touches[0].pageX - scrollContainer.offsetLeft;
-            scrollLeft = scrollContainer.scrollLeft;
-            stopAutoScroll();
-        });
-
-        scrollContainer.addEventListener('touchend', () => {
-            isDown = false;
-            setTimeout(startAutoScroll, autoScrollDelay);
-        });
-
-        scrollContainer.addEventListener('touchmove', (e) => {
-            if (!isDown) return;
-            const x = e.touches[0].pageX - scrollContainer.offsetLeft;
-            const walk = (x - startX) * 2;
-            scrollContainer.scrollLeft = scrollLeft - walk;
-        });
-    </script>
+        scrollContainer.addEventListener('mousedown', (e) => commonStart(e, e.pageX));
+        scrollContainer.addEventListener('mouseleave', commonEnd);
+        scrollContainer.addEventListener('mouseup', commonEnd);
+        scrollContainer.addEventListener('mousemove', (e) => commonMove(e, e.pageX));
+        scrollContainer.addEventListener('touchstart', (e) => commonStart(e, e.touches[0].pageX));
+        scrollContainer.addEventListener('touchend', commonEnd);
+        scrollContainer.addEventListener('touchmove', (e) => commonMove(e, e.touches[0].pageX));
+    }
+</script>
 </body>
 </html>
