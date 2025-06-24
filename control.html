@@ -1,633 +1,228 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم رسلان</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-    <style>
-        body {
-            background: linear-gradient(135deg, #0c4873, #000);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: 'Cairo', sans-serif;
-            color: white;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            /* Center children horizontally within the flex container */
-            align-items: center;
-        }
-        .logo-container {
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%; /* Ensure logo container takes full width for centering */
-        }
-        .logo-container img {
-            max-width: 100px;
-            height: auto;
-            display: block;
-        }
-        h2 {
-            margin-bottom: 1rem;
-            font-size: 1.8em;
-            font-weight: 700;
-            width: 100%; /* Ensure heading takes full width for centering */
-        }
-        .input-group {
-            width: 100%;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-direction: row-reverse; /* Icon on the right for RTL */
-        }
-        .input-group i {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1em;
-            flex-shrink: 0;
-        }
-        input, textarea, select {
-            flex-grow: 1;
-            padding: 10px 12px;
-            margin: 0;
-            border-radius: 7px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 0.95rem;
-            background-color: rgba(255, 255, 255, 0.07);
-            color: white;
-            outline: none;
-            transition: border-color 0.3s, background-color 0.3s;
-            text-align: right;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        input:focus, textarea:focus, select:focus {
-            border-color: #0c4873;
-            background-color: rgba(255, 255, 255, 0.12);
-        }
-        textarea {
-            min-height: 70px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 15px;
-            border-radius: 7px;
-            border: none;
-            font-size: 1rem;
-            background: #0c4873;
-            color: white;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 600;
-        }
-        button i {
-            margin-left: 5px;
-        }
-        button:hover {
-            background: #073251;
-            transform: translateY(-1px);
-        }
-        .logout-button {
-            background: #dc3545;
-            margin-top: 15px;
-        }
-        .logout-button:hover {
-            background: #c82333;
-        }
-        /* Adjusted h2 style below for specific panels */
-        #login-section h2, #control-panel h2 {
-            font-size: 1.8em; /* Consistent heading size */
-        }
-        .hidden { display: none; }
-
-        /* Tab Styles */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            margin-bottom: 15px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
-        }
-        .tab-button {
-            background: none;
-            border: none;
-            padding: 8px 15px;
-            font-size: 1em;
-            color: rgba(255, 255, 255, 0.6);
-            cursor: pointer;
-            transition: color 0.3s, border-bottom 0.3s;
-            position: relative;
-            top: 2px;
-            outline: none;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 600;
-        }
-        .tab-button.active {
-            color: white;
-            border-bottom: 2px solid #0c4873;
-            font-weight: 700;
-        }
-        .tab-button:hover:not(.active) {
-            color: rgba(255, 255, 255, 0.8);
-        }
-        .tab-content {
-            width: 100%;
-            /* Ensure tab content children are centered */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .item-list-container {
-            max-height: 250px;
-            overflow-y: auto;
-            width: 100%;
-            padding-right: 8px;
-            box-sizing: border-box;
-            margin-top: 15px;
-        }
-        .item-list-container::-webkit-scrollbar {
-            width: 6px;
-        }
-        .item-list-container::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-        }
-        .item-list-container::-webkit-scrollbar-thumb {
-            background: #0c4873;
-            border-radius: 8px;
-        }
-        .item-card {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            width: 100%; /* Ensure item cards take full width */
-        }
-        .item-card strong {
-            flex-grow: 1;
-            text-align: right;
-            font-size: 0.95em;
-            font-weight: 600;
-            word-break: break-word; /* Prevents long words from overflowing */
-        }
-        .item-card div {
-            display: flex;
-            gap: 10px; /* Space between delete and edit buttons */
-        }
-        .item-card button {
-            width: auto; /* Allow buttons to size based on content */
-            padding: 7px 12px;
-            margin: 0;
-            font-size: 0.85rem;
-            gap: 4px;
-            font-weight: 500;
-        }
-        .item-card button:first-of-type {
-            background: #dc3545;
-        }
-        .item-card button:first-of-type:hover {
-            background: #c82333;
-        }
-        .item-card button:nth-of-type(2) {
-            background: #ffc107;
-            color: #333;
-        }
-        .item-card button:nth-of-type(2):hover {
-            background: #e0a800;
-        }
-
-        /* Media Queries for Responsiveness */
-        @media (max-width: 600px) {
-            .glass-card {
-                padding: 1.2rem;
-                border-radius: 12px;
-            }
-            h2 {
-                font-size: 1.6em;
-                margin-bottom: 0.8rem;
-            }
-            input, textarea, select, button {
-                font-size: 0.9rem;
-                padding: 8px 12px;
-            }
-            .tab-button {
-                font-size: 0.9em;
-                padding: 7px 12px;
-            }
-            .item-card {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .item-card button {
-                width: 100%;
-                margin-top: 5px;
-            }
-            .item-card strong {
-                text-align: center;
-                margin-bottom: 8px;
-            }
-            .input-group {
-                flex-direction: column;
-                align-items: flex-end;
-            }
-            .input-group i {
-                margin-bottom: 4px;
-            }
-            input, textarea, select {
-                width: 100%;
-                text-align: right;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم رسلان - تصميم احترافي</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #0c4873, #000);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 0 30px rgba(0,0,0,0.6);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      margin: 20px;
+    }
+    h2 {
+      margin-bottom: 1rem;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      background: #0c4873;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #073251;
+    }
+    .hidden { display: none; }
+    .item-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 12px;
+      text-align: start;
+      position: relative;
+    }
+    .item-card strong {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+    .actions button {
+      flex: 1;
+      margin: 0 5px;
+    }
+    .icon-input {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      margin: 8px 0;
+    }
+    .icon-input i {
+      padding: 10px;
+      color: #fff;
+    }
+    .icon-input input, .icon-input textarea {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: white;
+      padding: 10px;
+      outline: none;
+    }
+  </style>
 </head>
 <body>
 
 <div class="glass-card" id="login-section">
-    <div class="logo-container">
-        <img src="https://i.postimg.cc/0yJDWC7f/Untitled-7-01.png" alt="Raslan Logo">
-    </div>
-    <h2><i class="fas fa-lock"></i> دخول لوحة التحكم</h2>
-    <div class="input-group">
-        <input type="text" id="username" placeholder="اسم المستخدم">
-        <i class="fas fa-user"></i>
-    </div>
-    <div class="input-group">
-        <input type="password" id="password" placeholder="كلمة المرور">
-        <i class="fas fa-key"></i>
-    </div>
-    <button onclick="checkLogin()"><i class="fas fa-sign-in-alt"></i> دخول</button>
+  <h2><i class="fas fa-lock"></i> دخول لوحة التحكم</h2>
+  <div class="icon-input"><i class="fas fa-user"></i><input type="text" id="username" placeholder="اسم المستخدم"></div>
+  <div class="icon-input"><i class="fas fa-key"></i><input type="password" id="password" placeholder="كلمة المرور"></div>
+  <button onclick="checkLogin()">دخول</button>
 </div>
 
 <div class="glass-card hidden" id="control-panel">
-    <div class="logo-container">
-        <img src="https://i.postimg.cc/0yJDWC7f/Untitled-7-01.png" alt="Raslan Logo">
-    </div>
-    <h2><i class="fas fa-cog"></i> إدارة بيانات رسلان</h2>
-
-    <div class="tabs">
-        <button class="tab-button active" data-tab="services"><i class="fas fa-briefcase"></i> الخدمات</button>
-        <button class="tab-button" data-tab="projects"><i class="fas fa-project-diagram"></i> المشاريع</button>
-    </div>
-
-    <div id="services-tab" class="tab-content">
-        <div class="input-group">
-            <input type="text" id="title" placeholder="العنوان بالعربية">
-            <i class="fas fa-heading"></i>
-        </div>
-        <div class="input-group">
-            <input type="text" id="title_en" placeholder="العنوان بالإنجليزية">
-            <i class="fas fa-heading"></i>
-        </div>
-        <div class="input-group">
-            <textarea id="desc" placeholder="الوصف بالعربية"></textarea>
-            <i class="fas fa-align-right"></i>
-        </div>
-        <div class="input-group">
-            <textarea id="desc_en" placeholder="الوصف بالإنجليزية"></textarea>
-            <i class="fas fa-align-left"></i>
-        </div>
-        <div class="input-group">
-            <input type="text" id="image" placeholder="رابط الصورة">
-            <i class="fas fa-image"></i>
-        </div>
-        <button onclick="addItem()"><i class="fas fa-plus-circle"></i> إضافة جديدة</button>
-        <div id="items-list-services" class="item-list-container"></div> </div>
-
-    <div id="projects-tab" class="tab-content hidden">
-        <div class="input-group">
-            <input type="text" id="project-title" placeholder="عنوان المشروع بالعربية">
-            <i class="fas fa-heading"></i>
-        </div>
-        <div class="input-group">
-            <input type="text" id="project-title_en" placeholder="عنوان المشروع بالإنجليزية">
-            <i class="fas fa-heading"></i>
-        </div>
-        <div class="input-group">
-            <textarea id="project-desc" placeholder="وصف المشروع بالعربية"></textarea>
-            <i class="fas fa-align-right"></i>
-        </div>
-        <div class="input-group">
-            <textarea id="project-desc_en" placeholder="وصف المشروع بالإنجليزية"></textarea>
-            <i class="fas fa-align-left"></i>
-        </div>
-        <div class="input-group">
-            <input type="text" id="project-image" placeholder="رابط صورة المشروع">
-            <i class="fas fa-image"></i>
-        </div>
-        <button onclick="addItem()"><i class="fas fa-plus-circle"></i> إضافة جديدة</button>
-        <div id="items-list-projects" class="item-list-container"></div> </div>
-
-    <button class="logout-button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+  <h2><i class="fas fa-cogs"></i> إدارة محتوى رسلان</h2>
+  <select id="dataType" onchange="loadItems()">
+    <option value="services">الخدمات</option>
+    <option value="projects">المشاريع</option>
+  </select>
+  <div class="icon-input"><i class="fas fa-heading"></i><input type="text" id="title" placeholder="العنوان بالعربية"></div>
+  <div class="icon-input"><i class="fas fa-language"></i><input type="text" id="title_en" placeholder="العنوان بالإنجليزية"></div>
+  <div class="icon-input"><i class="fas fa-align-left"></i><textarea id="desc" placeholder="الوصف بالعربية"></textarea></div>
+  <div class="icon-input"><i class="fas fa-align-right"></i><textarea id="desc_en" placeholder="الوصف بالإنجليزية"></textarea></div>
+  <div class="icon-input"><i class="fas fa-image"></i><input type="text" id="image" placeholder="رابط الصورة"></div>
+  <button onclick="addItem()">إضافة جديدة</button>
+  <div id="items-list"></div>
 </div>
 
 <script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyAGlFOEITRIlPE6VVngiMEoNX0MUubW-RI",
-        authDomain: "raslan-control-panel.firebaseapp.com",
-        databaseURL: "https://raslan-control-panel-default-rtdb.firebaseio.com",
-        projectId: "raslan-control-panel",
-        storageBucket: "raslan-control-panel.appspot.com",
-        messagingSenderId: "5477499403",
-        appId: "1:5477499403:web:709dfad2f118becb00bd0e"
+const firebaseConfig = {
+  apiKey: "AIzaSyAGlFOEITRIlPE6VVngiMEoNX0MUubW-RI",
+  authDomain: "raslan-control-panel.firebaseapp.com",
+  databaseURL: "https://raslan-control-panel-default-rtdb.firebaseio.com",
+  projectId: "raslan-control-panel",
+  storageBucket: "raslan-control-panel.appspot.com",
+  messagingSenderId: "5477499403",
+  appId: "1:5477499403:web:709dfad2f118becb00bd0e"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function checkLogin() {
+  const user = document.getElementById('username').value.trim();
+  const pass = document.getElementById('password').value.trim();
+  if (user === 'Admin' && pass === '010274') {
+    document.getElementById('login-section').classList.add('hidden');
+    document.getElementById('control-panel').classList.remove('hidden');
+    loadItems();
+  } else {
+    alert('بيانات الدخول غير صحيحة');
+  }
+}
+
+function addItem() {
+  const type = document.getElementById('dataType').value;
+  const title = document.getElementById('title').value.trim();
+  const titleEn = document.getElementById('title_en').value.trim();
+  const desc = document.getElementById('desc').value.trim();
+  const descEn = document.getElementById('desc_en').value.trim();
+  const img = document.getElementById('image').value.trim();
+  if (!title || !desc || !img) return alert('اكمل جميع الحقول المطلوبة');
+
+  const newItem = {
+    "العنوان": title,
+    "عنوان إنجليزي": titleEn,
+    "الوصف": desc,
+    "وصف إنجليزي": descEn,
+    "رابط الصورة": img
+  };
+  db.ref(`${type}`).push(newItem);
+  clearForm();
+  loadItems();
+}
+
+function loadItems() {
+  const type = document.getElementById('dataType').value;
+  const container = document.getElementById('items-list');
+  container.innerHTML = '';
+
+  db.ref(type).once('value', snapshot => {
+    const data = snapshot.val();
+    for (const key in data) {
+      const item = data[key];
+      container.innerHTML += `
+        <div class="item-card">
+          <strong>${item["العنوان"]}</strong>
+          <div class="actions">
+            <button onclick="deleteItem('${type}','${key}')"><i class='fas fa-trash'></i> حذف</button>
+            <button onclick="fillForm('${type}','${key}','${item["العنوان"]}','${item["عنوان إنجليزي"]}','${item["الوصف"]}','${item["وصف إنجليزي"]}','${item["رابط الصورة"]}')"><i class='fas fa-pen'></i> تعديل</button>
+          </div>
+        </div>
+      `;
+    }
+  });
+}
+
+function deleteItem(type, key) {
+  if (confirm('متأكد من الحذف؟')) {
+    db.ref(`${type}/${key}`).remove();
+    loadItems();
+  }
+}
+
+function fillForm(type, key, title, titleEn, desc, descEn, img) {
+  document.getElementById('title').value = title;
+  document.getElementById('title_en').value = titleEn;
+  document.getElementById('desc').value = desc;
+  document.getElementById('desc_en').value = descEn;
+  document.getElementById('image').value = img;
+
+  if (confirm('بعد التعديل اضغط موافق للحفظ')) {
+    const updatedItem = {
+      "العنوان": title,
+      "عنوان إنجليزي": titleEn,
+      "الوصف": desc,
+      "وصف إنجليزي": descEn,
+      "رابط الصورة": img
     };
+    db.ref(`${type}/${key}`).set(updatedItem);
+    clearForm();
+    loadItems();
+  }
+}
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    // Global variable to keep track of the current active tab type
-    let currentDataType = 'services'; // Default to services
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const tabButtons = document.querySelectorAll('.tab-button');
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const tab = button.dataset.tab;
-                switchTab(tab);
-            });
-        });
-        // Initial load for the default tab (services)
-        switchTab('services');
-    });
-
-    function switchTab(tabName) {
-        currentDataType = tabName; // Update the global currentDataType variable
-
-        // Hide all tab contents
-        document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.add('hidden');
-        });
-
-        // Deactivate all tab buttons
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.classList.remove('active');
-        });
-
-        // Show the selected tab content and activate its button
-        document.getElementById(`${tabName}-tab`).classList.remove('hidden');
-        document.querySelector(`.tab-button[data-tab="${tabName}"]`).classList.add('active');
-
-        // IMPORTANT: Clear the form and load items specifically for the active tab
-        clearForm(); // Clear fields based on currently selected tab
-        loadItems(); // Load items based on currently selected tab
-    }
-
-    // Function to get the correct input element based on the current tab
-    function getInputElement(idSuffix) {
-        // If currentDataType is 'services', the IDs are 'title', 'desc', etc.
-        // If currentDataType is 'projects', the IDs are 'project-title', 'project-desc', etc.
-        const actualId = (currentDataType === 'projects' ? 'project-' : '') + idSuffix;
-        return document.getElementById(actualId);
-    }
-
-    // Function to get the correct items list container based on the current tab
-    function getItemsListContainer() {
-        const actualId = `items-list-${currentDataType}`;
-        return document.getElementById(actualId);
-    }
-
-    // Helper to get the correct Add/Update button for the active tab
-    function getActiveTabAddButton() {
-        return document.querySelector(`#${currentDataType}-tab button[onclick="addItem()"]`);
-    }
-
-    function checkLogin() {
-        const user = document.getElementById('username').value.trim();
-        const pass = document.getElementById('password').value.trim();
-        if (user === 'Admin' && pass === '010274') {
-            document.getElementById('login-section').classList.add('hidden');
-            document.getElementById('control-panel').classList.remove('hidden');
-            switchTab('services'); // Load services tab after login
-        } else {
-            alert('بيانات الدخول غير صحيحة');
-        }
-    }
-
-    function logout() {
-        if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
-            document.getElementById('control-panel').classList.add('hidden');
-            document.getElementById('login-section').classList.remove('hidden');
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            switchTab('services'); // Reset tab to services on logout
-        }
-    }
-
-    // MODIFIED addItem to correctly get values from the active tab's inputs
-    function addItem() {
-        const type = currentDataType;
-        const title = getInputElement('title').value.trim();
-        const titleEn = getInputElement('title_en').value.trim();
-        const desc = getInputElement('desc').value.trim();
-        const descEn = getInputElement('desc_en').value.trim();
-        const img = getInputElement('image').value.trim();
-
-        if (!title || !desc || !img) {
-            alert('اكمل جميع الحقول المطلوبة');
-            return;
-        }
-
-        const newItem = {
-            "العنوان": title,
-            "عنوان إنجليزي": titleEn,
-            "الوصف": desc,
-            "وصف إنجليزي": descEn,
-            "رابط الصورة": img
-        };
-        db.ref(`${type}`).push(newItem)
-            .then(() => {
-                clearForm(); // Use currentDataType implicitly
-                loadItems(); // Use currentDataType implicitly
-            })
-            .catch(error => {
-                console.error("Error adding item: ", error);
-                alert("حدث خطأ أثناء الإضافة: " + error.message);
-            });
-    }
-
-    // MODIFIED loadItems to correctly get the container and type
-    function loadItems() { // No longer takes type parameter directly, relies on currentDataType
-        const type = currentDataType;
-        const container = getItemsListContainer(); // Get the container based on currentDataType
-        container.innerHTML = '';
-
-        db.ref(type).once('value', snapshot => {
-            const data = snapshot.val();
-            if (data) {
-                const keys = Object.keys(data).reverse(); // Show newest first
-                keys.forEach(key => {
-                    const item = data[key];
-                    container.innerHTML += `
-                        <div class="item-card">
-                            <strong>${item["العنوان"]}</strong>
-                            <div>
-                                <button onclick="deleteItem('${type}','${key}')" style="background:red;"><i class="fas fa-trash-alt"></i> حذف</button>
-                                <button onclick="fillForm('${type}','${key}','${escapeHtml(item["العنوان"])}','${escapeHtml(item["عنوان إنجليزي"])}','${escapeHtml(item["الوصف"])}','${escapeHtml(item["وصف إنجليزي"])}','${escapeHtml(item["رابط الصورة"])}')">
-                                <i class="fas fa-edit"></i> تعديل</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            } else {
-                container.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.7);">لا توجد عناصر لعرضها.</p>';
-            }
-        }, error => {
-            console.error("Error loading items: ", error);
-            container.innerHTML = '<p style="text-align: center; color: red;">حدث خطأ أثناء تحميل البيانات: ' + error.message + '</p>';
-        });
-    }
-
-    // MODIFIED deleteItem to correctly use the passed type
-    function deleteItem(type, key) {
-        if (confirm('متأكد من الحذف؟')) {
-            db.ref(`${type}/${key}`).remove()
-                .then(() => {
-                    loadItems(); // Reload items for the current active tab
-                })
-                .catch(error => {
-                    console.error("Error deleting item: ", error);
-                    alert("حدث خطأ أثناء الحذف: " + error.message);
-                });
-        }
-    }
-
-    // MODIFIED fillForm to correctly set input values for the active tab
-    function fillForm(type, key, title, titleEn, desc, descEn, img) {
-        // Set currentDataType explicitly for fillForm's context, then use getInputElement
-        // This ensures if fillForm is called while the global currentDataType hasn't updated yet, it still targets correctly.
-        const originalCurrentDataType = currentDataType; // Store original
-        currentDataType = type; // Temporarily set for getInputElement
-
-        getInputElement('title').value = title;
-        getInputElement('title_en').value = titleEn;
-        getInputElement('desc').value = desc;
-        getInputElement('desc_en').value = descEn;
-        getInputElement('image').value = img;
-
-        // Reset currentDataType
-        currentDataType = originalCurrentDataType;
-
-        // Now, for the "Update" logic:
-        // We need a specific function for updating, separate from fillForm's confirmation.
-        // We will change the behavior of the "Add New" button to "Save Changes"
-        const addButton = getActiveTabAddButton();
-        addButton.innerHTML = `<i class="fas fa-save"></i> حفظ التعديلات`;
-        // Pass the correct type and key to the update function
-        addButton.onclick = () => updateItem(type, key);
-    }
-
-    // NEW updateItem function: Handles saving changes after fillForm
-    function updateItem(type, key) {
-        // Ensure currentDataType is set correctly for getting values
-        const originalCurrentDataType = currentDataType;
-        currentDataType = type;
-
-        const title = getInputElement('title').value.trim();
-        const titleEn = getInputElement('title_en').value.trim();
-        const desc = getInputElement('desc').value.trim();
-        const descEn = getInputElement('desc_en').value.trim();
-        const img = getInputElement('image').value.trim();
-
-        currentDataType = originalCurrentDataType; // Reset
-
-        if (!title || !desc || !img) {
-            alert('يرجى ملء جميع الحقول المطلوبة للتعديل.');
-            return;
-        }
-
-        const updatedItem = {
-            "العنوان": title,
-            "عنوان إنجليزي": titleEn,
-            "الوصف": desc,
-            "وصف إنجليزي": descEn,
-            "رابط الصورة": img
-        };
-
-        db.ref(`${type}/${key}`).set(updatedItem)
-            .then(() => {
-                alert('تم حفظ التعديلات بنجاح!');
-                clearForm(); // Clear current form
-                loadItems(); // Reload current tab's items
-                // Reset the button back to "Add New"
-                const addButton = getActiveTabAddButton();
-                addButton.innerHTML = `<i class="fas fa-plus-circle"></i> إضافة جديدة`;
-                addButton.onclick = () => addItem();
-            })
-            .catch(error => {
-                console.error("Error updating item: ", error);
-                alert("حدث خطأ أثناء حفظ التعديلات: " + error.message);
-            });
-    }
-
-
-    // MODIFIED clearForm to correctly clear fields for the active tab
-    function clearForm() { // No longer takes type parameter directly, relies on currentDataType
-        getInputElement('title').value = '';
-        getInputElement('title_en').value = '';
-        getInputElement('desc').value = '';
-        getInputElement('desc_en').value = '';
-        getInputElement('image').value = '';
-
-        // Reset the Add button for the current tab
-        const addButton = getActiveTabAddButton();
-        if (addButton) { // Check if button exists before trying to modify
-            addButton.innerHTML = `<i class="fas fa-plus-circle"></i> إضافة جديدة`;
-            addButton.onclick = () => addItem();
-        }
-    }
-
-    // Helper function to escape HTML for display in onclick attributes (crucial for fillForm)
-    function escapeHtml(text) {
-        const map = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-        };
-        if (typeof text !== 'string') {
-            return '';
-        }
-        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-    }
+function clearForm() {
+  document.getElementById('title').value = '';
+  document.getElementById('title_en').value = '';
+  document.getElementById('desc').value = '';
+  document.getElementById('desc_en').value = '';
+  document.getElementById('image').value = '';
+}
 </script>
 
 </body>
