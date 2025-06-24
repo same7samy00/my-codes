@@ -32,6 +32,7 @@
             text-align: center;
             display: flex;
             flex-direction: column;
+            /* Center children horizontally within the flex container */
             align-items: center;
         }
         .logo-container {
@@ -39,6 +40,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 100%; /* Ensure logo container takes full width for centering */
         }
         .logo-container img {
             max-width: 100px;
@@ -49,6 +51,7 @@
             margin-bottom: 1rem;
             font-size: 1.8em;
             font-weight: 700;
+            width: 100%; /* Ensure heading takes full width for centering */
         }
         .input-group {
             width: 100%;
@@ -56,7 +59,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            flex-direction: row-reverse;
+            flex-direction: row-reverse; /* Icon on the right for RTL */
         }
         .input-group i {
             color: rgba(255, 255, 255, 0.8);
@@ -120,10 +123,9 @@
         .logout-button:hover {
             background: #c82333;
         }
-        h2 {
-            margin-bottom: 1.5rem;
-            font-size: 2em;
-            font-weight: 700;
+        /* Adjusted h2 style below for specific panels */
+        #login-section h2, #control-panel h2 {
+            font-size: 1.8em; /* Consistent heading size */
         }
         .hidden { display: none; }
 
@@ -162,6 +164,10 @@
         }
         .tab-content {
             width: 100%;
+            /* Ensure tab content children are centered */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .item-list-container {
@@ -194,19 +200,21 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 8px;
+            width: 100%; /* Ensure item cards take full width */
         }
         .item-card strong {
             flex-grow: 1;
             text-align: right;
             font-size: 0.95em;
             font-weight: 600;
+            word-break: break-word; /* Prevents long words from overflowing */
         }
         .item-card div {
             display: flex;
-            gap: 10px; /* مسافة بين أزرار الحذف والتعديل */
+            gap: 10px; /* Space between delete and edit buttons */
         }
         .item-card button {
-            width: auto;
+            width: auto; /* Allow buttons to size based on content */
             padding: 7px 12px;
             margin: 0;
             font-size: 0.85rem;
@@ -397,29 +405,29 @@
         document.getElementById(`${tabName}-tab`).classList.remove('hidden');
         document.querySelector(`.tab-button[data-tab="${tabName}"]`).classList.add('active');
 
-        // IMPORTANT: Set up the form and load items specifically for the active tab
-        clearForm(tabName); // Clear the form of the *newly active* tab
-        loadItems(tabName); // Pass the tabName directly to loadItems
+        // IMPORTANT: Clear the form and load items specifically for the active tab
+        clearForm(); // Clear fields based on currently selected tab
+        loadItems(); // Load items based on currently selected tab
     }
 
     // Function to get the correct input element based on the current tab
     function getInputElement(idSuffix) {
-        if (currentDataType === 'services') {
-            return document.getElementById(idSuffix);
-        } else { // currentDataType === 'projects'
-            return document.getElementById(`project-${idSuffix}`);
-        }
+        // If currentDataType is 'services', the IDs are 'title', 'desc', etc.
+        // If currentDataType is 'projects', the IDs are 'project-title', 'project-desc', etc.
+        const actualId = (currentDataType === 'projects' ? 'project-' : '') + idSuffix;
+        return document.getElementById(actualId);
     }
 
     // Function to get the correct items list container based on the current tab
     function getItemsListContainer() {
-        if (currentDataType === 'services') {
-            return document.getElementById('items-list-services');
-        } else { // currentDataType === 'projects'
-            return document.getElementById('items-list-projects');
-        }
+        const actualId = `items-list-${currentDataType}`;
+        return document.getElementById(actualId);
     }
 
+    // Helper to get the correct Add/Update button for the active tab
+    function getActiveTabAddButton() {
+        return document.querySelector(`#${currentDataType}-tab button[onclick="addItem()"]`);
+    }
 
     function checkLogin() {
         const user = document.getElementById('username').value.trim();
@@ -443,17 +451,19 @@
         }
     }
 
-    // Modified addItem to get values from the currently active tab's inputs
+    // MODIFIED addItem to correctly get values from the active tab's inputs
     function addItem() {
         const type = currentDataType;
-        // Use getInputElement to correctly get values from either service-tab or project-tab inputs
         const title = getInputElement('title').value.trim();
         const titleEn = getInputElement('title_en').value.trim();
         const desc = getInputElement('desc').value.trim();
         const descEn = getInputElement('desc_en').value.trim();
         const img = getInputElement('image').value.trim();
 
-        if (!title || !desc || !img) return alert('اكمل جميع الحقول المطلوبة');
+        if (!title || !desc || !img) {
+            alert('اكمل جميع الحقول المطلوبة');
+            return;
+        }
 
         const newItem = {
             "العنوان": title,
@@ -464,8 +474,8 @@
         };
         db.ref(`${type}`).push(newItem)
             .then(() => {
-                clearForm(type); // Pass type to clear correct form fields
-                loadItems(type); // Pass type to reload correct list
+                clearForm(); // Use currentDataType implicitly
+                loadItems(); // Use currentDataType implicitly
             })
             .catch(error => {
                 console.error("Error adding item: ", error);
@@ -473,9 +483,9 @@
             });
     }
 
-    // Modified loadItems to correctly get the container and type
-    function loadItems(typeToLoad) { // Now accepts type directly
-        const type = typeToLoad || currentDataType; // Use passed type or global if not passed
+    // MODIFIED loadItems to correctly get the container and type
+    function loadItems() { // No longer takes type parameter directly, relies on currentDataType
+        const type = currentDataType;
         const container = getItemsListContainer(); // Get the container based on currentDataType
         container.innerHTML = '';
 
@@ -505,12 +515,12 @@
         });
     }
 
-    // Modified deleteItem to correctly use the passed type
+    // MODIFIED deleteItem to correctly use the passed type
     function deleteItem(type, key) {
         if (confirm('متأكد من الحذف؟')) {
             db.ref(`${type}/${key}`).remove()
                 .then(() => {
-                    loadItems(type); // Pass type back to loadItems
+                    loadItems(); // Reload items for the current active tab
                 })
                 .catch(error => {
                     console.error("Error deleting item: ", error);
@@ -519,35 +529,44 @@
         }
     }
 
-    // Modified fillForm to use getInputElement to correctly set input values
+    // MODIFIED fillForm to correctly set input values for the active tab
     function fillForm(type, key, title, titleEn, desc, descEn, img) {
-        // Use getInputElement to correctly target the form fields of the current tab
+        // Set currentDataType explicitly for fillForm's context, then use getInputElement
+        // This ensures if fillForm is called while the global currentDataType hasn't updated yet, it still targets correctly.
+        const originalCurrentDataType = currentDataType; // Store original
+        currentDataType = type; // Temporarily set for getInputElement
+
         getInputElement('title').value = title;
         getInputElement('title_en').value = titleEn;
         getInputElement('desc').value = desc;
         getInputElement('desc_en').value = descEn;
         getInputElement('image').value = img;
 
-        // Change "Add" button to "Update" and provide the key for update
-        // We'll attach the update logic directly to the button for the active tab
-        const addButton = getActiveTabAddButton(type);
+        // Reset currentDataType
+        currentDataType = originalCurrentDataType;
+
+        // Now, for the "Update" logic:
+        // We need a specific function for updating, separate from fillForm's confirmation.
+        // We will change the behavior of the "Add New" button to "Save Changes"
+        const addButton = getActiveTabAddButton();
         addButton.innerHTML = `<i class="fas fa-save"></i> حفظ التعديلات`;
-        // Temporarily change onclick to update and pass type and key
+        // Pass the correct type and key to the update function
         addButton.onclick = () => updateItem(type, key);
     }
 
-    // Helper to get the correct Add/Update button for the active tab
-    function getActiveTabAddButton(type) {
-        return document.querySelector(`#${type}-tab button[onclick*="addItem"]`);
-    }
-
-    // New updateItem function (extracted from fillForm's confirm block)
+    // NEW updateItem function: Handles saving changes after fillForm
     function updateItem(type, key) {
+        // Ensure currentDataType is set correctly for getting values
+        const originalCurrentDataType = currentDataType;
+        currentDataType = type;
+
         const title = getInputElement('title').value.trim();
         const titleEn = getInputElement('title_en').value.trim();
         const desc = getInputElement('desc').value.trim();
         const descEn = getInputElement('desc_en').value.trim();
         const img = getInputElement('image').value.trim();
+
+        currentDataType = originalCurrentDataType; // Reset
 
         if (!title || !desc || !img) {
             alert('يرجى ملء جميع الحقول المطلوبة للتعديل.');
@@ -565,12 +584,12 @@
         db.ref(`${type}/${key}`).set(updatedItem)
             .then(() => {
                 alert('تم حفظ التعديلات بنجاح!');
-                clearForm(type); // Pass type to clear correct form fields
-                loadItems(type); // Pass type to reload correct list
-                // Reset the button to "Add New" state
-                const addButton = getActiveTabAddButton(type);
+                clearForm(); // Clear current form
+                loadItems(); // Reload current tab's items
+                // Reset the button back to "Add New"
+                const addButton = getActiveTabAddButton();
                 addButton.innerHTML = `<i class="fas fa-plus-circle"></i> إضافة جديدة`;
-                addButton.onclick = () => addItem(); // Revert to addItem
+                addButton.onclick = () => addItem();
             })
             .catch(error => {
                 console.error("Error updating item: ", error);
@@ -578,9 +597,9 @@
             });
     }
 
-    // Modified clearForm to use getInputElement and reset button for current tab
-    function clearForm(typeToClear) {
-        const type = typeToClear || currentDataType; // Use passed type or global
+
+    // MODIFIED clearForm to correctly clear fields for the active tab
+    function clearForm() { // No longer takes type parameter directly, relies on currentDataType
         getInputElement('title').value = '';
         getInputElement('title_en').value = '';
         getInputElement('desc').value = '';
@@ -588,12 +607,14 @@
         getInputElement('image').value = '';
 
         // Reset the Add button for the current tab
-        const addButton = getActiveTabAddButton(type);
-        addButton.innerHTML = `<i class="fas fa-plus-circle"></i> إضافة جديدة`;
-        addButton.onclick = () => addItem();
+        const addButton = getActiveTabAddButton();
+        if (addButton) { // Check if button exists before trying to modify
+            addButton.innerHTML = `<i class="fas fa-plus-circle"></i> إضافة جديدة`;
+            addButton.onclick = () => addItem();
+        }
     }
 
-
+    // Helper function to escape HTML for display in onclick attributes (crucial for fillForm)
     function escapeHtml(text) {
         const map = {
             '&': '&amp;',
