@@ -18,7 +18,6 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
         body { overflow-x: hidden; background-color: #f0f4f8; }
-        .glass-effect { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
         .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
         .glass-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); }
         .hero-slider { height: 100vh; position: relative; overflow: hidden; }
@@ -59,6 +58,7 @@
 </head>
 <body>
 
+    <!-- HERO SLIDER -->
     <section class="hero-slider">
         <div class="slide active" style="background-image: url('https://i.postimg.cc/nV5P6cLt/R.jpg');"></div>
         <div class="slide" style="background-image: url('https://i.postimg.cc/9XqJ4DTg/Pengurusan-SKA-SBU-IUJK-ISO-OHSAS-SE-INDONESIA-MURAH-CEPAT-0812-81008374.jpg');"></div>
@@ -71,11 +71,12 @@
         </div>
     </section>
 
+    <!-- ABOUT SECTION -->
     <section id="about" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">من نحن</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">About Us</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                 <div class="fade-in">
                     <div class="glass-card p-8 rounded-2xl mb-8">
                         <p id="about-p1-ar" class="text-lg mb-6 text-gray-700" data-lang="ar"></p>
@@ -90,151 +91,176 @@
                     <div class="glass-card p-8 rounded-2xl">
                         <h3 id="mission-title-ar" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar"></h3>
                         <h3 id="mission-title-en" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en"></h3>
-                        <p id="mission-speed-ar" class="text-gray-700 mb-4" data-lang="ar"></p>
-                        <p id="mission-speed-en" class="text-gray-700 mb-4" data-lang="en"></p>
+                        <p id="mission-speed-ar" class="text-gray-700 font-bold mb-2" data-lang="ar"></p>
+                        <p id="mission-speed-en" class="text-gray-700 font-bold mb-2" data-lang="en"></p>
                         <p id="mission-speed-desc-ar" class="text-gray-700 mb-6" data-lang="ar"></p>
                         <p id="mission-speed-desc-en" class="text-gray-700 mb-6" data-lang="en"></p>
-                        <p id="mission-price-ar" class="text-gray-700 font-bold" data-lang="ar"></p>
-                        <p id="mission-price-en" class="text-gray-700 font-bold" data-lang="en"></p>
+                        <p id="mission-price-ar" class="text-gray-700 font-bold mb-2" data-lang="ar"></p>
+                        <p id="mission-price-en" class="text-gray-700 font-bold mb-2" data-lang="en"></p>
                         <p id="mission-price-desc-ar" class="text-gray-700" data-lang="ar"></p>
                         <p id="mission-price-desc-en" class="text-gray-700" data-lang="en"></p>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in">
-                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card">
-                        <img id="about-img1" src="" alt="About Raslan" class="w-full h-64 object-cover">
+                <div class="grid grid-cols-2 gap-6 fade-in place-items-start">
+                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card w-full">
+                        <img id="about-img1" src="" alt="About Raslan Image 1" class="w-full h-full object-cover">
                     </div>
-                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card">
-                        <img id="about-img2" src="" alt="About Raslan" class="w-full h-64 object-cover">
+                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card w-full mt-12">
+                        <img id="about-img2" src="" alt="About Raslan Image 2" class="w-full h-full object-cover">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- SERVICES SECTION -->
     <section id="services" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">خدماتنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Services</h2>
             <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                </div>
+                <!-- Service cards will be inserted here by JavaScript -->
+            </div>
         </div>
     </section>
 
+    <!-- PROJECTS SECTION -->
     <section id="projects" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">مشاريعنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Projects</h2>
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                </div>
+                <!-- Project cards will be inserted here by JavaScript -->
+            </div>
         </div>
     </section>
 
+    <!-- WORK HEROES SECTION -->
     <section id="work-heroes" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">أبطال أعمالنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Work Heroes</h2>
             <div class="overlapping-grid-container fade-in">
                 <div id="work-heroes-container" class="overlapping-grid">
-                    </div>
+                    <!-- Work heroes images will be inserted here by JavaScript -->
+                </div>
             </div>
         </div>
     </section>
     
+    <!-- TEAM SECTION -->
     <section id="team" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">تعرف على فريقنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Meet Our Team</h2>
             <div id="team-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                </div>
+                <!-- Team cards will be inserted here by JavaScript -->
+            </div>
         </div>
     </section>
     
+    <!-- CLIENTS SECTION -->
     <section id="clients" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">عملائنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Clients</h2>
             <div id="clients-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-center justify-items-center mx-auto max-w-fit">
-                </div>
+                <!-- Client logos will be inserted here by JavaScript -->
+            </div>
         </div>
     </section>
     
+    <!-- CONTACT SECTION -->
     <section id="contact" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">تواصل معنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Contact Us</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <div class="fade-in">
-                    <div class="glass-card rounded-2xl p-8 mb-8">
-                        <p id="contact-address-ar" data-lang="ar"></p>
-                        <p id="contact-address-en" data-lang="en"></p>
-                        <a id="contact-map-link-ar" href="#" target="_blank" data-lang="ar"></a>
-                        <a id="contact-map-link-en" href="#" target="_blank" data-lang="en"></a>
-                        <p id="contact-email"></p>
-                        <a id="contact-email-link-ar" href="#" data-lang="ar"></a>
-                        <a id="contact-email-link-en" href="#" data-lang="en"></a>
-                        <p id="contact-phone"></p>
-                        <a id="contact-phone-link-ar" href="#" data-lang="ar"></a>
-                        <a id="contact-phone-link-en" href="#" data-lang="en"></a>
+                    <div class="glass-card rounded-2xl p-8 mb-8 space-y-6">
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-map-marker-alt text-xl text-[#0c4873] mt-1"></i>
+                            <div>
+                                <p id="contact-address-ar" class="text-gray-600" data-lang="ar"></p>
+                                <p id="contact-address-en" class="text-gray-600" data-lang="en"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <i class="fas fa-envelope text-xl text-[#0c4873] mt-1"></i>
+                            <div>
+                                <a id="contact-email-link" href="#" class="text-gray-600 hover:text-[#0c4873]"></a>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                             <i class="fas fa-phone-alt text-xl text-[#0c4873] mt-1"></i>
+                            <div>
+                                <a id="contact-phone-link" href="#" class="text-gray-600 hover:text-[#0c4873]" dir="ltr"></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="fade-in">
-                    <div class="glass-card rounded-2xl overflow-hidden h-full">
-                        <iframe id="contact-map-iframe" src="" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    <div class="glass-card rounded-2xl overflow-hidden h-full min-h-[400px]">
+                        <iframe id="contact-map-iframe" src="" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer class="bg-[#0c4873] text-white py-8">
         <div class="container mx-auto px-4 text-center">
              <p id="footer-copyright-ar" data-lang="ar"></p>
              <p id="footer-copyright-en" data-lang="en"></p>
+             <p id="footer-powered-by-ar" data-lang="ar"></p>
+             <p id="footer-powered-by-en" data-lang="en"></p>
         </div>
     </footer>
 
+    <!-- WHATSAPP FLOAT -->
     <a id="whatsapp-float-link" href="#" target="_blank" class="whatsapp-float">
         <i class="fab fa-whatsapp"></i>
     </a>
     
+    <!-- LANGUAGE SWITCHER BUTTON -->
     <div onclick="toggleLanguage()" class="lang-switcher-btn fixed top-5 left-5 z-[1001]">
         <span id="lang-text"></span>
     </div>
 
+    <!-- FIREBASE AND APP LOGIC SCRIPT -->
     <script type="module">
-        // Import Firebase functions
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-        import { getDatabase, ref as dbRef, get } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
 
-        // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyA12fSyvBCdVF62xVwGaEuJXlJOpGEMoKI",
-  authDomain: "raslan2025-47c6c.firebaseapp.com",
-  databaseURL: "https://raslan2025-47c6c-default-rtdb.firebaseio.com",
-  projectId: "raslan2025-47c6c",
-  storageBucket: "raslan2025-47c6c.firebasestorage.app",
-  messagingSenderId: "320802083048",
-  appId: "1:320802083048:web:3c2d279b270443bfbc395d",
-  measurementId: "G-W1GWY4X7D6"
-};
+        // Your provided Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA12fSyvBCdVF62xVwGaEuJXlJOpGEMoKI",
+            authDomain: "raslan2025-47c6c.firebaseapp.com",
+            databaseURL: "https://raslan2025-47c6c-default-rtdb.firebaseio.com",
+            projectId: "raslan2025-47c6c",
+            storageBucket: "raslan2025-47c6c.appspot.com",
+            messagingSenderId: "320802083048",
+            appId: "1:320802083048:web:3c2d279b270443bfbc395d",
+            measurementId: "G-W1GWY4X7D6"
+        };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Helper function to fetch data
+        // --- Helper function to fetch data ---
         async function fetchRealtimeData(path) {
             try {
-                const snapshot = await get(dbRef(db, path));
+                const snapshot = await get(ref(db, path));
                 if (snapshot.exists()) {
                     const data = snapshot.val();
+                    // Convert objects to arrays for lists, but not for single items like 'about'
                     if (path !== 'about' && path !== 'contact' && path !== 'footer' && typeof data === 'object' && data !== null) {
-                         return Object.keys(data).map(key => ({ id: key, ...data[key] }));
+                         return Object.values(data);
                     }
                     return data;
                 }
+                console.warn(`No data found at path: ${path}`);
                 return null;
             } catch (error) {
                 console.error(`Error fetching data from ${path}:`, error);
@@ -358,20 +384,10 @@ const firebaseConfig = {
             if (!data) return;
             document.getElementById('contact-address-ar').textContent = data.addressAr || '';
             document.getElementById('contact-address-en').textContent = data.addressEn || '';
-            document.getElementById('contact-map-link-ar').href = data.mapLink || '#';
-            document.getElementById('contact-map-link-ar').textContent = 'اذهب الى الخريطة';
-            document.getElementById('contact-map-link-en').href = data.mapLink || '#';
-            document.getElementById('contact-map-link-en').textContent = 'Go to Map';
-            document.getElementById('contact-email').textContent = data.email || '';
-            document.getElementById('contact-email-link-ar').href = 'mailto:' + (data.email || '');
-            document.getElementById('contact-email-link-ar').textContent = 'راسلنا';
-            document.getElementById('contact-email-link-en').href = 'mailto:' + (data.email || '');
-            document.getElementById('contact-email-link-en').textContent = 'Email Us';
-            document.getElementById('contact-phone').textContent = data.phone || '';
-            document.getElementById('contact-phone-link-ar').href = 'tel:' + (data.phone || '');
-            document.getElementById('contact-phone-link-ar').textContent = 'اتصل بنا';
-            document.getElementById('contact-phone-link-en').href = 'tel:' + (data.phone || '');
-            document.getElementById('contact-phone-link-en').textContent = 'Call Us';
+            document.getElementById('contact-email-link').href = 'mailto:' + (data.email || '');
+            document.getElementById('contact-email-link').textContent = data.email || '';
+            document.getElementById('contact-phone-link').href = 'tel:' + (data.phone || '');
+            document.getElementById('contact-phone-link').textContent = data.phone || '';
             document.getElementById('contact-map-iframe').src = data.mapIframeSrc || '';
             document.getElementById('whatsapp-float-link').href = `https://wa.me/${data.whatsappFloatPhone || ''}`;
         }
@@ -379,12 +395,40 @@ const firebaseConfig = {
         async function loadFooter() {
             const data = await fetchRealtimeData('footer');
             if (!data) return;
-            document.getElementById('footer-copyright-ar').innerHTML = `${data.copyrightAr || ''} <br> ${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
-            document.getElementById('footer-copyright-en').innerHTML = `${data.copyrightEn || ''} <br> ${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+            document.getElementById('footer-copyright-ar').textContent = data.copyrightAr || '';
+            document.getElementById('footer-copyright-en').textContent = data.copyrightEn || '';
+            const poweredByAr = document.getElementById('footer-powered-by-ar');
+            const poweredByEn = document.getElementById('footer-powered-by-en');
+            poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+            poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+        }
+        
+        // --- Static UI Logic (Slider, Language, Scroll) ---
+        function setupUI() {
+            // Slider
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            if (slides.length > 0) {
+                 setInterval(() => {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }, 3000);
+            }
+
+            // Fade-in on scroll
+            const fadeElements = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            fadeElements.forEach(el => observer.observe(el));
         }
 
-        // --- UI and Language Functions ---
-        
+        // --- Language Switcher ---
         function setLanguage(lang) {
             document.documentElement.setAttribute('lang', lang);
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
@@ -399,6 +443,7 @@ const firebaseConfig = {
 
         // --- Initial Load ---
         document.addEventListener('DOMContentLoaded', async () => {
+            // Load all data from Firebase
             await Promise.all([
                 loadAboutSection(),
                 loadServices(),
@@ -410,11 +455,13 @@ const firebaseConfig = {
                 loadFooter()
             ]);
             
+            // Setup static UI interactions
+            setupUI();
+
             // Set initial language
             const initialLang = localStorage.getItem('preferredLanguage') || 'ar';
             setLanguage(initialLang);
         });
-
     </script>
 </body>
 </html>
