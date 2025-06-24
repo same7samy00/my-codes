@@ -8,208 +8,176 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f0f4f8; }
-        .sidebar { transition: transform 0.3s ease-in-out; }
-        .sidebar-link { border-right: 4px solid transparent; }
-        .sidebar-link.active { border-right-color: #f59e0b; background-color: #1e3a8a; }
-        .modal { transition: opacity 0.3s ease; }
-        .modal-content { transition: transform 0.3s ease; }
-        .btn-primary { background-color: #1e40af; color: white; }
-        .btn-primary:hover { background-color: #1c3d9a; }
-        .btn-secondary { background-color: #64748b; color: white; }
-        .btn-secondary:hover { background-color: #5a6a7b; }
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        .sidebar-link.active { background-color: #2563eb; color: white; }
+        .form-input { 
+            width: 100%; 
+            border: 1px solid #d1d5db; 
+            padding: 0.75rem; 
+            border-radius: 0.5rem; 
+            transition: all 0.2s ease-in-out;
+            outline: none;
+        }
+        .form-input:focus {
+            ring: 2px;
+            ring-color: #2563eb;
+            border-color: #2563eb;
+        }
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-primary { background-color: #2563eb; color: white; }
+        .btn-primary:hover:not(:disabled) { background-color: #1d4ed8; }
         .btn-danger { background-color: #dc2626; color: white; }
         .btn-danger:hover { background-color: #b91c1c; }
+        .btn:disabled { background-color: #9ca3af; cursor: not-allowed; }
+        .ltr-input { direction: ltr; text-align: left; }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-50 text-slate-800">
 
     <!-- Auth Overlay -->
     <div id="auth-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
-        <div class="bg-white p-8 rounded-lg shadow-xl text-center">
-            <h2 class="text-2xl font-bold mb-4">الدخول إلى لوحة التحكم</h2>
-            <input type="password" id="password-input" class="border-2 border-gray-300 p-2 rounded-md w-full mb-4" placeholder="أدخل كلمة المرور">
-            <button id="login-button" class="btn-primary w-full py-2 rounded-md font-bold">دخول</button>
+        <div class="bg-white p-8 rounded-lg shadow-xl text-center w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-4 text-slate-800">الدخول إلى لوحة التحكم</h2>
+            <input type="password" id="password-input" class="form-input mb-4" placeholder="أدخل كلمة المرور">
+            <button id="login-button" class="btn btn-primary w-full">دخول</button>
         </div>
     </div>
 
     <!-- Main Layout -->
-    <div id="app-wrapper" class="hidden">
+    <div id="app-wrapper" class="hidden min-h-screen">
         <!-- Sidebar -->
-        <aside class="sidebar fixed top-0 right-0 h-full w-64 bg-blue-900 text-white shadow-lg z-40">
-            <div class="p-6">
-                <h1 class="text-2xl font-bold">لوحة التحكم</h1>
+        <aside class="fixed top-0 right-0 h-screen w-64 bg-slate-800 text-slate-200 shadow-lg z-40">
+            <div class="p-6 border-b border-slate-700">
+                <h1 class="text-2xl font-bold text-white">لوحة التحكم</h1>
             </div>
-            <nav class="mt-8">
-                <a href="#" class="sidebar-link active block py-3 px-6 hover:bg-blue-800" data-section="about">
-                    <i class="fas fa-info-circle ml-3"></i> قسم من نحن
-                </a>
-                <a href="#" class="sidebar-link block py-3 px-6 hover:bg-blue-800" data-section="services">
-                    <i class="fas fa-concierge-bell ml-3"></i> الخدمات
-                </a>
-                <a href="#" class="sidebar-link block py-3 px-6 hover:bg-blue-800" data-section="projects">
-                    <i class="fas fa-project-diagram ml-3"></i> المشاريع
-                </a>
-                <a href="#" class="sidebar-link block py-3 px-6 hover:bg-blue-800" data-section="workHeroes">
-                    <i class="fas fa-hard-hat ml-3"></i> أبطال أعمالنا
-                </a>
-                <a href="#" class="sidebar-link block py-3 px-6 hover:bg-blue-800" data-section="team">
-                    <i class="fas fa-users ml-3"></i> فريق العمل
-                </a>
-                 <a href="#" class="sidebar-link block py-3 px-6 hover:bg-blue-800" data-section="clients">
-                    <i class="fas fa-handshake ml-3"></i> العملاء
-                </a>
-                <a href="#" class="sidebar-link block py-3 px-6 hover:bg-blue-800" data-section="contact">
-                    <i class="fas fa-envelope ml-3"></i> تواصل معنا
-                </a>
+            <nav class="mt-6">
+                <a href="#" class="sidebar-link flex items-center gap-3 py-3 px-6 hover:bg-slate-700 transition" data-section="about"><i class="fas fa-info-circle w-5"></i><span>من نحن</span></a>
+                <a href="#" class="sidebar-link flex items-center gap-3 py-3 px-6 hover:bg-slate-700 transition" data-section="services"><i class="fas fa-concierge-bell w-5"></i><span>الخدمات</span></a>
+                <a href="#" class="sidebar-link flex items-center gap-3 py-3 px-6 hover:bg-slate-700 transition" data-section="projects"><i class="fas fa-project-diagram w-5"></i><span>المشاريع</span></a>
+                <a href="#" class="sidebar-link flex items-center gap-3 py-3 px-6 hover:bg-slate-700 transition" data-section="team"><i class="fas fa-users w-5"></i><span>فريق العمل</span></a>
+                <a href="#" class="sidebar-link flex items-center gap-3 py-3 px-6 hover:bg-slate-700 transition" data-section="workHeroes"><i class="fas fa-hard-hat w-5"></i><span>أبطال أعمالنا</span></a>
+                <a href="#" class="sidebar-link flex items-center gap-3 py-3 px-6 hover:bg-slate-700 transition" data-section="clients"><i class="fas fa-handshake w-5"></i><span>العملاء</span></a>
+                <a href="#" class="sidebar-link flex items-center gap-3 py-3 px-6 hover:bg-slate-700 transition" data-section="contact"><i class="fas fa-envelope w-5"></i><span>تواصل معنا</span></a>
+                <a href="#" class="sidebar-link flex items-center gap-3 py-3 px-6 hover:bg-slate-700 transition" data-section="footer"><i class="fas fa-copyright w-5"></i><span>التذييل</span></a>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="mr-64 p-8">
-            <div id="loader" class="text-center p-16">
-                <i class="fas fa-spinner fa-spin fa-3x text-blue-900"></i>
-                <p class="mt-4 text-lg">جاري تحميل البيانات...</p>
-            </div>
+            <div id="loader" class="flex items-center justify-center h-64"><i class="fas fa-spinner fa-spin fa-3x text-blue-600"></i></div>
 
             <!-- About Section -->
-            <section id="about-section" class="content-section">
-                <h2 class="text-3xl font-bold mb-6 text-gray-800">تعديل قسم "من نحن"</h2>
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <form id="about-form" class="space-y-6">
-                        <h3 class="text-xl font-semibold border-b pb-2">النصوص الرئيسية</h3>
-                        <div>
-                            <label class="block font-medium">الفقرة الرئيسية (عربي)</label>
-                            <textarea id="aboutP1Ar" class="w-full border-2 p-2 rounded-md h-24"></textarea>
+            <section id="about-section" class="content-section hidden">
+                <h2 class="text-3xl font-bold mb-6 text-slate-800">تعديل قسم "من نحن"</h2>
+                <form id="about-form" class="bg-white p-8 rounded-lg shadow-md space-y-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Column 1: Main Texts -->
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block font-semibold text-slate-600 mb-2">الفقرة الرئيسية (عربي)</label>
+                                <textarea id="aboutP1Ar" class="form-input h-28"></textarea>
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-600 mb-2">الفقرة الرئيسية (إنجليزي)</label>
+                                <textarea id="aboutP1En" class="form-input h-28"></textarea>
+                            </div>
+                             <div>
+                                <label class="block font-semibold text-slate-600 mb-2">نص الرؤية (عربي)</label>
+                                <textarea id="visionP1Ar" class="form-input h-28"></textarea>
+                            </div>
+                             <div>
+                                <label class="block font-semibold text-slate-600 mb-2">نص الرؤية (إنجليزي)</label>
+                                <textarea id="visionP1En" class="form-input h-28"></textarea>
+                            </div>
                         </div>
-                        <div>
-                            <label class="block font-medium">الفقرة الرئيسية (إنجليزي)</label>
-                            <textarea id="aboutP1En" class="w-full border-2 p-2 rounded-md h-24"></textarea>
+                        <!-- Column 2: Mission & Images -->
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block font-semibold text-slate-600 mb-2">وصف السرعة (عربي)</label>
+                                <textarea id="missionSpeedDescAr" class="form-input h-28"></textarea>
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-600 mb-2">وصف السعر (عربي)</label>
+                                <textarea id="missionPriceDescAr" class="form-input h-28"></textarea>
+                            </div>
+                             <div>
+                                <label class="block font-semibold text-slate-600 mb-2">رابط الصورة الأولى</label>
+                                <input type="url" id="aboutImg1Url" class="form-input ltr-input">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-600 mb-2">رابط الصورة الثانية</label>
+                                <input type="url" id="aboutImg2Url" class="form-input ltr-input">
+                            </div>
                         </div>
-                        <h3 class="text-xl font-semibold border-b pb-2">الرؤية</h3>
-                        <div>
-                            <label class="block font-medium">نص الرؤية (عربي)</label>
-                            <textarea id="visionP1Ar" class="w-full border-2 p-2 rounded-md h-24"></textarea>
-                        </div>
-                         <div>
-                            <label class="block font-medium">نص الرؤية (إنجليزي)</label>
-                            <textarea id="visionP1En" class="w-full border-2 p-2 rounded-md h-24"></textarea>
-                        </div>
-                        <h3 class="text-xl font-semibold border-b pb-2">المهمة</h3>
-                         <div>
-                            <label class="block font-medium">عنوان السرعة (عربي)</label>
-                            <input type="text" id="missionSpeedAr" class="w-full border-2 p-2 rounded-md">
-                        </div>
-                        <div>
-                            <label class="block font-medium">عنوان السرعة (إنجليزي)</label>
-                            <input type="text" id="missionSpeedEn" class="w-full border-2 p-2 rounded-md">
-                        </div>
-                         <div>
-                            <label class="block font-medium">وصف السرعة (عربي)</label>
-                            <textarea id="missionSpeedDescAr" class="w-full border-2 p-2 rounded-md h-24"></textarea>
-                        </div>
-                        <div>
-                            <label class="block font-medium">وصف السرعة (إنجليزي)</label>
-                            <textarea id="missionSpeedDescEn" class="w-full border-2 p-2 rounded-md h-24"></textarea>
-                        </div>
-                        <div>
-                            <label class="block font-medium">عنوان السعر (عربي)</label>
-                            <input type="text" id="missionPriceAr" class="w-full border-2 p-2 rounded-md">
-                        </div>
-                         <div>
-                            <label class="block font-medium">عنوان السعر (إنجليزي)</label>
-                            <input type="text" id="missionPriceEn" class="w-full border-2 p-2 rounded-md">
-                        </div>
-                        <div>
-                            <label class="block font-medium">وصف السعر (عربي)</label>
-                            <textarea id="missionPriceDescAr" class="w-full border-2 p-2 rounded-md h-24"></textarea>
-                        </div>
-                         <div>
-                            <label class="block font-medium">وصف السعر (إنجليزي)</label>
-                            <textarea id="missionPriceDescEn" class="w-full border-2 p-2 rounded-md h-24"></textarea>
-                        </div>
-
-                        <h3 class="text-xl font-semibold border-b pb-2">الصور</h3>
-                        <div>
-                            <label class="block font-medium">رابط الصورة الأولى</label>
-                            <input type="url" id="aboutImg1Url" class="w-full border-2 p-2 rounded-md ltr-input" dir="ltr">
-                            <img id="aboutImg1Preview" class="mt-2 h-32 rounded-md shadow-sm">
-                        </div>
-                        <div>
-                            <label class="block font-medium">رابط الصورة الثانية</label>
-                            <input type="url" id="aboutImg2Url" class="w-full border-2 p-2 rounded-md ltr-input" dir="ltr">
-                             <img id="aboutImg2Preview" class="mt-2 h-32 rounded-md shadow-sm">
-                        </div>
-                        <button type="submit" class="btn-primary px-8 py-2 rounded-md font-bold">حفظ التغييرات</button>
-                    </form>
-                </div>
+                    </div>
+                    <div class="pt-6 border-t">
+                        <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                    </div>
+                </form>
             </section>
 
-            <!-- Dynamic Sections (Services, Projects, etc.) -->
+            <!-- Dynamic Sections -->
             <section id="dynamic-list-section" class="content-section hidden">
-                 <div class="flex justify-between items-center mb-6">
-                    <h2 id="dynamic-section-title" class="text-3xl font-bold text-gray-800"></h2>
-                    <button id="add-new-item-btn" class="btn-primary px-6 py-2 rounded-md font-bold flex items-center gap-2">
-                        <i class="fas fa-plus"></i> إضافة عنصر جديد
-                    </button>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 id="dynamic-section-title" class="text-3xl font-bold text-slate-800"></h2>
+                    <button id="add-new-item-btn" class="btn btn-primary"><i class="fas fa-plus"></i> إضافة عنصر جديد</button>
                 </div>
-                <div id="items-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div id="items-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     <!-- Items will be rendered here -->
                 </div>
             </section>
 
-             <!-- Contact Section -->
+             <!-- Contact & Footer Sections will be handled similarly -->
             <section id="contact-section" class="content-section hidden">
-                <h2 class="text-3xl font-bold mb-6 text-gray-800">تعديل قسم "تواصل معنا"</h2>
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <form id="contact-form" class="space-y-6">
-                         <div>
-                            <label class="block font-medium">العنوان (عربي)</label>
-                            <input type="text" id="contactAddressAr" class="w-full border-2 p-2 rounded-md">
-                        </div>
-                         <div>
-                            <label class="block font-medium">العنوان (إنجليزي)</label>
-                            <input type="text" id="contactAddressEn" class="w-full border-2 p-2 rounded-md">
-                        </div>
-                        <div>
-                            <label class="block font-medium">البريد الإلكتروني</label>
-                            <input type="email" id="contactEmail" class="w-full border-2 p-2 rounded-md ltr-input" dir="ltr">
-                        </div>
-                        <div>
-                            <label class="block font-medium">رقم الهاتف</label>
-                            <input type="tel" id="contactPhone" class="w-full border-2 p-2 rounded-md ltr-input" dir="ltr">
-                        </div>
-                        <div>
-                            <label class="block font-medium">رقم واتساب العائم (مع كود الدولة)</label>
-                            <input type="text" id="contactWhatsappFloatPhone" class="w-full border-2 p-2 rounded-md ltr-input" dir="ltr">
-                        </div>
-                        <div>
-                            <label class="block font-medium">رابط تضمين خريطة جوجل</label>
-                            <textarea id="contactMapIframeSrc" class="w-full border-2 p-2 rounded-md ltr-input h-24" dir="ltr"></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary px-8 py-2 rounded-md font-bold">حفظ التغييرات</button>
-                    </form>
-                </div>
+                 <h2 class="text-3xl font-bold mb-6 text-slate-800">تعديل قسم "تواصل معنا"</h2>
+                 <form id="contact-form" class="bg-white p-8 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <!-- Form fields will be populated by JS -->
+                      <div class="md:col-span-2 pt-6 border-t">
+                        <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                    </div>
+                 </form>
+            </section>
+            <section id="footer-section" class="content-section hidden">
+                  <h2 class="text-3xl font-bold mb-6 text-slate-800">تعديل التذييل</h2>
+                 <form id="footer-form" class="bg-white p-8 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <!-- Form fields will be populated by JS -->
+                     <div class="md:col-span-2 pt-6 border-t">
+                        <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                    </div>
+                 </form>
             </section>
         </main>
     </div>
 
     <!-- Modal for Add/Edit -->
-    <div id="item-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden opacity-0">
-        <div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl transform -translate-y-10">
-            <h3 id="modal-title" class="text-2xl font-bold mb-6"></h3>
+    <div id="item-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden opacity-0">
+        <div class="modal-content bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl transform scale-95 max-h-[90vh] overflow-y-auto">
+            <h3 id="modal-title" class="text-2xl font-bold mb-6 text-slate-800"></h3>
             <form id="modal-form" class="space-y-4">
-                <input type="hidden" id="modal-item-id">
-                 <!-- Form fields will be dynamically added here -->
+                <!-- Form fields will be dynamically added here -->
             </form>
-             <div class="flex justify-end gap-4 mt-6">
-                <button id="modal-cancel-btn" class="btn-secondary px-6 py-2 rounded-md">إلغاء</button>
-                <button id="modal-save-btn" class="btn-primary px-6 py-2 rounded-md">حفظ</button>
+             <div class="flex justify-end gap-4 mt-8 pt-6 border-t">
+                <button type="button" id="modal-cancel-btn" class="btn bg-slate-200 text-slate-700 hover:bg-slate-300">إلغاء</button>
+                <button type="submit" form="modal-form" id="modal-save-btn" class="btn btn-primary">حفظ</button>
             </div>
         </div>
     </div>
-
-
+    
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
         import { getDatabase, ref, get, set, update, remove, push } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
@@ -228,69 +196,71 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // --- State Management ---
         let currentSection = 'about';
         let sectionsData = {};
 
-        // --- App Logic ---
+        // --- App Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             const loginButton = document.getElementById('login-button');
-            loginButton.addEventListener('click', () => {
-                // IMPORTANT: Replace "12345" with your own secure password.
-                if (document.getElementById('password-input').value === '12345') {
+            const passwordInput = document.getElementById('password-input');
+            
+            const handleLogin = () => {
+                if (passwordInput.value === '12345') { // Change this password
                     document.getElementById('auth-overlay').classList.add('hidden');
                     document.getElementById('app-wrapper').classList.remove('hidden');
                     initializeAppLogic();
                 } else {
                     alert('كلمة المرور غير صحيحة!');
                 }
+            };
+
+            loginButton.addEventListener('click', handleLogin);
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleLogin();
             });
         });
         
         async function initializeAppLogic() {
+            document.getElementById('loader').classList.remove('hidden');
             setupEventListeners();
             await loadAllData();
+            document.getElementById('loader').classList.add('hidden');
             navigateToSection('about');
         }
 
         async function loadAllData() {
-            document.getElementById('loader').classList.remove('hidden');
-            const sectionsToLoad = ['about', 'services', 'projects', 'workHeroes', 'team', 'clients', 'contact'];
-            for (const section of sectionsToLoad) {
-                 const snapshot = await get(ref(db, section));
-                 if(snapshot.exists()) {
-                     sectionsData[section] = snapshot.val();
-                 }
+            const sectionsToLoad = ['about', 'services', 'projects', 'workHeroes', 'team', 'clients', 'contact', 'footer'];
+            try {
+                for (const section of sectionsToLoad) {
+                    const snapshot = await get(ref(db, section));
+                    sectionsData[section] = snapshot.exists() ? snapshot.val() : {};
+                }
+            } catch (error) {
+                alert("فشل تحميل البيانات الأولية. تحقق من قواعد الأمان والاتصال.");
             }
-            document.getElementById('loader').classList.add('hidden');
         }
-
+        
         // --- Navigation ---
         function navigateToSection(sectionId) {
-             currentSection = sectionId;
-
-            // Hide all sections
+            currentSection = sectionId;
             document.querySelectorAll('.content-section').forEach(sec => sec.classList.add('hidden'));
-            
-            // Update active link
             document.querySelectorAll('.sidebar-link').forEach(link => {
                 link.classList.toggle('active', link.dataset.section === sectionId);
             });
+            const sectionMap = {
+                'about': 'about-section', 'contact': 'contact-section', 'footer': 'footer-section'
+            };
 
-            if (['services', 'projects', 'workHeroes', 'team', 'clients'].includes(sectionId)) {
+            if (sectionMap[sectionId]) {
+                populateStaticForm(sectionId);
+                document.getElementById(sectionMap[sectionId]).classList.remove('hidden');
+            } else {
                 renderDynamicList(sectionId);
                 document.getElementById('dynamic-list-section').classList.remove('hidden');
-            } else {
-                 if (sectionId === 'about') {
-                     populateAboutForm();
-                     document.getElementById('about-section').classList.remove('hidden');
-                 } else if (sectionId === 'contact') {
-                     populateContactForm();
-                     document.getElementById('contact-section').classList.remove('hidden');
-                 }
             }
         }
 
+        // --- Event Listeners Setup ---
         function setupEventListeners() {
             document.querySelectorAll('.sidebar-link').forEach(link => {
                 link.addEventListener('click', (e) => {
@@ -298,217 +268,202 @@
                     navigateToSection(e.currentTarget.dataset.section);
                 });
             });
-
-            document.getElementById('about-form').addEventListener('submit', saveAboutForm);
-            document.getElementById('contact-form').addEventListener('submit', saveContactForm);
-            document.getElementById('add-new-item-btn').addEventListener('click', () => openModalForNew());
+            document.getElementById('about-form').addEventListener('submit', (e) => saveStaticForm(e, 'about'));
+            document.getElementById('contact-form').addEventListener('submit', (e) => saveStaticForm(e, 'contact'));
+            document.getElementById('footer-form').addEventListener('submit', (e) => saveStaticForm(e, 'footer'));
+            document.getElementById('add-new-item-btn').addEventListener('click', openModalForNew);
             document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
             document.getElementById('modal-form').addEventListener('submit', saveModalForm);
         }
         
-        // --- Form Population & Saving ---
-        function populateAboutForm() {
-            const data = sectionsData.about || {};
-            document.getElementById('aboutP1Ar').value = data.aboutP1Ar || '';
-            document.getElementById('aboutP1En').value = data.aboutP1En || '';
-            document.getElementById('visionP1Ar').value = data.visionP1Ar || '';
-            document.getElementById('visionP1En').value = data.visionP1En || '';
-            document.getElementById('missionSpeedAr').value = data.missionSpeedAr || '';
-            document.getElementById('missionSpeedEn').value = data.missionSpeedEn || '';
-            document.getElementById('missionSpeedDescAr').value = data.missionSpeedDescAr || '';
-            document.getElementById('missionSpeedDescEn').value = data.missionSpeedDescEn || '';
-            document.getElementById('missionPriceAr').value = data.missionPriceAr || '';
-            document.getElementById('missionPriceEn').value = data.missionPriceEn || '';
-            document.getElementById('missionPriceDescAr').value = data.missionPriceDescAr || '';
-            document.getElementById('missionPriceDescEn').value = data.missionPriceDescEn || '';
-            document.getElementById('aboutImg1Url').value = data.aboutImg1Url || '';
-            document.getElementById('aboutImg2Url').value = data.aboutImg2Url || '';
-            document.getElementById('aboutImg1Preview').src = data.aboutImg1Url || '';
-            document.getElementById('aboutImg2Preview').src = data.aboutImg2Url || '';
-        }
+        // --- Static Form Handlers (About, Contact, Footer) ---
+        const staticFormsConfig = {
+            about: ['aboutP1Ar', 'aboutP1En', 'visionP1Ar', 'visionP1En', 'missionSpeedDescAr', 'missionPriceDescAr', 'aboutImg1Url', 'aboutImg2Url'],
+            contact: ['addressAr', 'addressEn', 'email', 'phone', 'whatsappFloatPhone', 'mapIframeSrc', 'facebookLink', 'instagramLink'],
+            footer: ['copyrightAr', 'copyrightEn', 'poweredByAr', 'poweredByEn', 'developerWhatsapp']
+        };
 
-        async function saveAboutForm(e) {
-            e.preventDefault();
-            const dataToSave = {
-                aboutP1Ar: document.getElementById('aboutP1Ar').value,
-                aboutP1En: document.getElementById('aboutP1En').value,
-                visionP1Ar: document.getElementById('visionP1Ar').value,
-                visionP1En: document.getElementById('visionP1En').value,
-                missionSpeedAr: document.getElementById('missionSpeedAr').value,
-                missionSpeedEn: document.getElementById('missionSpeedEn').value,
-                missionSpeedDescAr: document.getElementById('missionSpeedDescAr').value,
-                missionSpeedDescEn: document.getElementById('missionSpeedDescEn').value,
-                missionPriceAr: document.getElementById('missionPriceAr').value,
-                missionPriceEn: document.getElementById('missionPriceEn').value,
-                missionPriceDescAr: document.getElementById('missionPriceDescAr').value,
-                missionPriceDescEn: document.getElementById('missionPriceDescEn').value,
-                aboutImg1Url: document.getElementById('aboutImg1Url').value,
-                aboutImg2Url: document.getElementById('aboutImg2Url').value,
-                 // Retain other fields not in the form
-                visionTitleAr: sectionsData.about.visionTitleAr,
-                visionTitleEn: sectionsData.about.visionTitleEn,
-                missionTitleAr: sectionsData.about.missionTitleAr,
-                missionTitleEn: sectionsData.about.missionTitleEn,
-            };
-            try {
-                await update(ref(db, 'about'), dataToSave);
-                sectionsData.about = dataToSave;
-                alert('تم حفظ قسم "من نحن" بنجاح!');
-            } catch (error) {
-                alert('حدث خطأ أثناء الحفظ: ' + error.message);
-            }
+        function populateStaticForm(sectionId) {
+            const data = sectionsData[sectionId] || {};
+            const formContainer = document.getElementById(`${sectionId}-form`);
+            formContainer.innerHTML = ''; // Clear previous fields
+            staticFormsConfig[sectionId].forEach(key => {
+                const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()); // Simple label generation
+                const value = data[key] || '';
+                const isTextarea = key.toLowerCase().includes('desc');
+                const isUrl = key.toLowerCase().includes('url') || key.toLowerCase().includes('link') || key.toLowerCase().includes('src');
+
+                const fieldHtml = `
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">${label}</label>
+                        ${isTextarea ? 
+                            `<textarea id="${key}" class="form-input h-28">${value}</textarea>` :
+                            `<input type="${isUrl ? 'url' : 'text'}" id="${key}" value="${value}" class="form-input ${isUrl ? 'ltr-input' : ''}">`
+                        }
+                    </div>`;
+                formContainer.insertAdjacentHTML('beforeend', fieldHtml);
+            });
+            formContainer.insertAdjacentHTML('beforeend', `<div class="md:col-span-2 pt-6 border-t"><button type="submit" class="btn btn-primary">حفظ التغييرات</button></div>`);
         }
         
-        function populateContactForm() {
-            const data = sectionsData.contact || {};
-            document.getElementById('contactAddressAr').value = data.addressAr || '';
-            document.getElementById('contactAddressEn').value = data.addressEn || '';
-            document.getElementById('contactEmail').value = data.email || '';
-            document.getElementById('contactPhone').value = data.phone || '';
-            document.getElementById('contactWhatsappFloatPhone').value = data.whatsappFloatPhone || '';
-            document.getElementById('contactMapIframeSrc').value = data.mapIframeSrc || '';
-        }
+        async function saveStaticForm(e, sectionId) {
+            e.preventDefault();
+            const button = e.target.querySelector('button[type="submit"]');
+            button.disabled = true;
+            button.innerHTML = `<i class="fas fa-spinner fa-spin"></i> جارٍ الحفظ...`;
 
-        async function saveContactForm(e) {
-             e.preventDefault();
-            const dataToSave = {
-                addressAr: document.getElementById('contactAddressAr').value,
-                addressEn: document.getElementById('contactAddressEn').value,
-                email: document.getElementById('contactEmail').value,
-                phone: document.getElementById('contactPhone').value,
-                whatsappFloatPhone: document.getElementById('contactWhatsappFloatPhone').value,
-                mapIframeSrc: document.getElementById('contactMapIframeSrc').value
-            };
+            const dataToSave = {};
+            staticFormsConfig[sectionId].forEach(key => {
+                dataToSave[key] = document.getElementById(key).value;
+            });
+
             try {
-                await update(ref(db, 'contact'), dataToSave);
-                sectionsData.contact = dataToSave;
-                alert('تم حفظ قسم "تواصل معنا" بنجاح!');
+                await set(ref(db, sectionId), {...sectionsData[sectionId], ...dataToSave});
+                sectionsData[sectionId] = {...sectionsData[sectionId], ...dataToSave};
+                alert('تم الحفظ بنجاح!');
             } catch (error) {
-                alert('حدث خطأ أثناء الحفظ: ' + error.message);
+                alert(`خطأ في الحفظ: ${error.message}. تأكد من قواعد الأمان.`);
+            } finally {
+                button.disabled = false;
+                button.innerHTML = 'حفظ التغييرات';
             }
         }
 
-        // --- Dynamic List Rendering ---
-        const sectionConfig = {
-            services: { title: 'الخدمات', fields: { titleAr: 'text', titleEn: 'text', descAr: 'textarea', descEn: 'textarea', imageUrl: 'url' } },
-            projects: { title: 'المشاريع', fields: { titleAr: 'text', titleEn: 'text', descAr: 'textarea', descEn: 'textarea', imageUrl: 'url' } },
-            team: { title: 'فريق العمل', fields: { nameAr: 'text', nameEn: 'text', positionAr: 'text', positionEn: 'text', imageUrl: 'url' } },
-            workHeroes: { title: 'أبطال أعمالنا', fields: { imageUrl: 'url' } },
-            clients: { title: 'العملاء', fields: { logoUrl: 'url' } },
+        // --- Dynamic List & Modal Handlers ---
+        const dynamicSectionsConfig = {
+            services:   { title: 'الخدمات', fields: { titleAr: 'العنوان (عربي)', titleEn: 'العنوان (إنجليزي)', descAr: 'الوصف (عربي)', descEn: 'الوصف (إنجليزي)', imageUrl: 'رابط الصورة' } },
+            projects:   { title: 'المشاريع', fields: { titleAr: 'العنوان (عربي)', titleEn: 'العنوان (إنجليزي)', descAr: 'الوصف (عربي)', descEn: 'الوصف (إنجليزي)', imageUrl: 'رابط الصورة' } },
+            team:       { title: 'فريق العمل', fields: { nameAr: 'الاسم (عربي)', nameEn: 'الاسم (إنجليزي)', positionAr: 'المنصب (عربي)', positionEn: 'المنصب (إنجليزي)', imageUrl: 'رابط الصورة' } },
+            workHeroes: { title: 'أبطال أعمالنا', fields: { imageUrl: 'رابط الصورة' } },
+            clients:    { title: 'العملاء', fields: { nameAr: 'اسم العميل', logoUrl: 'رابط الشعار' } },
         };
 
         function renderDynamicList(sectionId) {
-            const config = sectionConfig[sectionId];
+            const config = dynamicSectionsConfig[sectionId];
             document.getElementById('dynamic-section-title').textContent = config.title;
             const container = document.getElementById('items-container');
             container.innerHTML = '';
-            const items = sectionsData[sectionId];
+            const items = sectionsData[sectionId] || {};
 
-            if (items) {
+            if (Object.keys(items).length > 0) {
                 Object.entries(items).forEach(([id, item]) => {
-                    const title = item.titleAr || item.nameAr || `عنصر ${id}`;
-                    const image = item.imageUrl || item.logoUrl || 'https://placehold.co/600x400/e2e8f0/e2e8f0?text=No+Image';
-                    const card = `
-                        <div class="bg-white p-4 rounded-lg shadow-md flex flex-col justify-between">
-                            <img src="${image}" class="h-40 w-full object-cover rounded-md mb-4">
+                    const title = item.titleAr || item.nameAr || 'عنصر بدون عنوان';
+                    const image = item.imageUrl || item.logoUrl || 'https://placehold.co/600x400/e2e8f0/cccccc?text=No+Image';
+                    const card = document.createElement('div');
+                    card.className = "bg-white p-4 rounded-lg shadow-md flex flex-col justify-between";
+                    card.innerHTML = `
+                        <div>
+                            <img src="${image}" class="h-40 w-full object-cover rounded-md mb-4 bg-slate-100" onerror="this.style.display='none'">
                             <h4 class="font-bold text-lg mb-4 truncate">${title}</h4>
-                            <div class="flex gap-2 justify-end">
-                                <button class="btn-primary px-4 py-1 rounded-md text-sm" onclick="window.openModalForEdit('${sectionId}', '${id}')">تعديل</button>
-                                <button class="btn-danger px-4 py-1 rounded-md text-sm" onclick="window.deleteItem('${sectionId}', '${id}')">حذف</button>
-                            </div>
+                        </div>
+                        <div class="flex gap-2 justify-end">
+                            <button class="btn text-sm bg-slate-600 text-white hover:bg-slate-700 edit-btn">تعديل</button>
+                            <button class="btn text-sm btn-danger delete-btn">حذف</button>
                         </div>
                     `;
-                    container.innerHTML += card;
+                    card.querySelector('.edit-btn').addEventListener('click', () => openModalForEdit(sectionId, id));
+                    card.querySelector('.delete-btn').addEventListener('click', () => deleteItem(sectionId, id));
+                    container.appendChild(card);
                 });
             } else {
-                 container.innerHTML = `<p class="text-gray-500 col-span-full">لا توجد عناصر في هذا القسم بعد.</p>`;
+                 container.innerHTML = `<p class="text-slate-500 col-span-full text-center py-8">لا توجد عناصر في هذا القسم بعد.</p>`;
             }
         }
-
-        // --- Modal Logic ---
-        function openModalForNew() {
-            document.getElementById('modal-item-id').value = '';
-            document.getElementById('modal-title').textContent = `إضافة ${sectionConfig[currentSection].title} جديد`;
-            generateModalFormFields(currentSection);
-            document.getElementById('item-modal').classList.remove('hidden');
-            setTimeout(() => document.getElementById('item-modal').classList.remove('opacity-0'), 10);
-        }
-
-        window.openModalForEdit = function(sectionId, itemId) {
-            const item = sectionsData[sectionId][itemId];
-            document.getElementById('modal-item-id').value = itemId;
-            document.getElementById('modal-title').textContent = `تعديل ${sectionConfig[sectionId].title}`;
-            generateModalFormFields(sectionId, item);
-            document.getElementById('item-modal').classList.remove('hidden');
-            setTimeout(() => document.getElementById('item-modal').classList.remove('opacity-0'), 10);
-        }
         
-        function closeModal() {
-            document.getElementById('item-modal').classList.add('opacity-0');
-            setTimeout(() => document.getElementById('item-modal').classList.add('hidden'), 300);
+        function openModalForNew() {
+            const config = dynamicSectionsConfig[currentSection];
+            document.getElementById('modal-title').textContent = `إضافة ${config.title} جديد`;
+            generateModalFormFields(currentSection);
+            showModal();
         }
 
-        function generateModalFormFields(sectionId, itemData = {}) {
+        function openModalForEdit(sectionId, itemId) {
+            const item = sectionsData[sectionId][itemId];
+            const config = dynamicSectionsConfig[sectionId];
+            document.getElementById('modal-title').textContent = `تعديل ${config.title}`;
+            generateModalFormFields(sectionId, item, itemId);
+            showModal();
+        }
+
+        function generateModalFormFields(sectionId, itemData = {}, itemId = '') {
             const form = document.getElementById('modal-form');
-            form.innerHTML = '<input type="hidden" id="modal-item-id">';
-            document.getElementById('modal-item-id').value = itemData.id || '';
-            
-            const fields = sectionConfig[sectionId].fields;
-            for (const [key, type] of Object.entries(fields)) {
-                let fieldHtml = '';
+            form.innerHTML = `<input type="hidden" id="modal-item-id" value="${itemId}">`;
+            const fields = dynamicSectionsConfig[sectionId].fields;
+
+            for (const [key, label] of Object.entries(fields)) {
                 const value = itemData[key] || '';
-                const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-                
-                if (type === 'textarea') {
-                    fieldHtml = `<div><label class="block font-medium">${label}</label><textarea id="modal-${key}" class="w-full border-2 p-2 rounded-md h-24">${value}</textarea></div>`;
-                } else {
-                    fieldHtml = `<div><label class="block font-medium">${label}</label><input type="${type}" id="modal-${key}" value="${value}" class="w-full border-2 p-2 rounded-md"></div>`;
-                }
-                form.innerHTML += fieldHtml;
+                const type = key.includes('Url') ? 'url' : 'text';
+                const isTextarea = key.includes('desc');
+                const fieldHtml = `
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">${label}</label>
+                        ${isTextarea ? 
+                            `<textarea id="modal-${key}" class="form-input h-28">${value}</textarea>` :
+                            `<input type="${type}" id="modal-${key}" value="${value}" class="form-input ${type === 'url' ? 'ltr-input' : ''}">`
+                        }
+                    </div>`;
+                form.insertAdjacentHTML('beforeend', fieldHtml);
             }
         }
         
         async function saveModalForm(e) {
             e.preventDefault();
+            const button = document.getElementById('modal-save-btn');
+            button.disabled = true;
+            button.innerHTML = `<i class="fas fa-spinner fa-spin"></i> جارٍ الحفظ...`;
+
             const itemId = document.getElementById('modal-item-id').value;
             const dataToSave = {};
-            const fields = sectionConfig[currentSection].fields;
-
-            for (const key in fields) {
+            const fields = dynamicSectionsConfig[currentSection].fields;
+            Object.keys(fields).forEach(key => {
                 dataToSave[key] = document.getElementById(`modal-${key}`).value;
-            }
+            });
+            
+            const path = itemId ? `${currentSection}/${itemId}` : currentSection;
+            const operation = itemId ? update(ref(db, path), dataToSave) : set(push(ref(db, path)), dataToSave);
 
             try {
-                if (itemId) { // Update existing item
-                    await update(ref(db, `${currentSection}/${itemId}`), dataToSave);
-                    sectionsData[currentSection][itemId] = dataToSave;
-                } else { // Add new item
-                    const newItemRef = push(ref(db, currentSection));
-                    await set(newItemRef, dataToSave);
-                    sectionsData[currentSection] = {...sectionsData[currentSection], [newItemRef.key]: dataToSave};
-                }
+                await operation;
                 alert('تم الحفظ بنجاح!');
+                await loadAllData();
                 renderDynamicList(currentSection);
                 closeModal();
-            } catch(error) {
-                alert('حدث خطأ: ' + error.message);
+            } catch (error) {
+                alert(`خطأ في الحفظ: ${error.message}. تأكد من قواعد الأمان.`);
+            } finally {
+                button.disabled = false;
+                button.innerHTML = 'حفظ';
             }
         }
         
-        // --- Delete Logic ---
-        window.deleteItem = async function(sectionId, itemId) {
-            if (confirm('هل أنت متأكد من أنك تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.')) {
+        async function deleteItem(sectionId, itemId) {
+            if (confirm('هل أنت متأكد من حذف هذا العنصر؟')) {
                 try {
                     await remove(ref(db, `${sectionId}/${itemId}`));
-                    delete sectionsData[sectionId][itemId];
-                    renderDynamicList(sectionId);
                     alert('تم الحذف بنجاح.');
+                    await loadAllData();
+                    renderDynamicList(sectionId);
                 } catch (error) {
-                    alert('حدث خطأ أثناء الحذف: ' + error.message);
+                    alert(`خطأ في الحذف: ${error.message}`);
                 }
             }
         }
+        
+        function showModal() {
+            const modal = document.getElementById('item-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('.modal-content').classList.remove('scale-95');
+            }, 10);
+        }
 
+        function closeModal() {
+            const modal = document.getElementById('item-modal');
+            modal.classList.add('opacity-0');
+            modal.querySelector('.modal-content').classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
     </script>
 </body>
 </html>
