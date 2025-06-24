@@ -742,31 +742,55 @@
                     document.getElementById('header-logo-img').src = data.headerLogo || '';
 
                     // Update Hero Slider texts and images
-                    // Slide 1
-                    document.getElementById('hero-slide-1').style.backgroundImage = `url('${data.heroSlider.slide1.image}')`;
-                    document.getElementById('hero-logo-1').src = data.heroSlider.slide1.logo || '';
-                    document.getElementById('hero-text-ar-1').textContent = data.heroSlider.slide1.text_ar || '';
-                    document.getElementById('hero-text-en-1').textContent = data.heroSlider.slide1.text_en || '';
-                    document.getElementById('hero-btn-ar-1').href = data.heroSlider.slide1.buttonLink || '#services';
-                    document.getElementById('hero-btn-en-1').href = data.heroSlider.slide1.buttonLink || '#services';
-                    document.getElementById('hero-btn-ar-1').textContent = 'خدماتنا'; // Default text if not in DB
-                    document.getElementById('hero-btn-en-1').textContent = 'Our Services'; // Default text if not in DB
+                    if (data.heroSlider) { // Add check for heroSlider
+                        // Slide 1
+                        if (data.heroSlider.slide1) { // Add check for slide1
+                            document.getElementById('hero-slide-1').style.backgroundImage = `url('${data.heroSlider.slide1.image || ''}')`;
+                            document.getElementById('hero-logo-1').src = data.heroSlider.slide1.logo || '';
+                            document.getElementById('hero-text-ar-1').textContent = data.heroSlider.slide1.text_ar || '';
+                            document.getElementById('hero-text-en-1').textContent = data.heroSlider.slide1.text_en || '';
+                            document.getElementById('hero-btn-ar-1').href = data.heroSlider.slide1.buttonLink || '#services';
+                            document.getElementById('hero-btn-en-1').href = data.heroSlider.slide1.buttonLink || '#services';
+                            document.getElementById('hero-btn-ar-1').textContent = 'خدماتنا'; // Default text if not in DB
+                            document.getElementById('hero-btn-en-1').textContent = 'Our Services'; // Default text if not in DB
+                        } else {
+                            console.warn("Firebase data missing heroSlider.slide1");
+                            // Optionally hide or set default content for slide 1 if missing
+                        }
 
-
-                    // Slide 2
-                    document.getElementById('hero-slide-2').style.backgroundImage = `url('${data.heroSlider.slide2.image}')`;
-                    document.getElementById('hero-logo-2').src = data.heroSlider.slide2.logo || '';
-                    document.getElementById('hero-text-ar-2').textContent = data.heroSlider.slide2.text_ar || '';
-                    document.getElementById('hero-text-en-2').textContent = data.heroSlider.slide2.text_en || '';
-                    document.getElementById('hero-btn-ar-2').href = data.heroSlider.slide2.buttonLink || '#about';
-                    document.getElementById('hero-btn-en-2').href = data.heroSlider.slide2.buttonLink || '#about';
-                    document.getElementById('hero-btn-ar-2').textContent = 'من نحن'; // Default text if not in DB
-                    document.getElementById('hero-btn-en-2').textContent = 'About Us'; // Default text if not in DB
+                        // Slide 2
+                        if (data.heroSlider.slide2) { // Add check for slide2
+                            document.getElementById('hero-slide-2').style.backgroundImage = `url('${data.heroSlider.slide2.image || ''}')`;
+                            document.getElementById('hero-logo-2').src = data.heroSlider.slide2.logo || '';
+                            document.getElementById('hero-text-ar-2').textContent = data.heroSlider.slide2.text_ar || '';
+                            document.getElementById('hero-text-en-2').textContent = data.heroSlider.slide2.text_en || '';
+                            document.getElementById('hero-btn-ar-2').href = data.heroSlider.slide2.buttonLink || '#about';
+                            document.getElementById('hero-btn-en-2').href = data.heroSlider.slide2.buttonLink || '#about';
+                            document.getElementById('hero-btn-ar-2').textContent = 'من نحن'; // Default text if not in DB
+                            document.getElementById('hero-btn-en-2').textContent = 'About Us'; // Default text if not in DB
+                        } else {
+                             console.warn("Firebase data missing heroSlider.slide2");
+                             // Optionally hide or set default content for slide 2 if missing
+                        }
+                    } else {
+                        console.warn("Firebase data missing heroSlider node under general.");
+                        // Optionally hide or set default content for hero slider section
+                    }
 
                     // Update WhatsApp Float
-                    document.getElementById('whatsapp-float-link').href = data.whatsappFloat.link || '#';
-                    document.getElementById('whatsapp-notification-ar').textContent = data.whatsappFloat.notification_ar || '';
-                    document.getElementById('whatsapp-notification-en').textContent = data.whatsappFloat.notification_en || '';
+                    if (data.whatsappFloat) {
+                        document.getElementById('whatsapp-float-link').href = data.whatsappFloat.link || '#';
+                        document.getElementById('whatsapp-notification-ar').textContent = data.whatsappFloat.notification_ar || '';
+                        document.getElementById('whatsapp-notification-en').textContent = data.whatsappFloat.notification_en || '';
+                    }
+
+                    // Update Footer
+                    if (data.footer) {
+                        document.getElementById('footer-copyright-ar').textContent = data.footer.copyright_ar || '';
+                        document.getElementById('footer-copyright-en').textContent = data.footer.copyright_en || '';
+                        document.getElementById('footer-powered-by-ar').innerHTML = `تم التنفيذ بواسطة : <span class="font-bold">${data.footer.poweredBy_name_ar || 'سامح رضا'} <a href="${data.footer.poweredBy_whatsappLink || '#'}" target="_blank" class="mr-2 inline-block"><i class="fab fa-whatsapp text-lg align-middle"></i></a></span>`;
+                        document.getElementById('footer-powered-by-en').innerHTML = `Powered By: <span class="font-bold">${data.footer.poweredBy_name_en || 'Sameh Reda'} <a href="${data.footer.poweredBy_whatsappLink || '#'}" target="_blank" class="ml-2 inline-block"><i class="fab fa-whatsapp text-lg align-middle"></i></a></span>`;
+                    }
                 }
             });
 
@@ -802,20 +826,20 @@
                 const servicesData = snapshot.val();
                 const servicesContainer = document.getElementById('services-container');
                 servicesContainer.innerHTML = ''; // Clear existing services
-                document.getElementById('services-heading-ar').textContent = 'خدماتنا'; // Default text if not in DB
-                document.getElementById('services-heading-en').textContent = 'Our Services'; // Default text if not in DB
+                document.getElementById('services-heading-ar').textContent = 'خدماتنا';
+                document.getElementById('services-heading-en').textContent = 'Our Services';
 
                 if (servicesData) {
                     Object.values(servicesData).forEach(service => {
                         const serviceCard = `
                             <div class="service-card fade-in">
-                                <div class="service-card-header" style="background-image: url('${service.image}');">
-                                    <h3 data-lang="ar">${service.title_ar}</h3>
-                                    <h3 data-lang="en">${service.title_en}</h3>
+                                <div class="service-card-header" style="background-image: url('${service.image || ''}');">
+                                    <h3 data-lang="ar">${service.title_ar || ''}</h3>
+                                    <h3 data-lang="en">${service.title_en || ''}</h3>
                                 </div>
                                 <div class="service-card-description">
-                                    <p data-lang="ar">${service.desc_ar}</p>
-                                    <p data-lang="en">${service.desc_en}</p>
+                                    <p data-lang="ar">${service.desc_ar || ''}</p>
+                                    <p data-lang="en">${service.desc_en || ''}</p>
                                 </div>
                             </div>
                         `;
@@ -829,19 +853,19 @@
                 const projectsData = snapshot.val();
                 const projectsContainer = document.getElementById('projects-container');
                 projectsContainer.innerHTML = ''; // Clear existing projects
-                document.getElementById('projects-heading-ar').textContent = 'مشاريعنا'; // Default text if not in DB
-                document.getElementById('projects-heading-en').textContent = 'Our Projects'; // Default text if not in DB
+                document.getElementById('projects-heading-ar').textContent = 'مشاريعنا';
+                document.getElementById('projects-heading-en').textContent = 'Our Projects';
 
                 if (projectsData) {
                     Object.values(projectsData).forEach(project => {
                         const projectCard = `
                             <div class="glass-card rounded-2xl overflow-hidden shadow-lg fade-in">
-                                <img src="${project.image}" alt="${project.title_ar}" class="w-full h-64 object-cover">
+                                <img src="${project.image || ''}" alt="${project.title_ar || ''}" class="w-full h-64 object-cover">
                                 <div class="p-8">
-                                    <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">${project.title_ar}</h3>
-                                    <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">${project.title_en}</h3>
-                                    <p class="text-gray-700" data-lang="ar">${project.desc_ar}</p>
-                                    <p class="text-gray-700" data-lang="en">${project.desc_en}</p>
+                                    <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">${project.title_ar || ''}</h3>
+                                    <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">${project.title_en || ''}</h3>
+                                    <p class="text-gray-700" data-lang="ar">${project.desc_ar || ''}</p>
+                                    <p class="text-gray-700" data-lang="en">${project.desc_en || ''}</p>
                                 </div>
                             </div>
                         `;
@@ -855,14 +879,14 @@
                 const workHeroesData = snapshot.val();
                 const workHeroesContainer = document.getElementById('work-heroes-container');
                 workHeroesContainer.innerHTML = ''; // Clear existing images
-                document.getElementById('work-heroes-heading-ar').textContent = 'أبطال أعمالنا'; // Default text if not in DB
-                document.getElementById('work-heroes-heading-en').textContent = 'Our Work Heroes'; // Default text if not in DB
+                document.getElementById('work-heroes-heading-ar').textContent = 'أبطال أعمالنا';
+                document.getElementById('work-heroes-heading-en').textContent = 'Our Work Heroes';
 
                 if (workHeroesData) {
                     Object.values(workHeroesData).forEach(hero => {
                         const imgElement = `
                             <div class="overlapping-grid-item">
-                                <img src="${hero.url}" alt="Work Hero">
+                                <img src="${hero.url || ''}" alt="Work Hero">
                             </div>
                         `;
                         workHeroesContainer.insertAdjacentHTML('beforeend', imgElement);
@@ -875,21 +899,21 @@
                 const teamData = snapshot.val();
                 const teamContainer = document.getElementById('team-container');
                 teamContainer.innerHTML = ''; // Clear existing members
-                document.getElementById('team-heading-ar').textContent = 'تعرف على فريقنا'; // Default text if not in DB
-                document.getElementById('team-heading-en').textContent = 'Meet Our Team'; // Default text if not in DB
+                document.getElementById('team-heading-ar').textContent = 'تعرف على فريقنا';
+                document.getElementById('team-heading-en').textContent = 'Meet Our Team';
 
                 if (teamData) {
                     Object.values(teamData).forEach(member => {
                         const teamCard = `
                             <div class="team-card glass-card rounded-2xl overflow-hidden fade-in">
                                 <div class="overflow-hidden h-80">
-                                    <img src="${member.image}" alt="${member.name_ar}" class="w-full h-full object-cover">
+                                    <img src="${member.image || ''}" alt="${member.name_ar || ''}" class="w-full h-full object-cover">
                                 </div>
                                 <div class="p-6 text-center">
-                                    <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="ar">${member.name_ar}</h3>
-                                    <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="en">${member.name_en}</h3>
-                                    <p class="text-gray-600" data-lang="ar">${member.role_ar}</p>
-                                    <p class="text-gray-600" data-lang="en">${member.role_en}</p>
+                                    <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="ar">${member.name_ar || ''}</h3>
+                                    <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="en">${member.name_en || ''}</h3>
+                                    <p class="text-gray-600" data-lang="ar">${member.role_ar || ''}</p>
+                                    <p class="text-gray-600" data-lang="en">${member.role_en || ''}</p>
                                 </div>
                             </div>
                         `;
@@ -903,14 +927,14 @@
                 const clientsData = snapshot.val();
                 const clientsContainer = document.getElementById('clients-container');
                 clientsContainer.innerHTML = ''; // Clear existing clients
-                document.getElementById('clients-heading-ar').textContent = 'عملائنا'; // Default text if not in DB
-                document.getElementById('clients-heading-en').textContent = 'Our Clients'; // Default text if not in DB
+                document.getElementById('clients-heading-ar').textContent = 'عملائنا';
+                document.getElementById('clients-heading-en').textContent = 'Our Clients';
 
                 if (clientsData) {
                     Object.values(clientsData).forEach(client => {
                         const clientCard = `
                             <div class="glass-card p-6 rounded-2xl fade-in flex justify-center items-center">
-                                <img src="${client.logo}" alt="Client Logo" class="max-h-24 w-auto">
+                                <img src="${client.logo || ''}" alt="Client Logo" class="max-h-24 w-auto">
                             </div>
                         `;
                         clientsContainer.insertAdjacentHTML('beforeend', clientCard);
@@ -973,8 +997,8 @@
                 if (data) {
                     document.getElementById('footer-copyright-ar').textContent = data.copyright_ar || '';
                     document.getElementById('footer-copyright-en').textContent = data.copyright_en || '';
-                    document.getElementById('footer-powered-by-ar').innerHTML = `تم التنفيذ بواسطة : <span class="font-bold">${data.poweredBy_name_ar} <a href="${data.poweredBy_whatsappLink}" target="_blank" class="mr-2 inline-block"><i class="fab fa-whatsapp text-lg align-middle"></i></a></span>`;
-                    document.getElementById('footer-powered-by-en').innerHTML = `Powered By: <span class="font-bold">${data.poweredBy_name_en} <a href="${data.poweredBy_whatsappLink}" target="_blank" class="ml-2 inline-block"><i class="fab fa-whatsapp text-lg align-middle"></i></a></span>`;
+                    document.getElementById('footer-powered-by-ar').innerHTML = `تم التنفيذ بواسطة : <span class="font-bold">${data.poweredBy_name_ar || 'سامح رضا'} <a href="${data.poweredBy_whatsappLink || '#'}" target="_blank" class="mr-2 inline-block"><i class="fab fa-whatsapp text-lg align-middle"></i></a></span>`;
+                    document.getElementById('footer-powered-by-en').innerHTML = `Powered By: <span class="font-bold">${data.poweredBy_name_en || 'Sameh Reda'} <a href="${data.poweredBy_whatsappLink || '#'}" target="_blank" class="ml-2 inline-block"><i class="fab fa-whatsapp text-lg align-middle"></i></a></span>`;
                 }
             });
         }
