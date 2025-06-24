@@ -14,112 +14,116 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Use min-height for better content handling */
+            min-height: 100vh;
             margin: 0;
-            font-family: 'Cairo', sans-serif; /* Changed font to Cairo */
+            font-family: 'Cairo', sans-serif;
             color: white;
-            padding: 20px; /* Add some padding for smaller screens */
-            box-sizing: border-box; /* Include padding in element's total width and height */
+            padding: 20px;
+            box-sizing: border-box;
         }
         .glass-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 2.5rem; /* Slightly more padding */
-            box-shadow: 0 0 25px rgba(0,0,0,0.6);
-            max-width: 550px; /* Increased max-width */
-            width: 100%; /* Ensure it takes full width up to max-width */
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            max-width: 450px;
+            width: 100%;
             text-align: center;
-            display: flex; /* Use flexbox for centering content inside */
+            display: flex;
             flex-direction: column;
-            align-items: center; /* Center items horizontally */
+            align-items: center;
         }
         .logo-container {
-            margin-bottom: 25px; /* Space below the logo */
+            margin-bottom: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         .logo-container img {
-            max-width: 120px; /* Adjust logo size as needed */
-            height: auto; /* Maintain aspect ratio */
-            display: block; /* Remove extra space below image */
+            max-width: 100px;
+            height: auto;
+            display: block;
+        }
+        h2 {
+            margin-bottom: 1rem;
+            font-size: 1.8em;
+            font-weight: 700;
         }
         .input-group {
             width: 100%;
-            margin-bottom: 15px;
-            display: flex; /* Use flexbox for icon and input */
-            align-items: center; /* Vertically align them */
-            gap: 10px; /* Space between icon and input */
-            flex-direction: row-reverse; /* Icon on the right for RTL */
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-direction: row-reverse;
         }
         .input-group i {
-            color: rgba(255, 255, 255, 0.8); /* Slightly stronger color for outside icons */
-            font-size: 1.2em;
-            flex-shrink: 0; /* Prevent icon from shrinking */
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1em;
+            flex-shrink: 0;
         }
         input, textarea, select {
-            flex-grow: 1; /* Allow input to take remaining space */
-            padding: 12px 15px; /* Standard padding, no need to account for internal icon */
+            flex-grow: 1;
+            padding: 10px 12px;
             margin: 0;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.3); /* Lighter border */
-            font-size: 1rem;
-            background-color: rgba(255, 255, 255, 0.08); /* Slightly visible background */
+            border-radius: 7px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.95rem;
+            background-color: rgba(255, 255, 255, 0.07);
             color: white;
-            outline: none; /* Remove outline on focus */
+            outline: none;
             transition: border-color 0.3s, background-color 0.3s;
-            text-align: right; /* Align text to the right for RTL */
-            box-sizing: border-box; /* Include padding in element's total width */
-            font-family: 'Cairo', sans-serif; /* Apply Cairo font to inputs */
+            text-align: right;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
         }
         input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.5);
         }
         input:focus, textarea:focus, select:focus {
             border-color: #0c4873;
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(255, 255, 255, 0.12);
         }
         textarea {
-            resize: vertical; /* Allow vertical resizing */
-            min-height: 80px;
+            min-height: 70px;
         }
         button {
             width: 100%;
-            padding: 12px;
-            margin-top: 20px; /* More space above buttons */
-            border-radius: 8px;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 7px;
             border: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
             background: #0c4873;
             color: white;
             cursor: pointer;
             transition: background 0.3s ease, transform 0.2s ease;
-            display: flex; /* Allow icon inside button */
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px; /* Space between icon and text */
-            font-family: 'Cairo', sans-serif; /* Apply Cairo font to buttons */
-            font-weight: 600; /* Make buttons slightly bolder */
+            gap: 7px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
         }
         button i {
-            margin-left: 5px; /* Space between icon and text in RTL */
+            margin-left: 5px;
         }
         button:hover {
             background: #073251;
-            transform: translateY(-2px); /* Slight lift effect */
+            transform: translateY(-1px);
         }
         .logout-button {
-            background: #dc3545; /* Red for logout */
-            margin-top: 20px;
+            background: #dc3545;
+            margin-top: 15px;
         }
         .logout-button:hover {
             background: #c82333;
         }
         h2 {
-            margin-bottom: 1.5rem; /* More space below heading */
+            margin-bottom: 1.5rem;
             font-size: 2em;
-            font-weight: 700; /* Make headings bolder */
+            font-weight: 700;
         }
         .hidden { display: none; }
 
@@ -128,91 +132,96 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            margin-bottom: 20px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
         }
         .tab-button {
             background: none;
             border: none;
-            padding: 10px 20px;
-            font-size: 1.1em;
-            color: rgba(255, 255, 255, 0.7);
+            padding: 8px 15px;
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
             transition: color 0.3s, border-bottom 0.3s;
             position: relative;
-            top: 2px; /* To align with border */
+            top: 2px;
             outline: none;
             display: flex;
             align-items: center;
-            gap: 8px; /* Space between icon and text */
-            font-family: 'Cairo', sans-serif; /* Apply Cairo font to tabs */
+            gap: 7px;
+            font-family: 'Cairo', sans-serif;
             font-weight: 600;
         }
         .tab-button.active {
             color: white;
-            border-bottom: 2px solid #0c4873; /* Active tab underline */
+            border-bottom: 2px solid #0c4873;
             font-weight: 700;
         }
         .tab-button:hover:not(.active) {
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.8);
         }
         .tab-content {
             width: 100%;
         }
 
         .item-list-container {
-            max-height: 300px; /* Limit height for scrollable list */
-            overflow-y: auto; /* Enable scrolling */
+            max-height: 250px;
+            overflow-y: auto;
             width: 100%;
-            padding-right: 10px; /* For scrollbar */
+            padding-right: 8px;
             box-sizing: border-box;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         .item-list-container::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         .item-list-container::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
         }
         .item-list-container::-webkit-scrollbar-thumb {
             background: #0c4873;
-            border-radius: 10px;
+            border-radius: 8px;
         }
         .item-card {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 15px;
-            margin-bottom: 10px; /* Spacing between cards */
-            border-radius: 10px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap; /* Allow wrapping on small screens */
-            gap: 10px; /* Space between elements in card */
+            flex-wrap: wrap;
+            gap: 8px;
         }
         .item-card strong {
-            flex-grow: 1; /* Allow title to take up available space */
-            text-align: right; /* Align text to the right for RTL */
-            font-weight: 600; /* Make item titles bolder */
+            flex-grow: 1;
+            text-align: right;
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+        .item-card div {
+            display: flex;
+            gap: 10px; /* مسافة بين أزرار الحذف والتعديل */
         }
         .item-card button {
-            width: auto; /* Buttons will take natural width */
-            padding: 8px 15px;
-            margin: 0; /* Remove extra margin */
-            font-size: 0.95rem;
-            gap: 5px; /* Smaller gap for action buttons */
+            width: auto;
+            padding: 7px 12px;
+            margin: 0;
+            font-size: 0.85rem;
+            gap: 4px;
             font-weight: 500;
         }
         .item-card button:first-of-type {
-            background: #dc3545; /* Red for delete */
+            background: #dc3545;
         }
         .item-card button:first-of-type:hover {
             background: #c82333;
         }
         .item-card button:nth-of-type(2) {
-            background: #ffc107; /* Orange for edit */
-            color: #333; /* Darker text for contrast */
+            background: #ffc107;
+            color: #333;
         }
         .item-card button:nth-of-type(2):hover {
             background: #e0a800;
@@ -221,43 +230,43 @@
         /* Media Queries for Responsiveness */
         @media (max-width: 600px) {
             .glass-card {
-                padding: 1.5rem;
-                border-radius: 15px;
+                padding: 1.2rem;
+                border-radius: 12px;
             }
             h2 {
-                font-size: 1.8em;
-                margin-bottom: 1rem;
+                font-size: 1.6em;
+                margin-bottom: 0.8rem;
             }
             input, textarea, select, button {
-                font-size: 0.95rem;
-                padding: 10px 15px; /* Adjust padding for smaller screens */
+                font-size: 0.9rem;
+                padding: 8px 12px;
             }
             .tab-button {
-                font-size: 1em;
-                padding: 8px 15px;
+                font-size: 0.9em;
+                padding: 7px 12px;
             }
             .item-card {
-                flex-direction: column; /* Stack items vertically on small screens */
-                align-items: stretch; /* Stretch items to fill width */
+                flex-direction: column;
+                align-items: stretch;
             }
             .item-card button {
-                width: 100%; /* Full width buttons on small screens */
+                width: 100%;
                 margin-top: 5px;
             }
             .item-card strong {
                 text-align: center;
-                margin-bottom: 10px;
+                margin-bottom: 8px;
             }
             .input-group {
-                flex-direction: column; /* Stack icon and input vertically */
-                align-items: flex-end; /* Align icon to the right (start for RTL flex-direction: column) */
+                flex-direction: column;
+                align-items: flex-end;
             }
             .input-group i {
-                margin-bottom: 5px; /* Space between icon and input when stacked */
+                margin-bottom: 4px;
             }
             input, textarea, select {
-                width: 100%; /* Full width when stacked */
-                text-align: right; /* Ensure text remains right-aligned */
+                width: 100%;
+                text-align: right;
             }
         }
     </style>
@@ -313,33 +322,31 @@
             <i class="fas fa-image"></i>
         </div>
         <button onclick="addItem()"><i class="fas fa-plus-circle"></i> إضافة جديدة</button>
-        <div id="items-list" class="item-list-container"></div>
-    </div>
+        <div id="items-list-services" class="item-list-container"></div> </div>
 
     <div id="projects-tab" class="tab-content hidden">
         <div class="input-group">
-            <input type="text" id="title-project" placeholder="عنوان المشروع بالعربية">
+            <input type="text" id="project-title" placeholder="عنوان المشروع بالعربية">
             <i class="fas fa-heading"></i>
         </div>
         <div class="input-group">
-            <input type="text" id="title_en-project" placeholder="عنوان المشروع بالإنجليزية">
+            <input type="text" id="project-title_en" placeholder="عنوان المشروع بالإنجليزية">
             <i class="fas fa-heading"></i>
         </div>
         <div class="input-group">
-            <textarea id="desc-project" placeholder="وصف المشروع بالعربية"></textarea>
+            <textarea id="project-desc" placeholder="وصف المشروع بالعربية"></textarea>
             <i class="fas fa-align-right"></i>
         </div>
         <div class="input-group">
-            <textarea id="desc_en-project" placeholder="وصف المشروع بالإنجليزية"></textarea>
+            <textarea id="project-desc_en" placeholder="وصف المشروع بالإنجليزية"></textarea>
             <i class="fas fa-align-left"></i>
         </div>
         <div class="input-group">
-            <input type="text" id="image-project" placeholder="رابط صورة المشروع">
+            <input type="text" id="project-image" placeholder="رابط صورة المشروع">
             <i class="fas fa-image"></i>
         </div>
         <button onclick="addItem()"><i class="fas fa-plus-circle"></i> إضافة جديدة</button>
-        <div id="items-list-project" class="item-list-container"></div>
-    </div>
+        <div id="items-list-projects" class="item-list-container"></div> </div>
 
     <button class="logout-button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
 </div>
@@ -358,14 +365,9 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    // --- Original JavaScript functions (Modified to support tabs while keeping original ID logic) ---
-
     // Global variable to keep track of the current active tab type
-    // This is necessary because your original JS functions 'addItem', 'loadItems', etc.,
-    // get 'type' from 'dataType' select, which we're replacing with tabs.
     let currentDataType = 'services'; // Default to services
 
-    // Listeners for tab buttons
     document.addEventListener('DOMContentLoaded', () => {
         const tabButtons = document.querySelectorAll('.tab-button');
         tabButtons.forEach(button => {
@@ -374,13 +376,12 @@
                 switchTab(tab);
             });
         });
-        // Initial load for the default tab
+        // Initial load for the default tab (services)
         switchTab('services');
     });
 
     function switchTab(tabName) {
-        // Update the global currentDataType variable
-        currentDataType = tabName;
+        currentDataType = tabName; // Update the global currentDataType variable
 
         // Hide all tab contents
         document.querySelectorAll('.tab-content').forEach(content => {
@@ -396,47 +397,29 @@
         document.getElementById(`${tabName}-tab`).classList.remove('hidden');
         document.querySelector(`.tab-button[data-tab="${tabName}"]`).classList.add('active');
 
-        // Since your original `loadItems` gets type from `dataType` select,
-        // and we removed the select, we simulate it by setting it before calling loadItems.
-        // This is a workaround to keep your original JS function untouched.
-        // Also, we need to map the IDs back for the original functions.
-        setupFormForTab(tabName);
-        loadItems(); // Call original loadItems which will now use the global currentDataType and updated input IDs
+        // IMPORTANT: Set up the form and load items specifically for the active tab
+        clearForm(tabName); // Clear the form of the *newly active* tab
+        loadItems(tabName); // Pass the tabName directly to loadItems
     }
 
-    function setupFormForTab(tabName) {
-        // This function re-maps the input fields based on the active tab
-        // so that your original addItem, fillForm, clearForm can work without modification.
-        // We'll dynamically change the IDs of the inputs being used.
-
-        const formElements = ['title', 'title_en', 'desc', 'desc_en', 'image'];
-        const currentTabPrefix = tabName === 'services' ? '' : '-project'; // No prefix for services, -project for projects
-
-        // If the current tab is projects, rename its inputs to the original IDs for your JS functions
-        if (tabName === 'projects') {
-            formElements.forEach(id => {
-                const el = document.getElementById(`${id}-project`); // The actual element in HTML
-                if (el) el.id = id; // Temporarily change ID to what original JS expects
-            });
-            // Also, handle the items-list container ID
-            const projectList = document.getElementById('items-list-project');
-            if (projectList) projectList.id = 'items-list';
-        } else { // If switching back to services (or initially services)
-            // Ensure project inputs are reverted to their unique IDs if they were changed
-            formElements.forEach(id => {
-                const el = document.getElementById(id); // The element that might have been renamed
-                if (el && el.parentElement.closest('.tab-content').id === 'projects-tab') { // Check if it's the project input
-                    el.id = `${id}-project`; // Revert to unique project ID
-                }
-            });
-            // Revert the items-list ID
-            const serviceList = document.getElementById('items-list');
-            if (serviceList && serviceList.parentElement.closest('.tab-content').id === 'projects-tab') {
-                serviceList.id = 'items-list-project';
-            }
+    // Function to get the correct input element based on the current tab
+    function getInputElement(idSuffix) {
+        if (currentDataType === 'services') {
+            return document.getElementById(idSuffix);
+        } else { // currentDataType === 'projects'
+            return document.getElementById(`project-${idSuffix}`);
         }
-        // This is a bit of a hack to work with your fixed IDs. A better approach would be to pass the `type` to your JS functions.
     }
+
+    // Function to get the correct items list container based on the current tab
+    function getItemsListContainer() {
+        if (currentDataType === 'services') {
+            return document.getElementById('items-list-services');
+        } else { // currentDataType === 'projects'
+            return document.getElementById('items-list-projects');
+        }
+    }
+
 
     function checkLogin() {
         const user = document.getElementById('username').value.trim();
@@ -444,7 +427,7 @@
         if (user === 'Admin' && pass === '010274') {
             document.getElementById('login-section').classList.add('hidden');
             document.getElementById('control-panel').classList.remove('hidden');
-            switchTab('services'); // Ensure the services tab is active after login
+            switchTab('services'); // Load services tab after login
         } else {
             alert('بيانات الدخول غير صحيحة');
         }
@@ -454,22 +437,22 @@
         if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
             document.getElementById('control-panel').classList.add('hidden');
             document.getElementById('login-section').classList.remove('hidden');
-            // Clear login fields for next login
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
-            // Reset tab to services on logout, just for consistency
-            switchTab('services');
+            switchTab('services'); // Reset tab to services on logout
         }
     }
 
-    // Your original addItem function
+    // Modified addItem to get values from the currently active tab's inputs
     function addItem() {
-        const type = currentDataType; // Now uses the global variable for type
-        const title = document.getElementById('title').value.trim();
-        const titleEn = document.getElementById('title_en').value.trim();
-        const desc = document.getElementById('desc').value.trim();
-        const descEn = document.getElementById('desc_en').value.trim();
-        const img = document.getElementById('image').value.trim();
+        const type = currentDataType;
+        // Use getInputElement to correctly get values from either service-tab or project-tab inputs
+        const title = getInputElement('title').value.trim();
+        const titleEn = getInputElement('title_en').value.trim();
+        const desc = getInputElement('desc').value.trim();
+        const descEn = getInputElement('desc_en').value.trim();
+        const img = getInputElement('image').value.trim();
+
         if (!title || !desc || !img) return alert('اكمل جميع الحقول المطلوبة');
 
         const newItem = {
@@ -479,24 +462,29 @@
             "وصف إنجليزي": descEn,
             "رابط الصورة": img
         };
-        db.ref(`${type}`).push(newItem);
-        clearForm();
-        loadItems();
+        db.ref(`${type}`).push(newItem)
+            .then(() => {
+                clearForm(type); // Pass type to clear correct form fields
+                loadItems(type); // Pass type to reload correct list
+            })
+            .catch(error => {
+                console.error("Error adding item: ", error);
+                alert("حدث خطأ أثناء الإضافة: " + error.message);
+            });
     }
 
-    // Your original loadItems function
-    function loadItems() {
-        const type = currentDataType; // Now uses the global variable for type
-        const container = document.getElementById('items-list'); // Assumes 'items-list' is the active container
+    // Modified loadItems to correctly get the container and type
+    function loadItems(typeToLoad) { // Now accepts type directly
+        const type = typeToLoad || currentDataType; // Use passed type or global if not passed
+        const container = getItemsListContainer(); // Get the container based on currentDataType
         container.innerHTML = '';
 
         db.ref(type).once('value', snapshot => {
             const data = snapshot.val();
             if (data) {
-                 const keys = Object.keys(data).reverse(); // Show newest first
-                 keys.forEach(key => {
+                const keys = Object.keys(data).reverse(); // Show newest first
+                keys.forEach(key => {
                     const item = data[key];
-                    // IMPORTANT: Escape HTML entities in values passed to onclick to prevent breaking JS
                     container.innerHTML += `
                         <div class="item-card">
                             <strong>${item["العنوان"]}</strong>
@@ -517,12 +505,12 @@
         });
     }
 
-    // Your original deleteItem function
+    // Modified deleteItem to correctly use the passed type
     function deleteItem(type, key) {
         if (confirm('متأكد من الحذف؟')) {
             db.ref(`${type}/${key}`).remove()
                 .then(() => {
-                    loadItems(); // Call original loadItems
+                    loadItems(type); // Pass type back to loadItems
                 })
                 .catch(error => {
                     console.error("Error deleting item: ", error);
@@ -531,49 +519,81 @@
         }
     }
 
-    // Your original fillForm function
+    // Modified fillForm to use getInputElement to correctly set input values
     function fillForm(type, key, title, titleEn, desc, descEn, img) {
-        // Unescape HTML entities before putting into form fields
-        document.getElementById('title').value = title;
-        document.getElementById('title_en').value = titleEn;
-        document.getElementById('desc').value = desc;
-        document.getElementById('desc_en').value = descEn;
-        document.getElementById('image').value = img;
+        // Use getInputElement to correctly target the form fields of the current tab
+        getInputElement('title').value = title;
+        getInputElement('title_en').value = titleEn;
+        getInputElement('desc').value = desc;
+        getInputElement('desc_en').value = descEn;
+        getInputElement('image').value = img;
 
-        // Store the key and type for update in a global state or in the button's data attribute
-        // Since original logic uses a confirm, we'll mimic the "update" behavior here.
-        // It's not ideal, but keeps your JS logic untouched for its core flow.
-        if (confirm('بعد التعديل اضغط موافق للحفظ')) {
-            const updatedItem = {
-                "العنوان": document.getElementById('title').value.trim(),
-                "عنوان إنجليزي": document.getElementById('title_en').value.trim(),
-                "الوصف": document.getElementById('desc').value.trim(),
-                "وصف إنجليزي": document.getElementById('desc_en').value.trim(),
-                "رابط الصورة": document.getElementById('image').value.trim()
-            };
-            db.ref(`${type}/${key}`).set(updatedItem)
-                .then(() => {
-                    alert('تم حفظ التعديلات بنجاح!');
-                    clearForm();
-                    loadItems();
-                })
-                .catch(error => {
-                    console.error("Error updating item: ", error);
-                    alert("حدث خطأ أثناء حفظ التعديلات: " + error.message);
-                });
+        // Change "Add" button to "Update" and provide the key for update
+        // We'll attach the update logic directly to the button for the active tab
+        const addButton = getActiveTabAddButton(type);
+        addButton.innerHTML = `<i class="fas fa-save"></i> حفظ التعديلات`;
+        // Temporarily change onclick to update and pass type and key
+        addButton.onclick = () => updateItem(type, key);
+    }
+
+    // Helper to get the correct Add/Update button for the active tab
+    function getActiveTabAddButton(type) {
+        return document.querySelector(`#${type}-tab button[onclick*="addItem"]`);
+    }
+
+    // New updateItem function (extracted from fillForm's confirm block)
+    function updateItem(type, key) {
+        const title = getInputElement('title').value.trim();
+        const titleEn = getInputElement('title_en').value.trim();
+        const desc = getInputElement('desc').value.trim();
+        const descEn = getInputElement('desc_en').value.trim();
+        const img = getInputElement('image').value.trim();
+
+        if (!title || !desc || !img) {
+            alert('يرجى ملء جميع الحقول المطلوبة للتعديل.');
+            return;
         }
+
+        const updatedItem = {
+            "العنوان": title,
+            "عنوان إنجليزي": titleEn,
+            "الوصف": desc,
+            "وصف إنجليزي": descEn,
+            "رابط الصورة": img
+        };
+
+        db.ref(`${type}/${key}`).set(updatedItem)
+            .then(() => {
+                alert('تم حفظ التعديلات بنجاح!');
+                clearForm(type); // Pass type to clear correct form fields
+                loadItems(type); // Pass type to reload correct list
+                // Reset the button to "Add New" state
+                const addButton = getActiveTabAddButton(type);
+                addButton.innerHTML = `<i class="fas fa-plus-circle"></i> إضافة جديدة`;
+                addButton.onclick = () => addItem(); // Revert to addItem
+            })
+            .catch(error => {
+                console.error("Error updating item: ", error);
+                alert("حدث خطأ أثناء حفظ التعديلات: " + error.message);
+            });
     }
 
-    // Your original clearForm function
-    function clearForm() {
-        document.getElementById('title').value = '';
-        document.getElementById('title_en').value = '';
-        document.getElementById('desc').value = '';
-        document.getElementById('desc_en').value = '';
-        document.getElementById('image').value = '';
+    // Modified clearForm to use getInputElement and reset button for current tab
+    function clearForm(typeToClear) {
+        const type = typeToClear || currentDataType; // Use passed type or global
+        getInputElement('title').value = '';
+        getInputElement('title_en').value = '';
+        getInputElement('desc').value = '';
+        getInputElement('desc_en').value = '';
+        getInputElement('image').value = '';
+
+        // Reset the Add button for the current tab
+        const addButton = getActiveTabAddButton(type);
+        addButton.innerHTML = `<i class="fas fa-plus-circle"></i> إضافة جديدة`;
+        addButton.onclick = () => addItem();
     }
 
-    // Helper function to escape HTML for display in onclick attributes (crucial for fillForm)
+
     function escapeHtml(text) {
         const map = {
             '&': '&amp;',
@@ -582,13 +602,11 @@
             '"': '&quot;',
             "'": '&#039;'
         };
-        // Handle null/undefined text gracefully
         if (typeof text !== 'string') {
             return '';
         }
         return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
-
 </script>
 
 </body>
