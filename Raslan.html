@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -16,452 +17,1079 @@
             --glass-bg: rgba(255, 255, 255, 0.15);
             --glass-border: rgba(255, 255, 255, 0.2);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
-        body { overflow-x: hidden; background-color: #f0f4f8; }
-        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; }
-        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); }
-        .hero-slider { height: 100vh; position: relative; overflow: hidden; }
-        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; }
-        .slide::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); }
-        .slide.active { opacity: 1; }
-        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
-        .btn-glass { background-color: rgba(12, 72, 115, 0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); color: var(--white); border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.3s ease; }
-        .btn-glass:hover { background-color: rgba(12, 72, 115, 0.9); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(12, 72, 115, 0.3); }
-        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background-color: rgba(37, 211, 102, 0.8); backdrop-filter: blur(5px); color: white; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); z-index: 1000; transition: all 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .whatsapp-float:hover { transform: scale(1.1); background-color: rgba(37, 211, 102, 1); }
-        .team-card:hover img { transform: scale(1.05); }
-        .team-card img { transition: transform 0.3s ease; }
-        .service-card { background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border-radius: 1rem; overflow: hidden; transition: all 0.3s ease; }
-        .service-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); }
-        .service-card-header { position: relative; height: 180px; background-size: cover; background-position: center; display: flex; align-items: flex-end; padding: 1rem; }
-        .service-card-header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0) 50%); z-index: 1; }
-        .service-card-header h3 { position: relative; z-index: 2; color: var(--white); font-size: 1.5rem; font-weight: bold; width: 100%; }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            overflow-x: hidden;
+            background-color: #f0f4f8;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-slider {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background-color: rgba(12, 72, 115, 0.3);
+            backdrop-filter: blur(5px);
+            color: white;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .slider-nav:hover {
+            background-color: rgba(12, 72, 115, 0.7);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn-glass {
+            background-color: rgba(12, 72, 115, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-glass:hover {
+            background-color: rgba(12, 72, 115, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(12, 72, 115, 0.3);
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: rgba(37, 211, 102, 0.8);
+            backdrop-filter: blur(5px);
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: rgba(37, 211, 102, 1);
+        }
+
+        .whatsapp-notification {
+            position: fixed;
+            bottom: 45px; /* Adjust based on whatsapp-float size */
+            right: 100px; /* Adjust to position next to whatsapp-float */
+            background-color: #0c4873;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 999;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .whatsapp-notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .team-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .team-card img {
+            transition: transform 0.3s ease;
+        }
+
+        /* --- Service Card Styles --- */
+        .service-card {
+            background-color: rgba(255, 255, 255, 0.7); /* Background for the whole card */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-card-header {
+            position: relative;
+            height: 180px; /* Adjust height of the image part */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end; /* Align title to bottom */
+            padding: 1rem;
+        }
+
+        .service-card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0) 50%); /* Dark gradient from bottom */
+            z-index: 1;
+        }
+
+        .service-card-header h3 {
+            position: relative;
+            z-index: 2;
+            color: var(--white);
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: bold;
+            width: 100%;
+        }
+        /* Align service card title right for RTL and left for LTR */
         html[lang="ar"] .service-card-header h3 { text-align: right; }
         html[lang="en"] .service-card-header h3 { text-align: left; }
-        .service-card-description { background-color: var(--white); padding: 1.5rem; color: #4a5568; }
-        .lang-switcher-btn { cursor: pointer; transition: all 0.3s ease; color: var(--white); font-weight: bold; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); padding: 0.5rem 1rem; border-radius: 0.75rem; display: flex; align-items: center; }
-        .lang-switcher-btn:hover { color: #d1d5db; }
-        .section-bg { background-image: linear-gradient(135deg, #f0f4f8 0%, #e6eef5 100%); }
-        .section-bg-alt { background-image: linear-gradient(135deg, #e6eef5 0%, #f0f4f8 100%); }
-        .scrolled-header { position: fixed; top: 0; left: 0; width: 100%; background-color: rgba(12, 72, 115, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); z-index: 999; transform: translateY(-100%); transition: transform 0.3s ease-out; display: flex; align-items: center; padding: 0.5rem 0; }
-        .scrolled-header.visible { transform: translateY(0); }
-        .overlapping-grid-container { overflow-x: hidden; -webkit-overflow-scrolling: touch; cursor: grab; position: relative; }
-        .overlapping-grid-container.is-dragging { cursor: grabbing; }
-        .overlapping-grid { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 1.5rem; }
-        .overlapping-grid-item { flex: 0 0 auto; width: 280px; height: 200px; position: relative; background-color: var(--glass-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; overflow: hidden; border-radius: 1rem; z-index: 1; }
-        .overlapping-grid-item:hover { transform: translateY(-15px) scale(1.08); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25); z-index: 10; }
-        .overlapping-grid-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        .service-card-description {
+            background-color: var(--white); /* White background for description */
+            padding: 1.5rem;
+            color: #4a5568; /* Tailwind's gray-700 */
+        }
+        /* --- End Service Card Styles --- */
+
+        /* --- Contact Icons Color Fix --- */
+        .service-icon {
+            background-color: #0c4873cc; /* Changed to the requested color with alpha for transparency */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            color: white; /* Ensure text/icon is white */
+        }
+        .service-icon:hover {
+            background-color: var(--primary); /* Keep hover darker primary */
+        }
+
+        /* Ensure social media buttons also use the correct color */
+        .contact-social-btn {
+            background-color: #0c4873cc; /* Applied the same color */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .contact-social-btn:hover {
+            background-color: var(--primary); /* Darker on hover */
+        }
+        /* --- End Contact Icons Color Fix --- */
+
+        .lang-switcher-btn { /* Unified class for the language switcher button */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--white);
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            display: flex;
+            align-items: center;
+        }
+        .lang-switcher-btn:hover {
+            color: #d1d5db; /* Lighter grey on hover */
+        }
+
+
+        .section-bg {
+            background-image: linear-gradient(135deg, #f0f4f8 0%, #e6eef5 100%);
+        }
+
+        .section-bg-alt {
+            background-image: linear-gradient(135deg, #e6eef5 0%, #f0f4f8 100%);
+        }
+
+        /* Styles for the sticky header */
+        .scrolled-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 0.5rem 0;
+            background-color: rgba(12, 72, 115, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 999; /* Adjust z-index as needed for layering */
+            transform: translateY(-100%); /* Start off-screen */
+            transition: transform 0.3s ease-out;
+            display: flex;
+            align-items: center;
+        }
+
+        .scrolled-header.visible {
+            transform: translateY(0); /* Slide in */
+        }
+        /* Specific layout for the container inside the scrolled header */
+        .scrolled-header .header-content-container {
+            width: 100%; /* Ensure container fills header width */
+            display: flex;
+            justify-content: space-between; /* Space between language switcher and logo */
+            align-items: center;
+            padding: 0 1rem; /* Adjust padding as needed */
+        }
+        /* Adjust logo position within header */
+        .scrolled-header .header-logo {
+            flex-grow: 1; /* Allow logo to take available space */
+            text-align: center; /* Center logo within its space */
+        }
+
+        /* Horizontal Scroll for Overlapping Image Grid */
+        .overlapping-grid-container {
+            overflow-x: hidden; /* Hide scrollbar but allow scrolling */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            padding-bottom: 1rem; /* Still keep some padding in case of native scrollbar showing */
+            cursor: grab; /* Indicate draggable */
+            position: relative; /* Needed for ::before / ::after positioning */
+            /* Add padding to account for the blur/shadow */
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .overlapping-grid-container.is-dragging {
+            cursor: grabbing;
+        }
+
+        /* Styles for the blurred edges */
+        .overlapping-grid-container::before,
+        .overlapping-grid-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 40px; /* Width of the blur/shadow effect */
+            height: 100%;
+            pointer-events: none; /* Allows clicks/drags to pass through */
+            z-index: 2; /* Ensures it's above the images */
+        }
+
+        /* RTL specific blur/shadow (Arabic) */
+        html[lang="ar"] .overlapping-grid-container::before {
+            right: 0;
+            background: linear-gradient(to left, rgba(230, 238, 245, 1), rgba(230, 238, 245, 0) 100%); /* Matches section-bg-alt color */
+        }
+        html[lang="ar"] .overlapping-grid-container::after {
+            left: 0;
+            background: linear-gradient(to right, rgba(230, 238, 245, 1), rgba(230, 238, 245, 0) 100%); /* Matches section-bg-alt color */
+        }
+
+        /* LTR specific blur/shadow (English) */
+        html[lang="en"] .overlapping-grid-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(230, 238, 245, 1), rgba(230, 238, 245, 0) 100%); /* Matches section-bg-alt color */
+        }
+        html[lang="en"] .overlapping-grid-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(230, 238, 245, 1), rgba(230, 238, 245, 0) 100%); /* Matches section-bg-alt color */
+        }
+
+
+        .overlapping-grid {
+            display: flex; /* Use flexbox for horizontal layout */
+            flex-wrap: nowrap; /* Prevent wrapping to new lines */
+            align-items: flex-start; /* Align items to the start of the cross axis */
+            gap: 1.5rem; /* Space between items, increased for better visual separation */
+            /* Removed direct padding-left/right as it's now on container */
+            transition: transform 0.3s ease-out; /* Smooth transition for auto-scroll */
+        }
+
+        .overlapping-grid-item {
+            flex: 0 0 auto; /* Prevent items from shrinking/growing */
+            width: 280px; /* Default width for desktop/larger screens */
+            height: 200px; /* Fixed height for each image */
+            position: relative;
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            border-radius: 1rem; /* rounded-2xl */
+            transform-origin: center center;
+            z-index: 1; /* Default z-index */
+        }
+
+        /* Responsive adjustments for overlapping-grid-item on smaller screens (e.g., mobile) */
+        @media (max-width: 767px) { /* Adjust breakpoint as needed for mobile */
+            .overlapping-grid-item {
+                width: calc(25% - 1.5rem); /* 4 items per row, accounting for gap */
+                height: 100px; /* Smaller height for mobile */
+            }
+            .overlapping-grid-item:nth-child(even) {
+                margin-top: 15px; /* Smaller offset for mobile */
+            }
+        }
+        @media (max-width: 480px) { /* Extra small screens */
+            .overlapping-grid-item {
+                width: calc(33.33% - 1.5rem); /* 3 items per row on very small screens */
+                height: 80px; /* Even smaller height */
+            }
+        }
+
+
+        .overlapping-grid-item:nth-child(even) {
+            margin-top: 30px; /* Offset even items for staggered effect, increased offset */
+        }
+
+        .overlapping-grid-item:hover {
+            transform: translateY(-15px) scale(1.08); /* Lift and scale on hover, increased effect */
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25); /* Stronger shadow on hover */
+            z-index: 10; /* Bring hovered item to front */
+        }
+
+        .overlapping-grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.9); /* Slightly dim images */
+            transition: filter 0.3s ease;
+        }
+
+        .overlapping-grid-item:hover img {
+            filter: brightness(1); /* Full brightness on hover */
+        }
+
+        /* Adjust logo size in hero slider */
+        .hero-slider .container img {
+            width: 300px; /* Increased size */
+            height: auto;
+            margin-bottom: 2rem; /* Adjusted margin */
+        }
+
+        /* Style for sub-headings in About section */
+        .about-vision-mission-card {
+            border-right: 4px solid var(--primary); /* Maintain existing border style */
+        }
+
+        /* Global language display rules - Crucial for fixing language overlap */
         html[lang="en"] [data-lang="ar"] { display: none !important; }
         html[lang="ar"] [data-lang="en"] { display: none !important; }
+        html[lang="en"] { direction: ltr !important; }
+        html[lang="ar"] { direction: rtl !important; }
+
+        /* Specific alignment for LTR in service card header title */
+        html[lang="en"] .service-card-header h3 { text-align: left; }
     </style>
 </head>
 <body>
+    <header id="scrolled-header" class="scrolled-header">
+        <div class="header-content-container">
+            <div id="language-switcher-btn" class="lang-switcher-btn" onclick="toggleLanguage()">
+                <span id="lang-text"></span>
+            </div>
+            <div class="header-logo">
+                <img src="https://i.postimg.cc/vTSqdn65/20250620-0236-Soapstone-on-Quarry-remix-01jy58qdz9eyxrq9wmb23hy49x-01.png" alt="Raslan Logo" class="h-10 w-auto mx-auto"> </div>
+            <div class="w-[6rem] sm:w-[8rem] md:w-[10rem]"></div> </div>
+    </header>
 
-    <!-- HERO SLIDER -->
     <section class="hero-slider">
-        <div class="slide active" style="background-image: url('https://i.postimg.cc/nV5P6cLt/R.jpg');"></div>
-        <div class="slide" style="background-image: url('https://i.postimg.cc/9XqJ4DTg/Pengurusan-SKA-SBU-IUJK-ISO-OHSAS-SE-INDONESIA-MURAH-CEPAT-0812-81008374.jpg');"></div>
-        <div class="container mx-auto text-center relative z-10 p-4">
-            <img src="https://i.postimg.cc/vTSqdn65/20250620-0236-Soapstone-on-Quarry-remix-01jy58qdz9eyxrq9wmb23hy49x-01.png" alt="Raslan Logo" class="mx-auto w-64 md:w-80 mb-8 drop-shadow-2xl">
-            <p class="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto drop-shadow-md" data-lang="ar">رسلان للحلول الذكية... هندسة دقيقة، وجودة لا تُضاهى</p>
-            <p class="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto drop-shadow-md" data-lang="en">Raslan for Smart Solutions... Precise Engineering, Unmatched Quality</p>
-            <a href="#services" class="btn-glass px-8 py-3 rounded-lg text-lg font-bold inline-block" data-lang="ar">خدماتنا</a>
-            <a href="#services" class="btn-glass px-8 py-3 rounded-lg text-lg font-bold inline-block" data-lang="en">Our Services</a>
+        <div class="slide active" style="background-image: url('https://i.postimg.cc/nV5P6cLt/R.jpg');">
+            <div class="container mx-auto text-center relative z-10">
+                <img src="https://i.postimg.cc/vTSqdn65/20250620-0236-Soapstone-on-Quarry-remix-01jy58qdz9eyxrq9wmb23hy49x-01.png" alt="Raslan Logo" class="mx-auto w-80 mb-8 drop-shadow-2xl">
+                <p class="text-2xl text-white mb-8 max-w-2xl mx-auto drop-shadow-md" data-lang="ar">رسلان للحلول الذكية... هندسة دقيقة، وجودة لا تُضاهى</p>
+                <p class="text-2xl text-white mb-8 max-w-2xl mx-auto drop-shadow-md" data-lang="en">Raslan for Smart Solutions... Precise Engineering, Unmatched Quality</p>
+                <a href="#services" class="btn-glass px-8 py-3 rounded-lg text-lg font-bold inline-block" data-lang="ar">خدماتنا</a>
+                <a href="#services" class="btn-glass px-8 py-3 rounded-lg text-lg font-bold inline-block" data-lang="en">Our Services</a>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('https://i.postimg.cc/9XqJ4DTg/Pengurusan-SKA-SBU-IUJK-ISO-OHSAS-SE-INDONESIA-MURAH-CEPAT-0812-81008374.jpg');">
+            <div class="container mx-auto text-center relative z-10">
+                <img src="https://i.postimg.cc/vTSqdn65/20250620-0236-Soapstone-on-Quarry-remix-01jy58qdz9eyxrq9wmb23hy49x-01.png" alt="Raslan Logo" class="mx-auto w-80 mb-8 drop-shadow-2xl">
+                <p class="text-2xl text-white mb-8 max-w-2xl mx-auto drop-shadow-md" data-lang="ar">رسلان للحلول الذكية... هندسة دقيقة، وجودة لا تُضاهى</p>
+                <p class="text-2xl text-white mb-8 max-w-2xl mx-auto drop-shadow-md" data-lang="en">Raslan for Smart Solutions... Precise Engineering, Unmatched Quality</p>
+                <a href="#about" class="btn-glass px-8 py-3 rounded-lg text-lg font-bold inline-block" data-lang="ar">من نحن</a>
+                <a href="#about" class="btn-glass px-8 py-3 rounded-lg text-lg font-bold inline-block" data-lang="en">About Us</a>
+            </div>
         </div>
     </section>
 
-    <!-- ABOUT SECTION -->
     <section id="about" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">من نحن</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">About Us</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="fade-in">
                     <div class="glass-card p-8 rounded-2xl mb-8">
-                        <p id="about-p1-ar" class="text-lg mb-6 text-gray-700" data-lang="ar"></p>
-                        <p id="about-p1-en" class="text-lg mb-6 text-gray-700" data-lang="en"></p>
+                        <p class="text-lg mb-6 text-gray-700" data-lang="ar">شركة رائدة في تقديم الحلول الهندسية الحديثة في مجال المقاولات،
+متخصصة في استخدام أحدث التقنيات في أعمال الإنشاءات والتعديلات الإنشائية، بالإضافة إلى خدمات التدعيم والترميم، والهدم الذكي والدقيق مثل قص وتقطيع الخرسانة، وتخريم وتزريع الأشاير والجوايط، وذلك وفق أعلى معايير الجودة والسلامة</p>
+                        <p class="text-lg mb-6 text-gray-700" data-lang="en">A leading company in providing modern engineering solutions in the construction field.
+Specialized in utilizing the latest technologies in construction and structural modifications, in addition to offering strengthening and restoration services, as well as smart and precise demolition such as concrete cutting and sawing, core drilling, and rebar anchoring — all in accordance with the highest standards of quality and safety.</p>
                     </div>
-                    <div class="glass-card p-8 rounded-2xl mb-8">
-                        <h3 id="vision-title-ar" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar"></h3>
-                        <h3 id="vision-title-en" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en"></h3>
-                        <p id="vision-p1-ar" class="text-gray-700" data-lang="ar"></p>
-                        <p id="vision-p1-en" class="text-gray-700" data-lang="en"></p>
+
+                    <div class="glass-card p-8 rounded-2xl mb-8 about-vision-mission-card">
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">رؤيتنا</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">Our Vision</h3>
+                        <p class="text-gray-700" data-lang="ar">أن نصبح من الشركات الرائدة في مصر والمنطقة العربية في تقديم خدمات المقاولات والخدمات الفنية المتكاملة، من خلال الابتكار، والجودة، وتطوير الكفاءات المحلية بما يتماشى مع تطورات السوق واحتياجات العملاء.</p>
+                        <p class="text-gray-700" data-lang="en">To become one of the leading companies in Egypt and the Arab region in delivering comprehensive contracting and technical services, through innovation, quality, and the development of local expertise, in line with market trends and client needs.</p>
                     </div>
-                    <div class="glass-card p-8 rounded-2xl">
-                        <h3 id="mission-title-ar" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar"></h3>
-                        <h3 id="mission-title-en" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en"></h3>
-                        <p id="mission-speed-ar" class="text-gray-700 font-bold mb-2" data-lang="ar"></p>
-                        <p id="mission-speed-en" class="text-gray-700 font-bold mb-2" data-lang="en"></p>
-                        <p id="mission-speed-desc-ar" class="text-gray-700 mb-6" data-lang="ar"></p>
-                        <p id="mission-speed-desc-en" class="text-gray-700 mb-6" data-lang="en"></p>
-                        <p id="mission-price-ar" class="text-gray-700 font-bold mb-2" data-lang="ar"></p>
-                        <p id="mission-price-en" class="text-gray-700 font-bold mb-2" data-lang="en"></p>
-                        <p id="mission-price-desc-ar" class="text-gray-700" data-lang="ar"></p>
-                        <p id="mission-price-desc-en" class="text-gray-700" data-lang="en"></p>
+
+                    <div class="glass-card p-8 rounded-2xl about-vision-mission-card">
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">مهمتنا</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">Our Mission</h3>
+                        <p class="text-gray-700 mb-4" data-lang="ar">السرعة مع الحفاظ على الجودة</p>
+                        <p class="text-gray-700 mb-4" data-lang="en">Speed while maintaining quality</p>
+                        <p class="text-gray-700 mb-6" data-lang="ar">مهمتنا هي دائمًا تسريع تنفيذ مشاريعنا مع الحفاظ دائمًا على أعلى جودة ممكنة ومراعاة الصحة والسلامة المهنية</p>
+                        <p class="text-gray-700 mb-6" data-lang="en">Our mission is to always accelerate the execution of our projects while maintaining the highest possible quality and considering occupational health and safety</p>
+                        <p class="text-gray-700 font-bold" data-lang="ar">أفضل سعر</p>
+                        <p class="text-gray-700 font-bold" data-lang="en">Best Price</p>
+                        <p class="text-gray-700" data-lang="ar">مهمتنا في رسلان هي تقديم أفضل سعر ممكن لعملائنا بأعلى جودة ممكنة</p>
+                        <p class="text-gray-700" data-lang="en">Our mission at Raslan is to provide the best possible price to our customers with the highest possible quality</p>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-6 fade-in place-items-start">
-                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card w-full">
-                        <img id="about-img1" src="" alt="About Raslan Image 1" class="w-full h-full object-cover">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in">
+                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card">
+                        <img src="https://i.postimg.cc/7PGkCRGw/e5c05aae-4efa-4118-a057-1ec01768b033.jpg" alt="About Raslan" class="w-full h-64 object-cover">
                     </div>
-                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card w-full mt-12">
-                        <img id="about-img2" src="" alt="About Raslan Image 2" class="w-full h-full object-cover">
+                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card">
+                        <img src="https://i.postimg.cc/5NqHQyTB/bb0c1703-f3df-4287-836f-635ce5ef5262.jpg" alt="About Raslan" class="w-full h-64 object-cover">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SERVICES SECTION -->
     <section id="services" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">خدماتنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Services</h2>
-            <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Service cards will be inserted here by JavaScript -->
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="service-card fade-in">
+                    <div class="service-card-header" style="background-image: url('https://i.postimg.cc/R0t3jqkf/20250623-0232-Construction-Site-Progress-remix-01jyczp29eesk9n6g084zmjav0.png');">
+                        <h3 data-lang="ar">الإنشاءات المتطورة</h3>
+                        <h3 data-lang="en">Advanced Constructions</h3>
+                    </div>
+                    <div class="service-card-description">
+                        <p data-lang="ar">نُقدّم خدمات إنشاءات متكاملة تشمل : تنفيذ الهياكل الخرسانية المسلحة، أساسات المباني والمصانع، وصب الأسقف والأعمدة.</p>
+                        <p data-lang="en">We provide integrated construction services including: execution of reinforced concrete structures, building and factory foundations, and casting of ceilings and columns.</p>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-card-header" style="background-image: url('https://i.postimg.cc/Y2dSD1vZ/20250623-0226-Construction-Repair-in-Action-remix-01jyczb1dae488qpsd3zw4wqkn.png');">
+                        <h3 data-lang="ar">أعمال الترميم والتدعيم</h3>
+                        <h3 data-lang="en">Restoration & Reinforcement Works</h3>
+                    </div>
+                    <div class="service-card-description">
+                        <p data-lang="ar">ننفذ أعمال الترميم الهيكلي والصيانة الإنشائية للمباني والمنشآت الخرسانية، بما في ذلك معالجة الشروخ وإصلاح الأعمدة.</p>
+                        <p data-lang="en">We perform structural restoration and construction maintenance for buildings and concrete structures, including crack treatment and column repair.</p>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-card-header" style="background-image: url('https://i.postimg.cc/3J6xYYCZ/20250623-0229-Concrete-Cutting-Scene-remix-01jyczgbx6fqtayrvgzc1wbt2a.png');">
+                        <h3 data-lang="ar">قص وتقطيع الخرسانة</h3>
+                        <h3 data-lang="en">Concrete Cutting</h3>
+                    </div>
+                    <div class="service-card-description">
+                        <p data-lang="ar">نُتقن تنفيذ أعمال تقطيع وقص الخرسانة بجميع أنواعها باستخدام أحدث تقنيات المناشير مثل: الواير سو، منشار الأرضيات، والحوائط.</p>
+                        <p data-lang="en">We excel in executing concrete cutting works of all types using the latest saw technologies such as: wire saw, floor saw, and wall saw.</p>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-card-header" style="background-image: url('https://i.postimg.cc/ZnnJzMWg/20250623-0238-Core-Drilling-Action-remix-01jyd00twmfhqavdf73bshahcg.png');">
+                        <h3 data-lang="ar">تخريم وتزريع الجوايط والأشاير</h3>
+                        <h3 data-lang="en">Drilling & Anchor Installation</h3>
+                    </div>
+                    <div class="service-card-description">
+                        <p data-lang="ar">نقدم خدمات متخصصة في تخريم وتزريع الأشاير والجوايط باستخدام أحدث المعدات، وباعتماد كامل من جميع الشركات العالمية.</p>
+                        <p data-lang="en">We provide specialized services in drilling and installing anchors using the latest equipment, with full accreditation from all international companies.</p>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-card-header" style="background-image: url('https://i.postimg.cc/TwHZgYP7/20250623-0250-Waterproofing-Worksite-Scene-remix-01jyd0qqgvebd9n84jek9y6vzh.png');">
+                        <h3 data-lang="ar">الأعمال المتخصصة</h3>
+                        <h3 data-lang="en">Specialized Works</h3>
+                    </div>
+                    <div class="service-card-description">
+                        <p data-lang="ar">نُتقن تنفيذ أعمال العزل بجميع أنواعها و تنفيذ أرضيات الإيبوكسي بتشطيبات احترافية و تركيب فاير ستوب لعزل قواعد الهياكل المعدنية.</p>
+                        <p data-lang="en">We excel in all types of insulation works, professional epoxy flooring installations, and firestop installations for steel structure bases.</p>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-card-header" style="background-image: url('https://i.postimg.cc/B6Wh0LXG/20250623-0246-Worker-s-Precision-Interior-Finishing-remix-01jyd0g282ex482ftrq5n4sq8f.png');">
+                        <h3 data-lang="ar">أعمال التشطيبات</h3>
+                        <h3 data-lang="en">Finishing Works</h3>
+                    </div>
+                    <div class="service-card-description">
+                        <p data-lang="ar">نُتقن تنفيذ جميع أعمال التشطيبات الداخلية والخارجية بدقة واحتراف، بما يشمل اللياسة، الدهانات، الجبس، الأرضيات، والديكورات العصرية، باستخدام مواد عالية الجودة وتحت إشراف فني متخصص.</p>
+                        <p data-lang="en">We master all interior and exterior finishing works with precision and professionalism, including plastering, painting, gypsum, flooring, and modern decorations, using high-quality materials and under specialized technical supervision.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- PROJECTS SECTION -->
     <section id="projects" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">مشاريعنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Projects</h2>
-            <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <!-- Project cards will be inserted here by JavaScript -->
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="glass-card rounded-2xl overflow-hidden shadow-lg fade-in">
+                    <img src="https://i.postimg.cc/L6MDMqjL/90596459-89a6-4bf9-b76e-a55e5e5e52c9.jpg" alt="مشروع هدم جزئي لفندق الميريديان مطار القاهرة" class="w-full h-64 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">هدم جزئي لفندق الميريديان مطار القاهرة</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">Partial Demolition of Le Méridien Hotel Cairo Airport</h3>
+                        <p class="text-gray-700" data-lang="ar">تنفيذ أعمال هدم ذكي ومحكم باستخدام أحدث التقنيات والمعدات، مع الحفاظ على سلامة المنشآت المجاورة وتحقيق أعلى معايير الجودة والسلامة.</p>
+                        <p class="text-gray-700" data-lang="en">Execution of smart and precise demolition works using the latest technologies and equipment, while maintaining the safety of neighboring facilities and achieving the highest standards of quality and safety.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl overflow-hidden shadow-lg fade-in">
+                    <img src="https://i.postimg.cc/C13cmq91/76a39dfa-25c3-4190-b990-34364a515446.jpg" alt="كوبري البحيرات بالعلمين" class="w-full h-64 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">كوبري البحيرات بالعلمين</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">Alamein Lakes Bridge</h3>
+                        <p class="text-gray-700" data-lang="ar">تم قطع البلاطة العلوية للجسر، وفصل العوارض الخرسانية باستخدام 7 مناشير أرضية و9 مناشير سلكية. تم قطع 4500 متر طولي في فترة 45 يومًا.</p>
+                        <p class="text-gray-700" data-lang="en">The upper slab of the bridge was cut, and the concrete beams were separated using 7 floor saws and 9 wire saws. 4500 linear meters were cut in a period of 45 days.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- WORK HEROES SECTION -->
     <section id="work-heroes" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">أبطال أعمالنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Work Heroes</h2>
+
             <div class="overlapping-grid-container fade-in">
-                <div id="work-heroes-container" class="overlapping-grid">
-                    <!-- Work heroes images will be inserted here by JavaScript -->
+                <div class="overlapping-grid">
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/N0Rks8KK/32-Images-To-Help-You-Better-Understand-RCC.jpg" alt="Work Hero 1">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/4N3P6hS0/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 2">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/wvdFLfC5/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 3">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/2y0wpzVT/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 4">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/y8tLYYnb/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 5">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/ncwk0h8h/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 6">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/50qg35Jh/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 7">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/L6yywVPR/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 8">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/y6jn3Tv9/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 9">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/DzGBWkMy/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 10">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/P5pMcnhz/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 11">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/RhSRb3VN/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 12">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/kgBjmtNS/Whats-App-Image-2025-06-21-at-11.jpg" alt="Work Hero 13">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/K865hp8X/Young-business-man-professional-engineer-worker-at-the-house-building-construction-site-with-bluepri.jpg" alt="Work Hero 14">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/bwhQ6DC8/6b850d0b-4379-487c-b292-4e53ada86450.jpg" alt="Work Hero 15">
+                    </div>
+                    <div class="overlapping-grid-item">
+                        <img src="https://i.postimg.cc/P5Q10X9D/Step-into-a-world-where-Restoration-Architects.jpg" alt="Work Hero 16">
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- TEAM SECTION -->
+
     <section id="team" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">تعرف على فريقنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Meet Our Team</h2>
-            <div id="team-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Team cards will be inserted here by JavaScript -->
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="team-card glass-card rounded-2xl overflow-hidden fade-in">
+                    <div class="overflow-hidden h-80">
+                        <img src="https://i.postimg.cc/fb0DXgyG/1cf73fc3-a858-47b0-968b-0279c07a874a.jpg" alt="محمد اسماعيل" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="ar">محمد اسماعيل</h3>
+                        <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="en">Mohamed Esmail</h3>
+                        <p class="text-gray-600" data-lang="ar">الرئيس التنفيذي للشركة</p>
+                        <p class="text-gray-600" data-lang="en">CEO</p>
+                    </div>
+                </div>
+
+                <div class="team-card glass-card rounded-2xl overflow-hidden fade-in">
+                    <div class="overflow-hidden h-80">
+                        <img src="https://i.postimg.cc/htYKXqD8/ace85ba2-82fb-45f9-958a-79535482eb8c.jpg" alt="محمد النجار" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="ar">محمد النجار</h3>
+                        <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="en">Mohamed El-Naggar</h3>
+                        <p class="text-gray-600" data-lang="ar">مدير التنفيذ</p>
+                        <p class="text-gray-600" data-lang="en">Execution Manager</p>
+                    </div>
+                </div>
+
+                <div class="team-card glass-card rounded-2xl overflow-hidden fade-in">
+                    <div class="overflow-hidden h-80">
+                        <img src="https://i.postimg.cc/k4KMrhdQ/ddf41c59-8109-4cb5-881a-98e28cd22818-1.jpg" alt="محمد سويلم" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="ar">محمد سويلم</h3>
+                        <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="en">Mohamed Sweilam</h3>
+                        <p class="text-gray-600" data-lang="ar">مشرف</p>
+                        <p class="text-gray-600" data-lang="en">Supervisor</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    
-    <!-- CLIENTS SECTION -->
+
     <section id="clients" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">عملائنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Clients</h2>
-            <div id="clients-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-center justify-items-center mx-auto max-w-fit">
-                <!-- Client logos will be inserted here by JavaScript -->
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-center justify-items-center mx-auto max-w-fit">
+                <div class="glass-card p-6 rounded-2xl fade-in flex justify-center items-center">
+                    <img src="https://i.postimg.cc/vm9DMmrx/c3bf0079-57b8-4bad-ae60-8538f5b4d425.png" alt="Client" class="max-h-24 w-auto">
+                </div>
+                <div class="glass-card p-6 rounded-2xl fade-in flex justify-center items-center">
+                    <img src="https://i.postimg.cc/vBsTmdhq/cdef6c5a-81c3-4eab-83a3-991fef63734d.png" alt="Client" class="max-h-24 w-auto">
+                </div>
             </div>
         </div>
     </section>
-    
-    <!-- CONTACT SECTION -->
+
     <section id="contact" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">تواصل معنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Contact Us</h2>
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <div class="fade-in">
-                    <div class="glass-card rounded-2xl p-8 mb-8 space-y-6">
-                        <div class="flex items-start gap-4">
-                            <i class="fas fa-map-marker-alt text-xl text-[#0c4873] mt-1"></i>
+                    <div class="glass-card rounded-2xl p-8 mb-8">
+                        <div class="flex items-start mb-6" style="gap: 5px;">
+                            <div class="w-12 h-12 service-icon rounded-full flex items-center justify-center text-white flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
                             <div>
-                                <p id="contact-address-ar" class="text-gray-600" data-lang="ar"></p>
-                                <p id="contact-address-en" class="text-gray-600" data-lang="en"></p>
+                                <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="ar">العنوان</h3>
+                                <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="en">Address</h3>
+                                <p class="text-gray-600 mb-2" data-lang="ar">منيا القمح - الشرقية</p>
+                                <p class="text-gray-600 mb-2" data-lang="en">Minya Al-Qamh - Sharqia</p>
+                                <a href="https://maps.google.com" target="_blank" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="ar">اذهب الى الخريطة</a>
+                                <a href="https://maps.google.com" target="_blank" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="en">Go to Map</a>
                             </div>
                         </div>
-                        <div class="flex items-start gap-4">
-                            <i class="fas fa-envelope text-xl text-[#0c4873] mt-1"></i>
+
+                        <div class="flex items-start mb-6" style="gap: 5px;">
+                            <div class="w-12 h-12 service-icon rounded-full flex items-center justify-center text-white flex-shrink-0">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </div>
                             <div>
-                                <a id="contact-email-link" href="#" class="text-gray-600 hover:text-[#0c4873]"></a>
+                                <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="ar">البريد الالكترونى</h3>
+                                <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="en">Email</h3>
+                                <p class="text-gray-600 mb-2">m.Esmaeil@raslan-eg.com</p>
+                                <a href="mailto:m.Esmaeil@raslan-eg.com" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="ar">راسلنا</a>
+                                <a href="mailto:m.Esmaeil@raslan-eg.com" target="_blank" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="en">Email Us</a>
                             </div>
                         </div>
-                        <div class="flex items-start gap-4">
-                             <i class="fas fa-phone-alt text-xl text-[#0c4873] mt-1"></i>
+
+                        <div class="flex items-start" style="gap: 5px;">
+                            <div class="w-12 h-12 service-icon rounded-full flex items-center justify-center text-white flex-shrink-0">
+                                <i class="fas fa-phone-alt text-xl"></i>
+                            </div>
                             <div>
-                                <a id="contact-phone-link" href="#" class="text-gray-600 hover:text-[#0c4873]" dir="ltr"></a>
+                                <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="ar">كلمنا</h3>
+                                <h3 class="text-xl font-bold text-gray-800 mb-1" data-lang="en">Call Us</h3>
+                                <p class="text-gray-600 mb-2" dir="ltr">01505422200</p>
+                                <a href="tel:01505422200" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="ar">اتصل بنا</a>
+                                <a href="tel:01505422200" class="text-[#0c4873] font-bold hover:underline inline-block" data-lang="en">Call Us</a>
                             </div>
                         </div>
                     </div>
+
+                    <div class="glass-card rounded-2xl p-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4" data-lang="ar">تابعنا</h3>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4" data-lang="en">Follow Us</h3>
+                        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
+                            <a href="https://www.facebook.com/Raslan2001/" target="_blank" class="contact-social-btn rounded-lg flex items-center justify-center hover:bg-blue-700 transition-colors px-6 py-3 gap-x-2">
+                                <span data-lang="ar" class="text-lg font-bold">فيسبوك</span>
+                                <span data-lang="en" class="text-lg font-bold">Facebook</span>
+                                <i class="fab fa-facebook-f text-xl"></i>
+                            </a>
+                            <a href="#" class="contact-social-btn rounded-lg flex items-center justify-center hover:bg-pink-600 transition-colors px-6 py-3 gap-x-2">
+                                <span data-lang="ar" class="text-lg font-bold">انستجرام</span>
+                                <span data-lang="en" class="text-lg font-bold">Instagram</span>
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="fade-in">
-                    <div class="glass-card rounded-2xl overflow-hidden h-full min-h-[400px]">
-                        <iframe id="contact-map-iframe" src="" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="glass-card rounded-2xl overflow-hidden h-full">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55251.37809870897!2d31.5665216!3d30.5167598!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f7e9a4f0f3d0c9%3A0x7ff9c5c7a9dc5e5d!2sMit%20Ghamr%2C%20Mit%20Ghamr%2C%20Dakahlia%20Governorate!5e0!3m2!1sen!2seg!4v1656522345678!5m2!1sen!2seg" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="bg-[#0c4873] text-white py-8">
-        <div class="container mx-auto px-4 text-center">
-             <p id="footer-copyright-ar" data-lang="ar"></p>
-             <p id="footer-copyright-en" data-lang="en"></p>
-             <p id="footer-powered-by-ar" data-lang="ar"></p>
-             <p id="footer-powered-by-en" data-lang="en"></p>
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p data-lang="ar">© رسلان 2024. جميع الحقوق محفوظة.</p>
+                    <p data-lang="en">© Raslan 2024. All rights reserved.</p>
+                </div>
+                <div>
+                    <p data-lang="ar">تم التنفيذ بواسطة : <span class="font-bold">سامح رضا <a href="https://wa.me/201023160657" target="_blank" class="mr-2 inline-block"><i class="fab fa-whatsapp text-lg align-middle"></i></a></span></p>
+                    <p data-lang="en">Powered By: <span class="font-bold">Sameh Reda <a href="https://wa.me/201023160657" target="_blank" class="ml-2 inline-block"><i class="fab fa-whatsapp text-lg align-middle"></i></a></span></p>
+                </div>
+            </div>
         </div>
     </footer>
 
-    <!-- WHATSAPP FLOAT -->
-    <a id="whatsapp-float-link" href="#" target="_blank" class="whatsapp-float">
+    <a href="https://wa.me/201505422200" target="_blank" class="whatsapp-float">
         <i class="fab fa-whatsapp"></i>
     </a>
-    
-    <!-- LANGUAGE SWITCHER BUTTON -->
-    <div onclick="toggleLanguage()" class="lang-switcher-btn fixed top-5 left-5 z-[1001]">
-        <span id="lang-text"></span>
+    <div class="whatsapp-notification" id="whatsapp-notification">
+        <span data-lang="ar">اطلب استشارتك المجانية الان</span>
+        <span data-lang="en">Get your free consultation now</span>
     </div>
 
-    <!-- FIREBASE AND APP LOGIC SCRIPT -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+    <script>
+        // Slider functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
 
-        // Your provided Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyA12fSyvBCdVF62xVwGaEuJXlJOpGEMoKI",
-            authDomain: "raslan2025-47c6c.firebaseapp.com",
-            databaseURL: "https://raslan2025-47c6c-default-rtdb.firebaseio.com",
-            projectId: "raslan2025-47c6c",
-            storageBucket: "raslan2025-47c6c.appspot.com",
-            messagingSenderId: "320802083048",
-            appId: "1:320802083048:web:3c2d279b270443bfbc395d",
-            measurementId: "G-W1GWY4X7D6"
-        };
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        // --- Helper function to fetch data ---
-        async function fetchRealtimeData(path) {
-            try {
-                const snapshot = await get(ref(db, path));
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    // Convert objects to arrays for lists, but not for single items like 'about'
-                    if (path !== 'about' && path !== 'contact' && path !== 'footer' && typeof data === 'object' && data !== null) {
-                         return Object.values(data);
-                    }
-                    return data;
-                }
-                console.warn(`No data found at path: ${path}`);
-                return null;
-            } catch (error) {
-                console.error(`Error fetching data from ${path}:`, error);
-                return null;
-            }
-        }
-
-        // --- Data Loading Functions ---
-
-        async function loadAboutSection() {
-            const data = await fetchRealtimeData('about');
-            if (!data) return;
-            document.getElementById('about-p1-ar').textContent = data.aboutP1Ar || '';
-            document.getElementById('about-p1-en').textContent = data.aboutP1En || '';
-            document.getElementById('vision-title-ar').textContent = data.visionTitleAr || '';
-            document.getElementById('vision-title-en').textContent = data.visionTitleEn || '';
-            document.getElementById('vision-p1-ar').textContent = data.visionP1Ar || '';
-            document.getElementById('vision-p1-en').textContent = data.visionP1En || '';
-            document.getElementById('mission-title-ar').textContent = data.missionTitleAr || '';
-            document.getElementById('mission-title-en').textContent = data.missionTitleEn || '';
-            document.getElementById('mission-speed-ar').textContent = data.missionSpeedAr || '';
-            document.getElementById('mission-speed-en').textContent = data.missionSpeedEn || '';
-            document.getElementById('mission-speed-desc-ar').textContent = data.missionSpeedDescAr || '';
-            document.getElementById('mission-speed-desc-en').textContent = data.missionSpeedDescEn || '';
-            document.getElementById('mission-price-ar').textContent = data.missionPriceAr || '';
-            document.getElementById('mission-price-en').textContent = data.missionPriceEn || '';
-            document.getElementById('mission-price-desc-ar').textContent = data.missionPriceDescAr || '';
-            document.getElementById('mission-price-desc-en').textContent = data.missionPriceDescEn || '';
-            document.getElementById('about-img1').src = data.aboutImg1Url || '';
-            document.getElementById('about-img2').src = data.aboutImg2Url || '';
-        }
-
-        async function loadServices() {
-            const data = await fetchRealtimeData('services');
-            const container = document.getElementById('services-container');
-            if (!data || !container) return;
-            container.innerHTML = '';
-            data.forEach(service => {
-                container.innerHTML += `
-                    <div class="service-card fade-in">
-                        <div class="service-card-header" style="background-image: url('${service.imageUrl || ''}');">
-                            <h3 data-lang="ar">${service.titleAr || ''}</h3>
-                            <h3 data-lang="en">${service.titleEn || ''}</h3>
-                        </div>
-                        <div class="service-card-description">
-                            <p data-lang="ar">${service.descAr || ''}</p>
-                            <p data-lang="en">${service.descEn || ''}</p>
-                        </div>
-                    </div>`;
-            });
-        }
-        
-        async function loadProjects() {
-            const data = await fetchRealtimeData('projects');
-            const container = document.getElementById('projects-container');
-            if (!data || !container) return;
-            container.innerHTML = '';
-            data.forEach(project => {
-                container.innerHTML += `
-                    <div class="glass-card rounded-2xl overflow-hidden shadow-lg fade-in">
-                        <img src="${project.imageUrl || ''}" alt="${project.titleAr}" class="w-full h-64 object-cover">
-                        <div class="p-8">
-                            <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">${project.titleAr || ''}</h3>
-                            <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">${project.titleEn || ''}</h3>
-                            <p class="text-gray-700" data-lang="ar">${project.descAr || ''}</p>
-                            <p class="text-gray-700" data-lang="en">${project.descEn || ''}</p>
-                        </div>
-                    </div>`;
-            });
-        }
-        
-        async function loadWorkHeroes() {
-            const data = await fetchRealtimeData('workHeroes');
-            const container = document.getElementById('work-heroes-container');
-            if (!data || !container) return;
-            container.innerHTML = '';
-            data.forEach(hero => {
-                container.innerHTML += `
-                    <div class="overlapping-grid-item">
-                        <img src="${hero.imageUrl || ''}" alt="Work Hero">
-                    </div>`;
-            });
-        }
-
-        async function loadTeam() {
-            const data = await fetchRealtimeData('team');
-            const container = document.getElementById('team-container');
-            if (!data || !container) return;
-            container.innerHTML = '';
-            data.forEach(member => {
-                 container.innerHTML += `
-                    <div class="team-card glass-card rounded-2xl overflow-hidden fade-in">
-                        <div class="overflow-hidden h-80">
-                            <img src="${member.imageUrl || ''}" alt="${member.nameAr}" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6 text-center">
-                            <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="ar">${member.nameAr || ''}</h3>
-                            <h3 class="text-xl font-bold mb-2 text-[#0c4873]" data-lang="en">${member.nameEn || ''}</h3>
-                            <p class="text-gray-600" data-lang="ar">${member.positionAr || ''}</p>
-                            <p class="text-gray-600" data-lang="en">${member.positionEn || ''}</p>
-                        </div>
-                    </div>`;
-            });
-        }
-
-        async function loadClients() {
-            const data = await fetchRealtimeData('clients');
-            const container = document.getElementById('clients-container');
-            if (!data || !container) return;
-            container.innerHTML = '';
-            data.forEach(client => {
-                container.innerHTML += `
-                    <div class="glass-card p-6 rounded-2xl fade-in flex justify-center items-center">
-                        <img src="${client.logoUrl || ''}" alt="Client Logo" class="max-h-24 w-auto">
-                    </div>`;
-            });
-        }
-
-        async function loadContact() {
-            const data = await fetchRealtimeData('contact');
-            if (!data) return;
-            document.getElementById('contact-address-ar').textContent = data.addressAr || '';
-            document.getElementById('contact-address-en').textContent = data.addressEn || '';
-            document.getElementById('contact-email-link').href = 'mailto:' + (data.email || '');
-            document.getElementById('contact-email-link').textContent = data.email || '';
-            document.getElementById('contact-phone-link').href = 'tel:' + (data.phone || '');
-            document.getElementById('contact-phone-link').textContent = data.phone || '';
-            document.getElementById('contact-map-iframe').src = data.mapIframeSrc || '';
-            document.getElementById('whatsapp-float-link').href = `https://wa.me/${data.whatsappFloatPhone || ''}`;
-        }
-        
-        async function loadFooter() {
-            const data = await fetchRealtimeData('footer');
-            if (!data) return;
-            document.getElementById('footer-copyright-ar').textContent = data.copyrightAr || '';
-            document.getElementById('footer-copyright-en').textContent = data.copyrightEn || '';
-            const poweredByAr = document.getElementById('footer-powered-by-ar');
-            const poweredByEn = document.getElementById('footer-powered-by-en');
-            poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
-            poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
-        }
-        
-        // --- Static UI Logic (Slider, Language, Scroll) ---
-        function setupUI() {
-            // Slider
-            let currentSlide = 0;
-            const slides = document.querySelectorAll('.slide');
-            if (slides.length > 0) {
-                 setInterval(() => {
-                    slides[currentSlide].classList.remove('active');
-                    currentSlide = (currentSlide + 1) % slides.length;
-                    slides[currentSlide].classList.add('active');
-                }, 3000);
+            if (index >= totalSlides) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = index;
             }
 
-            // Fade-in on scroll
+            slides[currentSlide].classList.add('active');
+        }
+
+        // Auto slide every 2 seconds
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 2000); // 2 seconds
+
+        // Fade-in animation on scroll
+        function checkFadeElements() {
             const fadeElements = document.querySelectorAll('.fade-in');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-            fadeElements.forEach(el => observer.observe(el));
+            const windowHeight = window.innerHeight;
+
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('visible');
+                } else {
+                    element.classList.remove('visible'); // Optional: remove if element scrolls out of view
+                }
+            });
         }
 
-        // --- Language Switcher ---
+        window.addEventListener('scroll', checkFadeElements);
+        window.addEventListener('load', checkFadeElements); // Check on page load
+
+        // Language switching functionality
         function setLanguage(lang) {
             document.documentElement.setAttribute('lang', lang);
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
             localStorage.setItem('preferredLanguage', lang);
-            document.getElementById('lang-text').textContent = (lang === 'ar') ? 'English' : 'عربي';
+            updateLanguageButtonText(lang); // Update button text after setting language
+            showWhatsappNotification(); // Re-show notification with correct language
         }
 
-        window.toggleLanguage = function() {
-            const newLang = document.documentElement.lang === 'ar' ? 'en' : 'ar';
+        function toggleLanguage() {
+            const currentLang = document.documentElement.getAttribute('lang');
+            const newLang = (currentLang === 'ar') ? 'en' : 'ar';
             setLanguage(newLang);
         }
 
-        // --- Initial Load ---
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Load all data from Firebase
-            await Promise.all([
-                loadAboutSection(),
-                loadServices(),
-                loadProjects(),
-                loadWorkHeroes(),
-                loadTeam(),
-                loadClients(),
-                loadContact(),
-                loadFooter()
-            ]);
-            
-            // Setup static UI interactions
-            setupUI();
+        function updateLanguageButtonText(lang) {
+            const langButtonTextElement = document.getElementById('lang-text');
+            if (langButtonTextElement) {
+                if (lang === 'ar') {
+                    langButtonTextElement.textContent = 'English';
+                } else {
+                    langButtonTextElement.textContent = 'عربي';
+                }
+            }
+        }
 
-            // Set initial language
-            const initialLang = localStorage.getItem('preferredLanguage') || 'ar';
+        // Set initial language and update button text on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            let initialLang = localStorage.getItem('preferredLanguage');
+
+            if (!initialLang) {
+                const browserLang = navigator.language || navigator.languages[0];
+                if (browserLang.startsWith('ar')) {
+                    initialLang = 'ar';
+                } else {
+                    initialLang = 'en';
+                }
+            }
             setLanguage(initialLang);
+
+            setTimeout(() => {
+                showWhatsappNotification();
+            }, 2000);
         });
+
+        function showWhatsappNotification() {
+            const notification = document.getElementById('whatsapp-notification');
+            const currentLang = document.documentElement.getAttribute('lang');
+
+            // Explicitly show/hide based on data-lang
+            notification.querySelectorAll('span').forEach(span => {
+                if (span.getAttribute('data-lang') === currentLang) {
+                    span.style.display = 'inline';
+                } else {
+                    span.style.display = 'none';
+                }
+            });
+
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+
+        // Sticky header logic
+        const scrolledHeader = document.getElementById('scrolled-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                scrolledHeader.classList.add('visible');
+            } else {
+                scrolledHeader.classList.remove('visible');
+            }
+        });
+
+        // --- Horizontal Auto-Scrolling and Dragging for Work Heroes ---
+        const scrollContainer = document.querySelector('.overlapping-grid-container');
+        const scrollContent = document.querySelector('.overlapping-grid');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let scrollInterval;
+        const autoScrollSpeed = 0.2; // سرعة التمرير التلقائي البطيئة
+        const autoScrollDelay = 3000; // وقت التأخير قبل استئناف التمرير التلقائي بعد التفاعل اليدوي
+
+        function startAutoScroll() {
+            if (!scrollContainer || !scrollContent) return;
+            stopAutoScroll();
+
+            // تحقق مما إذا كان المحتوى أوسع من الحاوية قبل بدء التمرير التلقائي
+            if (scrollContent.scrollWidth <= scrollContainer.clientWidth + 5) {
+                return;
+            }
+
+            scrollInterval = setInterval(() => {
+                if (scrollContainer.scrollLeft + scrollContainer.clientWidth >= scrollContent.scrollWidth - 1) {
+                    scrollContainer.scrollTo({
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    scrollContainer.scrollLeft += autoScrollSpeed;
+                }
+            }, 10);
+        }
+
+        function stopAutoScroll() {
+            clearInterval(scrollInterval);
+        }
+
+        // بدء التمرير التلقائي فور تحميل الصفحة
+        window.addEventListener('load', startAutoScroll);
+
+        // وظيفة السحب بالماوس
+        scrollContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            scrollContainer.classList.add('is-dragging');
+            startX = e.pageX - scrollContainer.offsetLeft;
+            scrollLeft = scrollContainer.scrollLeft;
+            stopAutoScroll();
+        });
+
+        scrollContainer.addEventListener('mouseleave', () => {
+            if (isDown) {
+                isDown = false;
+                scrollContainer.classList.remove('is-dragging');
+                setTimeout(startAutoScroll, autoScrollDelay);
+            }
+        });
+
+        scrollContainer.addEventListener('mouseup', () => {
+            if (isDown) {
+                isDown = false;
+                scrollContainer.classList.remove('is-dragging');
+                setTimeout(startAutoScroll, autoScrollDelay);
+            }
+        });
+
+        scrollContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - scrollContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            scrollContainer.scrollLeft = scrollLeft - walk;
+        });
+
+        // وظيفة السحب باللمس للأجهزة المحمولة
+        scrollContainer.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - scrollContainer.offsetLeft;
+            scrollLeft = scrollContainer.scrollLeft;
+            stopAutoScroll();
+        });
+
+        scrollContainer.addEventListener('touchend', () => {
+            isDown = false;
+            setTimeout(startAutoScroll, autoScrollDelay);
+        });
+
+        scrollContainer.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - scrollContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            scrollContainer.scrollLeft = scrollLeft - walk;
+        });
+        // --- نهاية التمرير التلقائي والسحب ---
     </script>
 </body>
 </html>
