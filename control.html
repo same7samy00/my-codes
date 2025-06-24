@@ -4,474 +4,318 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة تحكم رسلان</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
     <style>
         body {
-            /* Background Image with Blur and Animation */
-            background-image: url('https://i.postimg.cc/wTnsmsns/20250623-0200-Concrete-Construction-Progress-remix-01jycxtzpyexq8ptfnqz2gm819.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background: linear-gradient(135deg, #0c4873, #000);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            font-family: 'Cairo', Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: white;
             padding: 20px;
             box-sizing: border-box;
-            position: relative;
-            overflow-y: auto;
         }
-
-        /* Pseudo-element for background blur and overlay */
-        body::before {
-            content: "";
-            position: fixed; /* Use fixed to cover entire viewport consistently */
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('https://i.postimg.cc/wTnsmsns/20250623-0200-Concrete-Construction-Progress-remix-01jycxtzpyexq8ptfnqz2gm819.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* Important for consistency with body */
-            filter: blur(30px); /* Increased blur */
-            z-index: -2; /* Placed behind the overlay and content */
-            animation: subtleBackgroundMove 30s infinite alternate ease-in-out;
-        }
-
-        /* Overlay for black tint */
-        body::after {
-            content: "";
-            position: fixed; /* Use fixed to cover entire viewport consistently */
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* 50% black overlay */
-            z-index: -1; /* Between blurred background and content */
-        }
-
-        @keyframes subtleBackgroundMove {
-            from {
-                transform: scale(1) translateX(0) translateY(0);
-            }
-            to {
-                transform: scale(1.05) translateX(10px) translateY(10px);
-            }
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 40px; /* Increased gap between sections */
-            max-width: 1100px; /* Wider container to spread out content */
-            width: 100%;
-            z-index: 1; /* Ensure content is above blurred background */
-            padding: 20px; /* Add padding to the container itself */
-            box-sizing: border-box;
-        }
-
-        /* --- Global styles for elements previously inside glass-section --- */
-        .panel-area {
-            background: rgba(255, 255, 255, 0.08); /* Apply glass effect to logical groups */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
-            border-radius: 25px;
+            border-radius: 20px;
             padding: 2.5rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 0 25px rgba(0,0,0,0.6);
+            max-width: 550px;
+            width: 100%;
             text-align: center;
-            margin-bottom: 25px; /* Space between areas */
-        }
-
-        .logo {
-            margin-bottom: 30px; /* More space below logo */
-            max-width: 180px; /* Slightly larger logo */
-            height: auto;
-            display: block; /* Ensure it takes its own line */
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        h2 {
-            margin-bottom: 2rem; /* More space below main headings */
-            font-size: 2.8rem; /* Larger main headings */
-            color: #e0f2f7;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        h3 {
-            font-size: 1.8rem; /* Larger sub-headings */
-            color: #cceeff;
-            margin-top: 40px; /* More space above sub-headings */
-            margin-bottom: 20px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
-        }
-
-        .input-group {
-            margin-bottom: 20px; /* More space between input groups */
-            text-align: right;
             display: flex;
             flex-direction: column;
-            align-items: flex-end; /* Align label and input to the right */
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px; /* More space between label and input */
-            font-size: 1rem; /* Slightly larger labels */
-            color: #cceeff;
-            display: flex; /* For icon alignment */
             align-items: center;
-            gap: 8px; /* Space between icon and label text */
         }
-
-        input, textarea {
-            width: 100%;
-            padding: 15px; /* Larger padding for inputs */
-            border-radius: 12px; /* More rounded inputs */
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.15); /* Slightly more opaque for better visibility */
-            color: white;
-            font-size: 1.1rem; /* Larger font in inputs */
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-            direction: rtl;
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.7); /* Clearer placeholders */
-        }
-
-        input:focus, textarea:focus {
-            border-color: #74a0c8;
-            outline: none;
-            box-shadow: 0 0 15px rgba(116, 160, 200, 0.8); /* Stronger glow on focus */
-            background: rgba(255, 255, 255, 0.25); /* More visible on focus */
-        }
-
-        button {
-            padding: 14px 30px; /* Larger buttons */
-            margin: 20px 10px 0; /* More space around buttons */
-            border-radius: 12px; /* More rounded buttons */
-            font-size: 1.15rem; /* Larger font in buttons */
-            display: inline-flex;
-            align-items: center;
-            gap: 10px; /* More space for icons */
+        .logo-container {
+            margin-bottom: 25px; /* Space below the logo */
+            display: flex;
             justify-content: center;
-            direction: rtl;
-            min-width: 150px; /* Ensure buttons have a minimum width */
+            align-items: center;
         }
-
-        button.primary {
+        .logo-container img {
+            max-width: 120px; /* Adjust logo size as needed */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Remove extra space below image */
+        }
+        .input-group {
+            position: relative;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .input-group i {
+            position: absolute;
+            /* Adjust this for RTL: icon on the left, text on the right */
+            left: 15px; /* Icon on the left side */
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1em;
+            pointer-events: none; /* Make sure icon doesn't interfere with input focus */
+        }
+        input, textarea, select {
+            /* Adjust padding for icon on the left and text on the right */
+            width: calc(100% - 30px); /* Full width minus icon padding */
+            padding: 12px 15px 12px 45px; /* Padding-right for text, padding-left for icon */
+            margin: 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 1rem;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: white;
+            outline: none;
+            transition: border-color 0.3s, background-color 0.3s;
+            text-align: right; /* Align text to the right for RTL */
+            box-sizing: border-box; /* Include padding in element's total width */
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: #0c4873;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1.1rem;
             background: #0c4873;
             color: white;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            display: flex; /* Allow icon inside button */
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* Space between icon and text */
         }
-        button.primary:hover {
-            background: #0a3d60;
-            transform: translateY(-3px); /* Slightly more pronounced hover */
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        button i {
+            margin-left: 5px; /* Space between icon and text in RTL */
         }
-        button.danger {
-            background: #dc3545;
-            color: white;
+        button:hover {
+            background: #073251;
+            transform: translateY(-2px);
         }
-        button.danger:hover {
-            background: #c82333;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2em;
+            font-weight: 600;
         }
-        button.warning {
-            background: #ffc107;
-            color: #333;
-        }
-        button.warning:hover {
-            background: #e0a800;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-        }
+        .hidden { display: none; }
 
-        /* Tabs Styling - Applied directly within the main content area */
+        /* Tab Styles */
         .tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 40px; /* More space below tabs */
-            background: rgba(255, 255, 255, 0.1); /* Lighter glass for tabs bar */
-            border-radius: 20px;
-            padding: 12px;
-            box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
-            flex-wrap: wrap;
-            gap: 15px; /* Gap between tab buttons themselves */
+            width: 100%;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
         }
-
         .tab-button {
-            flex: 1;
-            min-width: 150px; /* Ensure good minimum width for tab buttons */
-            padding: 15px 25px; /* Larger tab buttons */
+            background: none;
             border: none;
-            border-radius: 15px; /* More rounded tab buttons */
-            background: transparent;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.2rem; /* Larger font in tabs */
+            padding: 10px 20px;
+            font-size: 1.1em;
+            color: rgba(255, 255, 255, 0.7);
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            display: inline-flex;
+            transition: color 0.3s, border-bottom 0.3s;
+            position: relative;
+            top: 2px;
+            outline: none;
+            display: flex;
             align-items: center;
-            gap: 10px;
-            justify-content: center;
-            direction: rtl;
+            gap: 8px; /* Space between icon and text */
         }
-
         .tab-button.active {
-            background: #0c4873;
             color: white;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-            transform: translateY(-2px);
+            border-bottom: 2px solid #0c4873;
+            font-weight: bold;
         }
-
         .tab-button:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
+            color: rgba(255, 255, 255, 0.9);
         }
-
         .tab-content {
-            display: none;
-            padding-top: 30px; /* Space between tabs bar and content */
-            /* Add individual glass effect for content within tab */
-            background: rgba(255, 255, 255, 0.05); /* Lighter glass for content area */
-            backdrop-filter: blur(8px); /* Slightly less blur for content */
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            width: 100%;
         }
 
-        .tab-content.active {
-            display: block;
+        .item-list-container {
+            max-height: 300px;
+            overflow-y: auto;
+            width: 100%;
+            padding-right: 10px;
+            box-sizing: border-box;
+            margin-top: 20px;
         }
-
-        .items-list-section {
-            margin-top: 35px; /* More space above item list */
+        .item-list-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .item-list-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .item-list-container::-webkit-scrollbar-thumb {
+            background: #0c4873;
+            border-radius: 10px;
         }
         .item-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px; /* More rounded item cards */
-            padding: 20px; /* More padding for item cards */
-            margin-bottom: 20px; /* More space between item cards */
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
             display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            position: relative;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .item-card strong {
-            font-size: 1.2rem; /* Larger font for item titles */
-            margin-bottom: 10px;
-            color: #e0f2f7;
+            flex-grow: 1;
             text-align: right;
-            width: 100%;
         }
-        .item-card p {
-            text-align: right;
-            width: 100%;
-        }
-        .item-card .actions {
-            display: flex;
-            gap: 15px; /* More space between action buttons */
-            margin-top: 15px;
-            width: 100%;
-            justify-content: flex-start;
-        }
-        .item-card .actions button {
+        .item-card button {
+            width: auto;
+            padding: 8px 15px;
             margin: 0;
-            padding: 10px 20px; /* Larger action buttons */
-            font-size: 1rem;
+            font-size: 0.95rem;
+            gap: 5px; /* Smaller gap for action buttons */
+        }
+        .item-card button:first-of-type {
+            background: #dc3545;
+        }
+        .item-card button:first-of-type:hover {
+            background: #c82333;
+        }
+        .item-card button:nth-of-type(2) {
+            background: #ffc107;
+            color: #333;
+        }
+        .item-card button:nth-of-type(2):hover {
+            background: #e0a800;
         }
 
-        .hidden {
-            display: none !important;
-        }
-
-        /* Notification Toast */
-        .notification-toast {
-            position: fixed;
-            top: -100px; /* Start off-screen */
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(20, 180, 80, 0.9); /* Default success color */
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 1000; /* Ensure it's on top */
-            transition: top 0.5s ease-out, background-color 0.3s ease; /* Animation */
-            min-width: 250px;
-            text-align: center;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            direction: rtl;
-        }
-
-        .notification-toast.show {
-            top: 20px; /* Slide down into view */
-        }
-
-        .notification-toast.error {
-            background-color: rgba(220, 50, 50, 0.9); /* Error color */
-        }
-
-        .notification-toast.info {
-            background-color: rgba(50, 150, 220, 0.9); /* Info color */
-        }
-
-        .notification-toast i {
-            font-size: 1.3rem;
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 1024px) {
-            .container {
-                max-width: 90%; /* Adjust container width for medium screens */
+        /* Media Queries for Responsiveness */
+        @media (max-width: 600px) {
+            .glass-card {
+                padding: 1.5rem;
+                border-radius: 15px;
             }
-            h2 { font-size: 2.2rem; }
-            h3 { font-size: 1.6rem; }
-            input, textarea, button, .tab-button { font-size: 1rem; padding: 12px 20px; }
-            .logo { max-width: 120px; }
-        }
-
-        @media (max-width: 768px) {
-            body { padding: 15px; }
-            .container { gap: 30px; padding: 15px; }
-            .panel-area { padding: 2rem; }
-            h2 { font-size: 1.8rem; margin-bottom: 1.5rem; }
-            h3 { font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; }
-            .logo { max-width: 100px; margin-bottom: 20px; }
-            .input-group { margin-bottom: 15px; }
-            label { font-size: 0.9rem; margin-bottom: 8px; }
-            input, textarea { padding: 10px; font-size: 0.95rem; border-radius: 10px; }
-            button { padding: 10px 20px; font-size: 0.95rem; margin: 15px 5px 0; border-radius: 10px; min-width: unset; }
-            .tabs { padding: 8px; border-radius: 15px; margin-bottom: 25px; gap: 10px; }
+            h2 {
+                font-size: 1.8em;
+                margin-bottom: 1rem;
+            }
+            input, textarea, select, button {
+                font-size: 0.95rem;
+                padding: 10px 15px 10px 40px;
+            }
             .tab-button {
-                padding: 10px 15px;
-                font-size: 1rem;
-                flex: none;
-                width: calc(50% - 10px); /* Two columns layout for tabs */
-                margin: 0; /* Reset margin from tabs container */
+                font-size: 1em;
+                padding: 8px 15px;
             }
-            .tab-content { padding-top: 20px; padding: 2rem; border-radius: 15px; }
-            .item-card { padding: 15px; margin-bottom: 15px; border-radius: 12px; }
-            .item-card strong { font-size: 1.1rem; margin-bottom: 5px; }
-            .item-card .actions { flex-direction: column; gap: 8px; }
-            .item-card .actions button { width: 100%; padding: 8px 15px; font-size: 0.9rem; }
-            .notification-toast { width: auto; min-width: unset; left: 10px; right: 10px; transform: translateX(0); }
-        }
-
-        @media (max-width: 480px) {
-            .panel-area { padding: 1.5rem; }
-            h2 { font-size: 1.5rem; }
-            h3 { font-size: 1.2rem; }
-            .logo { max-width: 80px; }
-            button { font-size: 0.9rem; padding: 8px 15px; }
-            .tab-button { font-size: 0.9rem; padding: 8px 12px; }
-            .tab-content { padding: 1.5rem; }
+            .item-card {
+                flex-direction: column; /* Stack items vertically on small screens */
+                align-items: stretch; /* Stretch items to fill width */
+            }
+            .item-card button {
+                width: 100%; /* Full width buttons on small screens */
+                margin-top: 5px;
+            }
+            .item-card strong {
+                text-align: center;
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div id="notification-toast" class="notification-toast">
-    <span id="notification-message"></span>
+<div class="glass-card" id="login-section">
+    <div class="logo-container">
+        <img src="https://i.postimg.cc/0yJDWC7f/Untitled-7-01.png" alt="Raslan Logo">
+    </div>
+    <h2><i class="fas fa-lock"></i> دخول لوحة التحكم</h2>
+    <div class="input-group">
+        <input type="text" id="username" placeholder="اسم المستخدم">
+        <i class="fas fa-user"></i>
+    </div>
+    <div class="input-group">
+        <input type="password" id="password" placeholder="كلمة المرور">
+        <i class="fas fa-key"></i>
+    </div>
+    <button onclick="checkLogin()"><i class="fas fa-sign-in-alt"></i> دخول</button>
 </div>
 
-<div class="container">
-    <div id="login-panel-area" class="panel-area">
-        <img src="https://i.postimg.cc/0yJDWC7f/Untitled-7-01.png" alt="Raslan Logo" class="logo">
-        <h2>دخول لوحة التحكم</h2>
-        <div class="input-group">
-            <label for="password"><i class="fas fa-lock"></i> كلمة المرور</label>
-            <input type="password" id="password" placeholder="ادخل كلمة المرور">
-        </div>
-        <button class="primary" onclick="checkLogin()"><i class="fas fa-sign-in-alt"></i> دخول</button>
+<div class="glass-card hidden" id="control-panel">
+    <div class="logo-container">
+        <img src="https://i.postimg.cc/0yJDWC7f/Untitled-7-01.png" alt="Raslan Logo">
+    </div>
+    <h2><i class="fas fa-cog"></i> إدارة بيانات رسلان</h2>
+
+    <div class="tabs">
+        <button class="tab-button active" data-tab="services"><i class="fas fa-briefcase"></i> الخدمات</button>
+        <button class="tab-button" data-tab="projects"><i class="fas fa-project-diagram"></i> المشاريع</button>
     </div>
 
-    <div id="control-panel-area" class="panel-area hidden">
-        <img src="https://i.postimg.cc/0yJDWC7f/Untitled-7-01.png" alt="Raslan Logo" class="logo">
-        <h2>إدارة بيانات رسلان</h2>
-
-        <div class="tabs">
-            <button class="tab-button active" onclick="showTab('services')"><i class="fas fa-handshake"></i> الخدمات</button>
-            <button class="tab-button" onclick="showTab('projects')"><i class="fas fa-folder-open"></i> المشاريع</button>
+    <div id="services-tab" class="tab-content">
+        <div class="input-group">
+            <input type="text" id="service-title" placeholder="عنوان الخدمة بالعربية">
+            <i class="fas fa-heading"></i>
         </div>
-
-        <div id="services-tab-content" class="tab-content active">
-            <div class="input-group">
-                <label for="title"><i class="fas fa-heading"></i> العنوان بالعربية</label>
-                <input type="text" id="title" placeholder="ادخل العنوان باللغة العربية">
-            </div>
-            <div class="input-group">
-                <label for="title_en"><i class="fas fa-heading"></i> العنوان بالإنجليزية</label>
-                <input type="text" id="title_en" placeholder="Enter title in English">
-            </div>
-            <div class="input-group">
-                <label for="desc"><i class="fas fa-file-alt"></i> الوصف بالعربية</label>
-                <textarea id="desc" placeholder="ادخل الوصف باللغة العربية" rows="4"></textarea>
-            </div>
-            <div class="input-group">
-                <label for="desc_en"><i class="fas fa-file-alt"></i> الوصف بالإنجليزية</label>
-                <textarea id="desc_en" placeholder="Enter description in English" rows="4"></textarea>
-            </div>
-            <div class="input-group">
-                <label for="image"><i class="fas fa-image"></i> رابط الصورة</label>
-                <input type="text" id="image" placeholder="ادخل رابط الصورة">
-            </div>
-            <button class="primary" onclick="addItem()"><i class="fas fa-plus-circle"></i> إضافة خدمة جديدة</button>
-
-            <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 30px auto;">
-
-            <h3>الخدمات الموجودة</h3>
-            <div id="services-list" class="items-list-section">
-                </div>
+        <div class="input-group">
+            <input type="text" id="service-title_en" placeholder="عنوان الخدمة بالإنجليزية">
+            <i class="fas fa-heading"></i>
         </div>
-
-        <div id="projects-tab-content" class="tab-content">
-            <div class="input-group">
-                <label for="project_title"><i class="fas fa-heading"></i> عنوان المشروع بالعربية</label>
-                <input type="text" id="project_title" placeholder="ادخل عنوان المشروع باللغة العربية">
-            </div>
-            <div class="input-group">
-                <label for="project_title_en"><i class="fas fa-heading"></i> عنوان المشروع بالإنجليزية</label>
-                <input type="text" id="project_title_en" placeholder="Enter project title in English">
-            </div>
-            <div class="input-group">
-                <label for="project_desc"><i class="fas fa-file-alt"></i> وصف المشروع بالعربية</label>
-                <textarea id="project_desc" placeholder="ادخل وصف المشروع باللغة العربية" rows="4"></textarea>
-            </div>
-            <div class="input-group">
-                <label for="project_desc_en"><i class="fas fa-file-alt"></i> وصف المشروع بالإنجليزية</label>
-                <textarea id="project_desc_en" placeholder="Enter description in English" rows="4"></textarea>
-            </div>
-            <div class="input-group">
-                <label for="project_image"><i class="fas fa-image"></i> رابط صورة المشروع</label>
-                <input type="text" id="project_image" placeholder="ادخل رابط صورة المشروع">
-            </div>
-            <button class="primary" onclick="addProject()"><i class="fas fa-plus-circle"></i> إضافة مشروع جديد</button>
-
-            <hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 30px auto;">
-
-            <h3>المشاريع الموجودة</h3>
-            <div id="projects-list" class="items-list-section">
-                </div>
+        <div class="input-group">
+            <textarea id="service-desc" placeholder="وصف الخدمة بالعربية"></textarea>
+            <i class="fas fa-align-right"></i>
         </div>
+        <div class="input-group">
+            <textarea id="service-desc_en" placeholder="وصف الخدمة بالإنجليزية"></textarea>
+            <i class="fas fa-align-left"></i>
+        </div>
+        <div class="input-group">
+            <input type="text" id="service-image" placeholder="رابط صورة الخدمة">
+            <i class="fas fa-image"></i>
+        </div>
+        <button onclick="addItem('services')"><i class="fas fa-plus-circle"></i> إضافة خدمة جديدة</button>
+        <div id="services-list" class="item-list-container"></div>
+    </div>
+
+    <div id="projects-tab" class="tab-content hidden">
+        <div class="input-group">
+            <input type="text" id="project-title" placeholder="عنوان المشروع بالعربية">
+            <i class="fas fa-heading"></i>
+        </div>
+        <div class="input-group">
+            <input type="text" id="project-title_en" placeholder="عنوان المشروع بالإنجليزية">
+            <i class="fas fa-heading"></i>
+        </div>
+        <div class="input-group">
+            <textarea id="project-desc" placeholder="وصف المشروع بالعربية"></textarea>
+            <i class="fas fa-align-right"></i>
+        </div>
+        <div class="input-group">
+            <textarea id="project-desc_en" placeholder="وصف المشروع بالإنجليزية"></textarea>
+            <i class="fas fa-align-left"></i>
+        </div>
+        <div class="input-group">
+            <input type="text" id="project-image" placeholder="رابط صورة المشروع">
+            <i class="fas fa-image"></i>
+        </div>
+        <button onclick="addItem('projects')"><i class="fas fa-plus-circle"></i> إضافة مشروع جديد</button>
+        <div id="projects-list" class="item-list-container"></div>
     </div>
 </div>
 
@@ -483,91 +327,62 @@
         projectId: "raslan-control-panel",
         storageBucket: "raslan-control-panel.appspot.com",
         messagingSenderId: "5477499403",
-        appId: "1:5477499403:web:709dfad2f118becb00bd0e",
-        measurementId: "G-23QTMWE0JF"
+        appId: "1:5477499403:web:709dfad2f118becb00bd0e"
     };
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
-    let currentTab = 'services'; // Default tab
+    // Event listeners for tabs
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tab = button.dataset.tab;
+                switchTab(tab);
+            });
+        });
+        // Initially load services tab content
+        switchTab('services');
+    });
 
-    // Function to show custom notification toasts
-    function showNotification(message, type = 'success') {
-        const toast = document.getElementById('notification-toast');
-        const msgSpan = document.getElementById('notification-message');
-        msgSpan.innerHTML = ''; // Clear previous content
+    function switchTab(tabName) {
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabContents.forEach(content => content.classList.add('hidden'));
 
-        // Add icon based on type
-        const icon = document.createElement('i');
-        if (type === 'success') {
-            icon.classList.add('fas', 'fa-check-circle');
-            toast.style.backgroundColor = 'rgba(20, 180, 80, 0.9)';
-        } else if (type === 'error') {
-            icon.classList.add('fas', 'fa-exclamation-triangle');
-            toast.style.backgroundColor = 'rgba(220, 50, 50, 0.9)';
-        } else if (type === 'info') {
-            icon.classList.add('fas', 'fa-info-circle');
-            toast.style.backgroundColor = 'rgba(50, 150, 220, 0.9)';
-        }
-        msgSpan.appendChild(icon);
-        msgSpan.appendChild(document.createTextNode(` ${message}`)); // Add message text
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => button.classList.remove('active'));
 
-        toast.classList.add('show');
+        document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+        document.querySelector(`.tab-button[data-tab="${tabName}"]`).classList.add('active');
 
-        // Hide after 3 seconds
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
+        // Clear forms and load items for the active tab
+        clearForm(tabName);
+        loadItems(tabName);
     }
 
     function checkLogin() {
-        const pass = document.getElementById('password').value;
-        if (pass === '010274') {
-            document.getElementById('login-panel-area').classList.add('hidden');
-            document.getElementById('control-panel-area').classList.remove('hidden');
-            showTab(currentTab); // Load items for the default tab
-            showNotification('تم تسجيل الدخول بنجاح!', 'success');
+        const user = document.getElementById('username').value.trim();
+        const pass = document.getElementById('password').value.trim();
+        if (user === 'Admin' && pass === '010274') {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('control-panel').classList.remove('hidden');
+            switchTab('services'); // Load services tab after login
         } else {
-            showNotification('كلمة المرور غير صحيحة.', 'error');
+            alert('بيانات الدخول غير صحيحة');
         }
     }
 
-    function showTab(tabName) {
-        currentTab = tabName; // Update current tab
-        // Hide all tab contents
-        document.querySelectorAll('.tab-content').forEach(content => {
-            content.classList.remove('active');
-        });
-        // Deactivate all tab buttons
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.classList.remove('active');
-        });
+    function addItem(type) {
+        const title = document.getElementById(`${type}-title`).value.trim();
+        const titleEn = document.getElementById(`${type}-title_en`).value.trim();
+        const desc = document.getElementById(`${type}-desc`).value.trim();
+        const descEn = document.getElementById(`${type}-desc_en`).value.trim();
+        const img = document.getElementById(`${type}-image`).value.trim();
 
-        // Show the selected tab content and activate its button
-        document.getElementById(`${tabName}-tab-content`).classList.add('active');
-        document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`).classList.add('active');
-
-        // Load items specific to the selected tab
-        if (tabName === 'services') {
-            loadItems('services', 'services-list');
-        } else if (tabName === 'projects') {
-            loadItems('projects', 'projects-list');
-        }
-
-        clearForm(); // Clear the form when switching tabs
-        resetAddButton(); // Reset add button text
-    }
-
-    function addItem() {
-        const title = document.getElementById('title').value;
-        const titleEn = document.getElementById('title_en').value;
-        const desc = document.getElementById('desc').value;
-        const descEn = document.getElementById('desc_en').value;
-        const img = document.getElementById('image').value;
-
-        if (!title || !desc || !img || !titleEn || !descEn) {
-            return showNotification('الرجاء تعبئة جميع حقول الخدمة المطلوبة.', 'error');
+        if (!title || !desc || !img) {
+            alert('يرجى ملء جميع الحقول المطلوبة.');
+            return;
         }
 
         const newItem = {
@@ -577,48 +392,20 @@
             "وصف إنجليزي": descEn,
             "رابط الصورة": img
         };
-        db.ref('services').push(newItem)
+
+        db.ref(`${type}`).push(newItem)
             .then(() => {
-                showNotification('تمت إضافة الخدمة بنجاح!', 'success');
-                clearForm();
-                loadItems('services', 'services-list');
+                clearForm(type);
+                loadItems(type);
             })
             .catch(error => {
-                showNotification('حدث خطأ أثناء إضافة الخدمة: ' + error.message, 'error');
+                console.error("Error adding item: ", error);
+                alert("حدث خطأ أثناء الإضافة.");
             });
     }
 
-    function addProject() {
-        const title = document.getElementById('project_title').value;
-        const titleEn = document.getElementById('project_title_en').value;
-        const desc = document.getElementById('project_desc').value;
-        const descEn = document.getElementById('project_desc_en').value;
-        const img = document.getElementById('project_image').value;
-
-        if (!title || !desc || !img || !titleEn || !descEn) {
-            return showNotification('الرجاء تعبئة جميع حقول المشروع المطلوبة.', 'error');
-        }
-
-        const newItem = {
-            "العنوان": title,
-            "عنوان إنجليزي": titleEn,
-            "الوصف": desc,
-            "وصف إنجليزي": descEn,
-            "رابط الصورة": img
-        };
-        db.ref('projects').push(newItem)
-            .then(() => {
-                showNotification('تمت إضافة المشروع بنجاح!', 'success');
-                clearForm();
-                loadItems('projects', 'projects-list');
-            })
-            .catch(error => {
-                showNotification('حدث خطأ أثناء إضافة المشروع: ' + error.message, 'error');
-            });
-    }
-
-    function loadItems(type, containerId) {
-        const container = document.getElementById(containerId);
+    function loadItems(type) {
+        const container = document.getElementById(`${type}-list`);
         container.innerHTML = '';
 
         db.ref(type).once('value', snapshot => {
@@ -629,127 +416,94 @@
                     container.innerHTML += `
                         <div class="item-card">
                             <strong>${item["العنوان"]}</strong>
-                            <p style="font-size:0.9rem; color: #aaffff; margin-top:5px;">(${item["عنوان إنجليزي"]})</p>
-                            <div class="actions">
-                                <button class="danger" onclick="deleteItem('${type}','${key}')"><i class="fas fa-trash-alt"></i> حذف</button>
-                                <button class="warning" onclick="editItem('${type}','${key}','${item["العنوان"]}','${item["عنوان إنجليزي"]}','${item["الوصف"]}','${item["وصف إنجليزي"]}','${item["رابط الصورة"]}')"><i class="fas fa-edit"></i> تعديل</button>
+                            <div>
+                                <button onclick="deleteItem('${type}','${key}')"><i class="fas fa-trash-alt"></i> حذف</button>
+                                <button onclick="fillForm('${type}','${key}','${item["العنوان"]}','${item["عنوان إنجليزي"]}','${item["الوصف"]}','${item["وصف إنجليزي"]}','${item["رابط الصورة"]}')"><i class="fas fa-edit"></i> تعديل</button>
                             </div>
                         </div>
                     `;
                 }
             } else {
-                container.innerHTML = '<p style="color: rgba(255,255,255,0.7);">لا توجد بيانات لعرضها في هذا القسم.</p>';
+                container.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.7);">لا توجد عناصر لعرضها.</p>';
             }
+        }, error => {
+            console.error("Error loading items: ", error);
+            container.innerHTML = '<p style="text-align: center; color: red;">حدث خطأ أثناء تحميل البيانات.</p>';
         });
     }
 
     function deleteItem(type, key) {
-        if (confirm('هل أنت متأكد من حذف هذا العنصر؟')) {
+        if (confirm('هل أنت متأكد من الحذف؟')) {
             db.ref(`${type}/${key}`).remove()
                 .then(() => {
-                    showNotification('تم الحذف بنجاح!', 'success');
-                    loadItems(type, type === 'services' ? 'services-list' : 'projects-list');
+                    loadItems(type);
                 })
                 .catch(error => {
-                    showNotification('حدث خطأ أثناء الحذف: ' + error.message, 'error');
+                    console.error("Error deleting item: ", error);
+                    alert("حدث خطأ أثناء الحذف.");
                 });
         }
     }
 
-    function editItem(type, key, title, titleEn, desc, descEn, img) {
-        clearForm();
+    function fillForm(type, key, title, titleEn, desc, descEn, img) {
+        document.getElementById(`${type}-title`).value = title;
+        document.getElementById(`${type}-title_en`).value = titleEn;
+        document.getElementById(`${type}-desc`).value = desc;
+        document.getElementById(`${type}-desc_en`).value = descEn;
+        document.getElementById(`${type}-image`).value = img;
 
-        if (type === 'services') {
-            document.getElementById('title').value = title;
-            document.getElementById('title_en').value = titleEn;
-            document.getElementById('desc').value = desc;
-            document.getElementById('desc_en').value = descEn;
-            document.getElementById('image').value = img;
-
-            const addButton = document.querySelector('#services-tab-content button.primary');
-            addButton.innerHTML = '<i class="fas fa-save"></i> تحديث الخدمة';
-            addButton.onclick = () => saveEditedItem('services', key);
-        } else if (type === 'projects') {
-            document.getElementById('project_title').value = title;
-            document.getElementById('project_title_en').value = titleEn;
-            document.getElementById('project_desc').value = desc;
-            document.getElementById('project_desc_en').value = descEn;
-            document.getElementById('project_image').value = img;
-
-            const addButton = document.querySelector('#projects-tab-content button.primary');
-            addButton.innerHTML = '<i class="fas fa-save"></i> تحديث المشروع';
-            addButton.onclick = () => saveEditedItem('projects', key);
-        }
-
-        if (currentTab !== type) {
-            showTab(type);
-        }
-
-        showNotification('تم تحميل البيانات للتعديل. اضغط على زر "تحديث" بعد الانتهاء.', 'info');
+        // Change "Add" button to "Update" and provide the key for update
+        const addButton = document.querySelector(`#${type}-tab button`);
+        addButton.innerHTML = `<i class="fas fa-save"></i> حفظ التعديلات`;
+        addButton.onclick = () => updateItem(type, key);
     }
 
-    function saveEditedItem(type, key) {
-        if (confirm('هل أنت متأكد من حفظ التعديلات؟')) {
-            let updatedItem = {};
-            if (type === 'services') {
-                updatedItem = {
-                    "العنوان": document.getElementById('title').value,
-                    "عنوان إنجليزي": document.getElementById('title_en').value,
-                    "الوصف": document.getElementById('desc').value,
-                    "وصف إنجليزي": document.getElementById('desc_en').value,
-                    "رابط الصورة": document.getElementById('image').value
-                };
-            } else if (type === 'projects') {
-                updatedItem = {
-                    "العنوان": document.getElementById('project_title').value,
-                    "عنوان إنجليزي": document.getElementById('project_title_en').value,
-                    "الوصف": document.getElementById('project_desc').value,
-                    "وصف إنجليزي": document.getElementById('project_desc_en').value,
-                    "رابط الصورة": document.getElementById('project_image').value
-                };
-            }
+    function updateItem(type, key) {
+        const title = document.getElementById(`${type}-title`).value.trim();
+        const titleEn = document.getElementById(`${type}-title_en`).value.trim();
+        const desc = document.getElementById(`${type}-desc`).value.trim();
+        const descEn = document.getElementById(`${type}-desc_en`).value.trim();
+        const img = document.getElementById(`${type}-image`).value.trim();
 
-            db.ref(`${type}/${key}`).set(updatedItem)
-                .then(() => {
-                    showNotification('تم تحديث البيانات بنجاح!', 'success');
-                    clearForm();
-                    loadItems(type, type === 'services' ? 'services-list' : 'projects-list');
-                    resetAddButton();
-                })
-                .catch(error => {
-                    showNotification('حدث خطأ أثناء التحديث: ' + error.message, 'error');
-                });
+        if (!title || !desc || !img) {
+            alert('يرجى ملء جميع الحقول المطلوبة للتعديل.');
+            return;
         }
+
+        const updatedItem = {
+            "العنوان": title,
+            "عنوان إنجليزي": titleEn,
+            "الوصف": desc,
+            "وصف إنجليزي": descEn,
+            "رابط الصورة": img
+        };
+
+        db.ref(`${type}/${key}`).set(updatedItem)
+            .then(() => {
+                alert('تم حفظ التعديلات بنجاح!');
+                clearForm(type);
+                loadItems(type);
+                // Reset the button to "Add New"
+                const addButton = document.querySelector(`#${type}-tab button`);
+                addButton.innerHTML = `<i class="fas fa-plus-circle"></i> إضافة ${type === 'services' ? 'خدمة' : 'مشروع'} جديدة`;
+                addButton.onclick = () => addItem(type);
+            })
+            .catch(error => {
+                console.error("Error updating item: ", error);
+                alert("حدث خطأ أثناء حفظ التعديلات.");
+            });
     }
 
-    function clearForm() {
-        // Clear services form
-        document.getElementById('title').value = '';
-        document.getElementById('title_en').value = '';
-        document.getElementById('desc').value = '';
-        document.getElementById('desc_en').value = '';
-        document.getElementById('image').value = '';
-
-        // Clear projects form
-        document.getElementById('project_title').value = '';
-        document.getElementById('project_title_en').value = '';
-        document.getElementById('project_desc').value = '';
-        document.getElementById('project_desc_en').value = '';
-        document.getElementById('project_image').value = '';
-    }
-
-    function resetAddButton() {
-        const serviceAddButton = document.querySelector('#services-tab-content button.primary');
-        if (serviceAddButton) {
-            serviceAddButton.innerHTML = '<i class="fas fa-plus-circle"></i> إضافة خدمة جديدة';
-            serviceAddButton.onclick = addItem;
-        }
-
-        const projectAddButton = document.querySelector('#projects-tab-content button.primary');
-        if (projectAddButton) {
-            projectAddButton.innerHTML = '<i class="fas fa-plus-circle"></i> إضافة مشروع جديد';
-            projectAddButton.onclick = addProject;
-        }
+    function clearForm(type) {
+        document.getElementById(`${type}-title`).value = '';
+        document.getElementById(`${type}-title_en`).value = '';
+        document.getElementById(`${type}-desc`).value = '';
+        document.getElementById(`${type}-desc_en`).value = '';
+        document.getElementById(`${type}-image`).value = '';
+        // Also reset the "Update" button back to "Add New"
+        const addButton = document.querySelector(`#${type}-tab button`);
+        addButton.innerHTML = `<i class="fas fa-plus-circle"></i> إضافة ${type === 'services' ? 'خدمة' : 'مشروع'} جديدة`;
+        addButton.onclick = () => addItem(type);
     }
 </script>
 
