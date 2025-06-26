@@ -3,13 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رسلان - للحلول الذكية</title>
-    <link rel="icon" href="https://i.postimg.cc/mDcf1TN3/Untitle22d-8-01.png" type="image/png">
+    <title data-lang="ar">رسلان - لحلول المقاولات والإنشاءات المتطورة في مصر والشرق الأوسط</title>
+    <title data-lang="en">Raslan - Advanced Contracting & Construction Solutions in Egypt & Middle East</title>
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Raslan - رسلان" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta name="description" content="شركة رسلان لحلول المقاولات والإنشاءات المتطورة في مصر والشرق الأوسط. متخصصون في قص وتقطيع الخرسانة، الترميم والتدعيم، تخريم وتزريع الأشاير، العزل، أرضيات الإيبوكسي، التشطيبات الداخلية والخارجية، بجودة عالية وأسعار تنافسية.">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <meta name="google-site-verification" content="LXqGD9G6hqE8gHv98OsI3NX94Yb-yxuV-bZXgVH2xR4" />
     <style>
+        /* CSS Shared from Main Page - Essential for consistent styling */
         :root {
             --primary: #0a3d62; /* Darker blue for a more professional feel */
             --secondary: #1a73e8; /* A vibrant blue for accents */
@@ -17,7 +27,7 @@
             --light-gray: #f8fbfd; /* Lighter background */
             --dark-gray: #4a5568;
             /* Reduced opacity for glass effect to improve performance */
-            --glass-bg: rgba(255, 255, 255, 0.1); 
+            --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
             /* Define variables for section backgrounds to be used in gradients for blur/shadow effects */
             --section-bg-start-color: #f8fbfd;
@@ -101,7 +111,6 @@
             background-color: rgba(37, 211, 102, 1);
             box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
         }
-
         /* WhatsApp Notification */
         .whatsapp-notification {
             position: fixed;
@@ -166,7 +175,6 @@
             object-fit: cover;
             object-position: center;
         }
-
         /* Gradient Overlay for Service and Project Card Images */
         .glass-card .image-wrapper::before {
             content: '';
@@ -183,12 +191,10 @@
         .glass-card:hover .image-wrapper::before {
             opacity: 1; /* Visible on hover */
         }
-
         /* Adjust Service Card padding to match Project Card and raise text */
         .service-card-content { /* Applied to the p-8 div in service cards */
             padding: 1.5rem 2rem; /* Slightly reduced top padding to move text up */
         }
-
 
         /* Contact Icons & Social Buttons */
         .service-icon, .contact-social-btn {
@@ -225,7 +231,6 @@
             justify-content: center;
             gap: 0.5rem; /* Space between text and icon */
         }
-
         /* Language Switcher Button - SMALLER */
         .lang-switcher-btn {
             cursor: pointer;
@@ -260,7 +265,6 @@
             transform: scale(1.05);
             box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
         }
-
         /* Section Backgrounds */
         .section-bg {
             background-image: linear-gradient(135deg, var(--light-gray) 0%, var(--section-bg-end-color) 100%); /* Lighter, subtle gradient */
@@ -268,7 +272,6 @@
         .section-bg-alt {
             background-image: linear-gradient(135deg, var(--section-bg-alt-start-color) 0%, var(--section-bg-alt-end-color) 100%); /* Inverse gradient */
         }
-
         /* Sticky Header - Reduced blur for performance */
         .scrolled-header {
             position: fixed;
@@ -301,7 +304,6 @@
             /* No special flex properties needed here as it's the only item and centered by parent */
             margin: 0 auto; /* Center the logo horizontally within its parent */
         }
-
         /* Work Heroes - New Horizontal Carousel with Fade */
         .work-heroes-carousel-container {
             position: relative;
@@ -313,7 +315,6 @@
             justify-content: center;
             padding: 0 10px; /* Add slight padding to container to show edge of items */
         }
-
         .work-heroes-group {
             display: flex;
             justify-content: center;
@@ -332,7 +333,6 @@
             opacity: 1;
             z-index: 1; /* Bring active group to front */
         }
-
         .work-heroes-item {
             flex: 0 0 calc(25% - 10px); /* 4 items per row with 5px gap on each side (total 10px per item) */
             max-width: calc(25% - 10px);
@@ -351,7 +351,6 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
-
         .work-heroes-item img {
             width: 100%;
             height: 100%;
@@ -359,7 +358,6 @@
             object-position: center;
             display: block;
         }
-
         /* Responsive adjustments for work-heroes-item - Forced 4 items on all screens */
         @media (max-width: 1024px) {
             .work-heroes-item {
@@ -382,7 +380,6 @@
                 height: 100px; /* Very small height for mobile */
             }
         }
-
         /* Style for images in About Us section for proper display next to text */
         .about-images-container {
             display: grid;
@@ -390,7 +387,6 @@
             gap: 1.5rem; /* Adjust gap as needed */
             place-items: start; /* Align items to the start of their grid cells */
         }
-
         /* Mobile specific adjustments for About Us images and text */
         @media (max-width: 768px) {
             .about-section-content {
@@ -415,7 +411,6 @@
             .glass-card p { /* Applies to both service and project text */
                 font-size: 0.9rem; /* Smaller text */
             }
-
             /* Smaller client logos on mobile */
             #clients-container .glass-card {
                 padding: 0.75rem; /* Smaller padding */
@@ -425,13 +420,11 @@
             }
         }
 
-
         /* Global Language Display Rules - Ensure proper display behavior */
         html[lang="en"] [data-lang="ar"] { display: none; }
         html[lang="ar"] [data-lang="en"] { display: none; }
         html[lang="en"] { direction: ltr; }
         html[lang="ar"] { direction: rtl; }
-
         /* Ensure WhatsApp notification spans are handled by JS, not fixed CSS rules */
         .whatsapp-notification span[data-lang="ar"],
         .whatsapp-notification span[data-lang="en"] {
@@ -498,7 +491,8 @@
             html[lang="ar"] .footer .container {
                 text-align: right; /* Align text right for Arabic on larger screens */
             }
-        }    </style>
+        }
+    </style>
 </head>
 <body>
     <header id="scrolled-header" class="scrolled-header">
@@ -508,7 +502,6 @@
             </div>
         </div>
     </header>
-
     <section class="hero-slider">
         <div class="slide active" style="background-image: url('https://i.postimg.cc/nV5P6cLt/R.jpg');">
             <div class="container mx-auto text-center relative z-10 p-4">
@@ -529,7 +522,6 @@
             </div>
         </div>
     </section>
-
     <section id="about" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">من نحن</h2>
@@ -572,7 +564,6 @@
             </div>
         </div>
     </section>
-
     <section id="services" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">خدماتنا</h2>
@@ -583,7 +574,6 @@
             <a href="https://raslan-eg.com/Services/" target="_blank" class="view-all-link" data-lang="en">View All Services</a>
         </div>
     </section>
-
     <section id="projects" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">مشاريعنا</h2>
@@ -594,7 +584,6 @@
             <a href="https://raslan-eg.com/Projects/" target="_blank" class="view-all-link" data-lang="en">View All Projects</a>
         </div>
     </section>
-
     <section id="work-heroes" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">أبطال أعمالنا</h2>
@@ -603,7 +592,6 @@
             </div>
         </div>
     </section>
-
     <section id="team" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">تعرف على فريقنا</h2>
@@ -612,7 +600,6 @@
             </div>
         </div>
     </section>
-
     <section id="clients" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">عملائنا</h2>
@@ -623,7 +610,6 @@
             <a href="https://raslan-eg.com/Clients/" target="_blank" class="view-all-link" data-lang="en">View All Clients</a>
         </div>
     </section>
-
     <section id="contact" class="py-20 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">تواصل معنا</h2>
@@ -659,7 +645,6 @@
                             </div>
                         </div>
                     </div>
-
                     <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="ar">تابعنا</h3>
                     <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="en">Follow Us</h3>
                     <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 md:gap-x-4 justify-center">
@@ -683,7 +668,6 @@
             </div>
         </div>
     </section>
-
     <footer class="footer">
         <div class="container mx-auto px-4">
             <p id="footer-copyright-ar" class="order-2 md:order-1" data-lang="ar"></p>
@@ -692,7 +676,6 @@
             <p id="footer-powered-by-en" class="order-1 md:order-2" data-lang="en"></p>
         </div>
     </footer>
-
     <a id="whatsapp-float-link" href="#" target="_blank" class="whatsapp-float">
         <i class="fab fa-whatsapp"></i>
     </a>
@@ -703,7 +686,6 @@
         <div onclick="toggleLanguage()" class="lang-switcher-btn">
         <span id="lang-text"></span>
     </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
@@ -747,13 +729,12 @@
         }
 
         // --- Data Loading Functions ---
-
         async function loadAboutSection() {
             const data = await fetchRealtimeData('about');
             if (!data) return;
             document.getElementById('about-p1-ar').textContent = data.aboutP1Ar || '';
             document.getElementById('about-p1-en').textContent = data.aboutP1En || '';
-            
+
             // Re-adding Vision and Mission content without card wrappers
             const visionTitleAr = document.getElementById('vision-title-ar');
             const visionTitleEn = document.getElementById('vision-title-en');
@@ -786,7 +767,7 @@
             if (missionPriceEn) missionPriceEn.textContent = data.missionPriceEn || '';
             if (missionPriceDescAr) missionPriceDescAr.textContent = data.missionPriceDescAr || '';
             if (missionPriceDescEn) missionPriceDescEn.textContent = data.missionPriceDescEn || '';
-            
+
             document.getElementById('about-img1').src = data.aboutImg1Url || '';
             document.getElementById('about-img2').src = data.aboutImg2Url || '';
         }
@@ -798,7 +779,7 @@
             container.innerHTML = '';
 
             // Render services without explicit sorting. Firebase default order (by key creation time) will apply.
-            const servicesArray = Object.values(data); 
+            const servicesArray = Object.values(data);
 
             servicesArray.forEach((service) => {
                 container.innerHTML += `
@@ -822,7 +803,7 @@
             if (!allProjectsData || !container) return;
 
             // Render projects without explicit sorting. Firebase default order (by key creation time) will apply.
-            const projectsArray = allProjectsData; 
+            const projectsArray = allProjectsData;
 
             // Display only a limited number of projects on the home page (e.g., first 4)
             container.innerHTML = '';
@@ -879,7 +860,7 @@
         async function loadTeam() {
             const data = await fetchRealtimeData('team');
             const container = document.getElementById('team-container');
-            if (!data || !container) return;
+            if (!data) return;
             container.innerHTML = '';
             data.forEach(member => {
                 container.innerHTML += `
@@ -900,9 +881,9 @@
         async function loadClients() {
             const data = await fetchRealtimeData('clients');
             const container = document.getElementById('clients-container');
-            if (!data || !container) return;
+            if (!data) return;
             container.innerHTML = '';
-            
+
             // Render clients without explicit sorting. Firebase default order (by key creation time) will apply.
             const clientsArray = Object.values(data);
 
@@ -939,7 +920,6 @@
             poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
             poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
         }
-
         // --- Static UI Logic (Slider, Language, Scroll) ---
         function setupUI() {
             // Hero Slider
@@ -964,7 +944,6 @@
                     showHeroSlide(currentHeroSlide + 1);
                 }, 3000); // 3 seconds interval
             }
-
             // Removed Fade-in on scroll (IntersectionObserver) to prevent lag
         }
 
@@ -975,6 +954,12 @@
             localStorage.setItem('preferredLanguage', lang);
             updateLanguageButtonText(lang); // Update button text after setting language
             showWhatsappNotification(); // Re-show the notification with the correct language
+
+            // Update title tags based on language
+            const titleAr = document.querySelector('title[data-lang="ar"]');
+            const titleEn = document.querySelector('title[data-lang="en"]');
+            if (titleAr) titleAr.style.display = lang === 'ar' ? 'block' : 'none';
+            if (titleEn) titleEn.style.display = lang === 'en' ? 'block' : 'none';
         }
 
         window.toggleLanguage = function() {
