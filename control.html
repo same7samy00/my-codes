@@ -3,7 +3,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=1024">
+    <meta name="viewport" content="width=1024">
     <title>لوحة تحكم موقع رسلان</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -115,6 +115,7 @@
                 padding: 1rem;
             }
         }
+        /* Removed Sortable.js ghost style */
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -213,6 +214,38 @@
             <section id="contact-section" class="content-section hidden">
                 <h2 class="text-3xl font-bold mb-6 text-slate-800">تعديل قسم "تواصل معنا"</h2>
                 <form id="contact-form" class="bg-white p-8 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">العنوان (عربي)</label>
+                        <input type="text" id="addressAr" class="form-input">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">العنوان (إنجليزي)</label>
+                        <input type="text" id="addressEn" class="form-input">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">البريد الإلكتروني</label>
+                        <input type="email" id="email" class="form-input ltr-input">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">رقم الهاتف</label>
+                        <input type="tel" id="phone" class="form-input ltr-input">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">رقم واتساب العائم (مع رمز الدولة، مثال: 201xxxxxxxx)</label>
+                        <input type="text" id="whatsappFloatPhone" class="form-input ltr-input">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">رابط Facebook</label>
+                        <input type="url" id="facebookLink" class="form-input ltr-input">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">رابط Instagram</label>
+                        <input type="url" id="instagramLink" class="form-input ltr-input">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">رابط iframe الخريطة (Google Maps Embed)</label>
+                        <textarea id="mapIframeSrc" class="form-input h-28 ltr-input"></textarea>
+                    </div>
                     <div class="md:col-span-2 pt-6 border-t">
                         <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
                     </div>
@@ -221,6 +254,26 @@
             <section id="footer-section" class="content-section hidden">
                 <h2 class="text-3xl font-bold mb-6 text-slate-800">تعديل التذييل</h2>
                 <form id="footer-form" class="bg-white p-8 rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">نص حقوق النشر (عربي)</label>
+                        <input type="text" id="copyrightAr" class="form-input">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">نص حقوق النشر (إنجليزي)</label>
+                        <input type="text" id="copyrightEn" class="form-input">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">نص "تم التنفيذ بواسطة" (عربي)</label>
+                        <input type="text" id="poweredByAr" class="form-input">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">نص "Powered By" (إنجليزي)</label>
+                        <input type="text" id="poweredByEn" class="form-input">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-600 mb-2">رابط واتساب للمطور</label>
+                        <input type="url" id="developerWhatsapp" class="form-input ltr-input">
+                    </div>
                     <div class="md:col-span-2 pt-6 border-t">
                         <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
                     </div>
@@ -261,6 +314,7 @@
 
         let currentSection = 'about';
         let sectionsData = {};
+        let sortableInstance = null; // To store the Sortable.js instance
 
         // --- App Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -363,6 +417,11 @@
             };
 
             if (sectionMap[sectionId]) {
+                // Destroy Sortable.js instance if switching from a sortable list
+                if (sortableInstance) {
+                    sortableInstance.destroy();
+                    sortableInstance = null;
+                }
                 populateStaticForm(sectionId);
                 document.getElementById(sectionMap[sectionId]).classList.remove('hidden');
             } else {
@@ -391,7 +450,7 @@
         const staticFormsConfig = {
             about: ['aboutP1Ar', 'aboutP1En', 'visionP1Ar', 'visionP1En', 'missionSpeedDescAr', 'missionPriceDescAr', 'aboutImg1Url', 'aboutImg2Url'],
             contact: ['addressAr', 'addressEn', 'email', 'phone', 'whatsappFloatPhone', 'mapIframeSrc', 'facebookLink', 'instagramLink'],
-            footer: ['copyrightAr', 'copyrightEn'] // Removed 'poweredByAr', 'poweredByEn', 'developerWhatsapp'
+            footer: ['copyrightAr', 'copyrightEn', 'poweredByAr', 'poweredByEn', 'developerWhatsapp']
         };
 
         function populateStaticForm(sectionId) {
@@ -401,7 +460,7 @@
             staticFormsConfig[sectionId].forEach(key => {
                 const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()); // Simple label generation
                 const value = data[key] || '';
-                const isTextarea = key.toLowerCase().includes('desc');
+                const isTextarea = key.toLowerCase().includes('desc') || key.toLowerCase().includes('src');
                 const isUrl = key.toLowerCase().includes('url') || key.toLowerCase().includes('link') || key.toLowerCase().includes('src');
 
                 const fieldHtml = `
@@ -432,21 +491,32 @@
                 await set(ref(db, sectionId), {...sectionsData[sectionId], ...dataToSave});
                 sectionsData[sectionId] = {...sectionsData[sectionId], ...dataToSave};
                 alert('تم الحفظ بنجاح!');
-            } catch (error) {
-                alert(`خطأ في الحفظ: ${error.message}. تأكد من قواعد الأمان.`);
-            } finally {
-                button.disabled = false;
-                button.innerHTML = 'حفظ التغييرات';
+            }
+            catch (error) { // Catch block for error handling
+                alert(`خطأ في الحفظ: ${error.message}. تأكد من قواعد الأمان.`); // Alert message for error
+            } finally { // Finally block for cleanup
+                button.disabled = false; // Enable button
+                button.innerHTML = 'حفظ التغييرات'; // Restore button text
             }
         }
 
         // --- Dynamic List & Modal Handlers ---
         const dynamicSectionsConfig = {
             services:    { title: 'الخدمات', fields: { titleAr: 'العنوان (عربي)', titleEn: 'العنوان (إنجليزي)', descAr: 'الوصف (عربي)', descEn: 'الوصف (إنجليزي)', imageUrl: 'رابط الصورة' } },
-            projects:    { title: 'المشاريع', fields: { titleAr: 'العنوان (عربي)', titleEn: 'العنوان (إنجليزي)', descAr: 'الوصف (عربي)', descEn: 'الوصف (إنجليزي)', imageUrl: 'رابط الصورة' } },
+            projects:    { 
+                title: 'المشاريع', 
+                fields: { 
+                    titleAr: 'العنوان (عربي)', 
+                    titleEn: 'العنوان (إنجليزي)', 
+                    descAr: 'الوصف (عربي)', 
+                    descEn: 'الوصف (إنجليزي)', 
+                    mainImageUrl: 'رابط الصورة الرئيسية', // Changed from imageUrl
+                    galleryImages: 'روابط صور المعرض (افصل بينها بفاصلة ,)' // New field for multiple images
+                } 
+            },
             team:        { title: 'فريق العمل', fields: { nameAr: 'الاسم (عربي)', nameEn: 'الاسم (إنجليزي)', positionAr: 'المنصب (عربي)', positionEn: 'المنصب (إنجليزي)', imageUrl: 'رابط الصورة' } },
             workHeroes: { title: 'أبطال أعمالنا', fields: { imageUrl: 'رابط الصورة' } },
-            clients:    { title: 'العملاء', fields: { nameAr: 'اسم العميل', logoUrl: 'رابط الشعار' } },
+            clients:    { title: 'العملاء', fields: { nameAr: 'اسم العميل (عربي)', nameEn: 'اسم العميل (إنجليزي)', logoUrl: 'رابط الشعار' } }, // Added nameEn for consistency
         };
 
         function renderDynamicList(sectionId) {
@@ -454,28 +524,55 @@
             document.getElementById('dynamic-section-title').textContent = config.title;
             const container = document.getElementById('items-container');
             container.innerHTML = '';
-            const items = sectionsData[sectionId] || {};
+            
+            // Destroy previous Sortable.js instance if it exists
+            if (sortableInstance) {
+                sortableInstance.destroy();
+                sortableInstance = null;
+            }
 
-            if (Object.keys(items).length > 0) {
-                Object.entries(items).forEach(([id, item]) => {
+            const items = sectionsData[sectionId] || {};
+            let itemsArray = Object.entries(items).map(([id, item]) => ({ id, ...item }));
+
+            // Removed sorting by 'order' or any other field.
+            // Items will now be rendered in the default Firebase key order.
+
+            if (itemsArray.length > 0) {
+                itemsArray.forEach(({ id, ...item }) => {
                     const title = item.titleAr || item.nameAr || 'عنصر بدون عنوان';
-                    const image = item.imageUrl || item.logoUrl || 'https://placehold.co/600x400/e2e8f0/cccccc?text=No+Image';
+                    let image = item.imageUrl || item.logoUrl;
+                    
+                    // For projects, use mainImageUrl
+                    if (sectionId === 'projects') {
+                        image = item.mainImageUrl;
+                    }
+
+                    // Fallback for no image
+                    if (!image) {
+                        image = 'https://placehold.co/600x400/e2e8f0/cccccc?text=No+Image';
+                    }
+
                     const card = document.createElement('div');
-                    card.className = "bg-white p-4 rounded-lg shadow-md flex flex-col justify-between";
+                    // Removed cursor-grab class and data-item-id
+                    card.className = "bg-white p-4 rounded-lg shadow-md flex flex-col justify-between"; 
                     card.innerHTML = `
                         <div>
                             <img src="${image}" class="h-40 w-full object-cover rounded-md mb-4 bg-slate-100" onerror="this.style.display='none'">
                             <h4 class="font-bold text-lg mb-4 truncate">${title}</h4>
+                            ${sectionId === 'projects' && item.galleryImages && item.galleryImages.length > 0 ? `<p class="text-sm text-slate-500">صور إضافية: ${item.galleryImages.length}</p>` : ''}
                         </div>
-                        <div class="flex gap-2 justify-end">
+                        <div class="flex gap-2 justify-end mt-4">
                             <button class="btn text-sm bg-slate-600 text-white hover:bg-slate-700 edit-btn">تعديل</button>
                             <button class="btn text-sm btn-danger delete-btn">حذف</button>
                         </div>
                     `;
                     card.querySelector('.edit-btn').addEventListener('click', () => openModalForEdit(sectionId, id));
                     card.querySelector('.delete-btn').addEventListener('click', () => deleteItem(sectionId, id));
+                    
                     container.appendChild(card);
                 });
+
+                // Removed Sortable.js initialization
             } else {
                 container.innerHTML = `<p class="text-slate-500 col-span-full text-center py-8">لا توجد عناصر في هذا القسم بعد.</p>`;
             }
@@ -502,15 +599,37 @@
             const fields = dynamicSectionsConfig[sectionId].fields;
 
             for (const [key, label] of Object.entries(fields)) {
-                const value = itemData[key] || '';
-                const type = key.includes('Url') || key.includes('logoUrl') ? 'url' : 'text'; // Corrected for logoUrl
-                const isTextarea = key.includes('desc');
+                let value = itemData[key];
+                if (value === undefined || value === null) {
+                    value = '';
+                }
+
+                let type = 'text';
+                let isTextarea = false;
+                let isLtr = false;
+
+                if (key.includes('Url') || key.includes('logoUrl') || key.includes('mainImageUrl')) {
+                    type = 'url';
+                    isLtr = true;
+                }
+                if (key.includes('desc')) {
+                    isTextarea = true;
+                }
+                if (key === 'galleryImages') {
+                    isTextarea = true;
+                    if (Array.isArray(value)) {
+                        value = value.join(', '); // Convert array to comma-separated string for textarea
+                    }
+                    isLtr = true; // URLs are LTR
+                }
+                // Removed 'order' field handling
+                
                 const fieldHtml = `
                     <div>
                         <label class="block font-semibold text-slate-600 mb-2">${label}</label>
                         ${isTextarea ? 
-                            `<textarea id="modal-${key}" class="form-input h-28">${value}</textarea>` :
-                            `<input type="${type}" id="modal-${key}" value="${value}" class="form-input ${type === 'url' ? 'ltr-input' : ''}">`
+                            `<textarea id="modal-${key}" class="form-input h-28 ${isLtr ? 'ltr-input' : ''}">${value}</textarea>` :
+                            `<input type="${type}" id="modal-${key}" value="${value}" class="form-input ${isLtr ? 'ltr-input' : ''}">`
                         }
                     </div>`;
                 form.insertAdjacentHTML('beforeend', fieldHtml);
@@ -526,17 +645,23 @@
             const itemId = document.getElementById('modal-item-id').value;
             const dataToSave = {};
             const fields = dynamicSectionsConfig[currentSection].fields;
-            Object.keys(fields).forEach(key => {
-                dataToSave[key] = document.getElementById(`modal-${key}`).value;
-            });
+            
+            for (const key of Object.keys(fields)) {
+                let value = document.getElementById(`modal-${key}`).value;
+                if (key === 'galleryImages') {
+                    value = value.split(',').map(url => url.trim()).filter(url => url); // Convert comma-separated string to array, trim, and filter empty strings
+                } 
+                // Removed 'order' field handling
+                dataToSave[key] = value;
+            }
             
             const path = itemId ? `${currentSection}/${itemId}` : currentSection;
             let operation;
             if (itemId) {
                 operation = update(ref(db, path), dataToSave);
             } else {
-                const newItemRef = push(ref(db, currentSection)); // Push to get a new ID
-                operation = set(newItemRef, dataToSave); // Set the new item with data
+                const newItemRef = push(ref(db, currentSection));
+                operation = set(newItemRef, dataToSave);
             }
 
             try {
