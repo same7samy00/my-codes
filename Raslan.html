@@ -17,9 +17,9 @@
             --white: #ffffff;
             --light-gray: #f8fbfd; /* Lighter background */
             --dark-gray: #4a5568;
-            --glass-bg: rgba(255, 255, 255, 0.2); /* Slightly more opaque glass */
-            --glass-border: rgba(255, 255, 255, 0.3);
-
+            /* Reduced opacity for glass effect to improve performance */
+            --glass-bg: rgba(255, 255, 255, 0.1); 
+            --glass-border: rgba(255, 255, 255, 0.2);
             /* Define variables for section backgrounds to be used in gradients for blur/shadow effects */
             --section-bg-start-color: #f8fbfd;
             --section-bg-end-color: #eef5fb;
@@ -29,11 +29,11 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
         body { overflow-x: hidden; background-color: var(--light-gray); }
 
-        /* Enhanced Glass Card Effect */
+        /* Enhanced Glass Card Effect - Reduced blur for performance */
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(15px); /* Increased blur */
-            -webkit-backdrop-filter: blur(15px);
+            /* backdrop-filter: blur(5px); */ /* Reduced or removed blur for performance */
+            /* -webkit-backdrop-filter: blur(5px); */
             border: 1px solid var(--glass-border);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); /* Stronger shadow */
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
@@ -55,15 +55,15 @@
         .slide::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
-            backdrop-filter: blur(8px); /* More blur for depth */
+            /* backdrop-filter: blur(5px); */ /* Reduced blur for performance */
         }
         .slide.active { opacity: 1; }
 
         /* Button Styling */
         .btn-glass {
             background-color: var(--primary); /* Use primary color */
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            /* backdrop-filter: blur(5px); */ /* Reduced blur for performance */
+            /* -webkit-backdrop-filter: blur(5px); */
             color: var(--white);
             border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -77,13 +77,13 @@
             box-shadow: 0 12px 25px rgba(26, 115, 232, 0.4); /* Shadow matches new hover color */
         }
 
-        /* WhatsApp Float Button */
+        /* WhatsApp Float Button - Reduced blur for performance */
         .whatsapp-float {
             position: fixed;
             bottom: 30px;
             right: 30px;
             background-color: rgba(37, 211, 102, 0.8);
-            backdrop-filter: blur(8px);
+            /* backdrop-filter: blur(5px); */ /* Reduced blur for performance */
             color: white;
             border-radius: 50%;
             width: 65px; /* Slightly larger */
@@ -132,8 +132,8 @@
             border-radius: 1.5rem; /* More rounded */
             overflow: hidden;
             background-color: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            /* backdrop-filter: blur(5px); */ /* Reduced blur for performance */
+            /* -webkit-backdrop-filter: blur(5px); */
             border: 1px solid var(--glass-border);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -151,67 +151,51 @@
             filter: grayscale(0); /* Remove grayscale on hover */
         }
 
-        /* Service Card Enhancements */
-        .service-card {
-            background-color: var(--glass-bg); /* Use glass background for the whole card */
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            border-radius: 1.5rem; /* More rounded */
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* Service Card & Project Card Image Overlays */
+        .glass-card img {
+            position: relative; /* Needed for pseudo-element positioning */
+            display: block; /* Ensures proper sizing */
         }
-        .service-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
-        }
-        .service-card-header {
+        .glass-card .image-wrapper { /* New wrapper for image and overlay */
             position: relative;
-            height: 200px; /* Slightly taller header */
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: flex-end; /* Align title to bottom */
-            padding: 1.5rem; /* More padding */
-            filter: brightness(0.9); /* Slightly dim image */
-            transition: filter 0.3s ease;
+            overflow: hidden;
+            height: 256px; /* h-64 in Tailwind CSS */
         }
-        .service-card:hover .service-card-header {
-            filter: brightness(1); /* Full brightness on hover */
+        .glass-card .image-wrapper img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: center;
         }
-        .service-card-header::before {
+
+        /* Gradient Overlay for Service and Project Card Images */
+        .glass-card .image-wrapper::before {
             content: '';
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0) 60%); /* Stronger gradient */
-            z-index: 1;
+            height: 50%; /* Adjust height of the gradient as needed */
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.3s ease;
+            z-index: 1; /* Ensure it's above the image */
         }
-        .service-card-header h3 {
-            position: relative;
-            z-index: 2;
-            color: var(--white);
-            font-size: 1.75rem; /* text-3xl */
-            font-weight: bold;
-            width: 100%;
+        .glass-card:hover .image-wrapper::before {
+            opacity: 1; /* Visible on hover */
         }
-        html[lang="ar"] .service-card-header h3 { text-align: right; }
-        html[lang="en"] .service-card-header h3 { text-align: left; }
-        .service-card-description {
-            background-color: var(--white);
-            padding: 2rem; /* More padding */
-            color: var(--dark-gray);
-            line-height: 1.7; /* Better readability */
+
+        /* Adjust Service Card padding to match Project Card and raise text */
+        .service-card-content { /* Applied to the p-8 div in service cards */
+            padding: 1.5rem 2rem; /* Slightly reduced top padding to move text up */
         }
+
 
         /* Contact Icons & Social Buttons */
         .service-icon, .contact-social-btn {
             background-color: var(--primary); /* Use primary color */
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            /* backdrop-filter: blur(5px); */ /* Reduced blur for performance */
+            /* -webkit-backdrop-filter: blur(5px); */
             border: 1px solid var(--glass-border);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             color: var(--white);
@@ -243,23 +227,24 @@
             gap: 0.5rem; /* Space between text and icon */
         }
 
-        /* Language Switcher Button */
+        /* Language Switcher Button - SMALLER */
         .lang-switcher-btn {
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             color: var(--white);
             font-weight: bold;
             background: rgba(255, 255, 255, 0.2); /* Slightly more opaque glass */
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            /* backdrop-filter: blur(5px); */ /* Reduced blur for performance */
+            /* -webkit-backdrop-filter: blur(5px); */
             border: 1px solid var(--glass-border);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            padding: 0.75rem 1.5rem; /* Larger padding */
-            border-radius: 1.25rem; /* More rounded */
+            padding: 0.4rem 0.8rem; /* Significantly smaller padding */
+            border-radius: 0.75rem; /* More rounded to match smaller size */
+            font-size: 0.85rem; /* Smaller font size */
             display: flex;
             align-items: center;
             position: fixed; /* Keep it fixed on screen */
-            top: 10px; /* Adjusted from 20px to 10px (10px higher) */
+            top: 10px;
             z-index: 2000; /* Extremely high z-index to ensure it's always on top */
         }
         html[lang="en"] .lang-switcher-btn {
@@ -270,7 +255,6 @@
             right: 20px;
             left: auto;
         }
-
         .lang-switcher-btn:hover {
             color: var(--secondary); /* Vibrant blue on hover */
             background: rgba(255, 255, 255, 0.3);
@@ -286,16 +270,16 @@
             background-image: linear-gradient(135deg, var(--section-bg-alt-start-color) 0%, var(--section-bg-alt-end-color) 100%); /* Inverse gradient */
         }
 
-        /* Sticky Header */
+        /* Sticky Header - Reduced blur for performance */
         .scrolled-header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             padding: 0.75rem 0; /* More vertical padding */
-            background-color: rgba(10, 61, 98, 0.8); /* Darker primary with transparency */
-            backdrop-filter: blur(15px); /* More blur */
-            -webkit-backdrop-filter: blur(15px);
+            background-color: rgba(10, 61, 98, 0.9); /* Darker primary with transparency */
+            /* backdrop-filter: blur(8px); */ /* Reduced blur for performance */
+            /* -webkit-backdrop-filter: blur(8px); */
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Stronger shadow */
             z-index: 999; /* Ensure header is below language switcher but above content */
@@ -319,139 +303,129 @@
             margin: 0 auto; /* Center the logo horizontally within its parent */
         }
 
-
-        /* Overlapping Grid (Work Heroes) */
-        .overlapping-grid-container {
-            overflow-x: auto; /* Use auto for better mobile experience */
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 1.5rem; /* More padding */
-            cursor: grab;
+        /* Work Heroes - New Horizontal Carousel with Fade */
+        .work-heroes-carousel-container {
             position: relative;
-            padding-left: 30px; /* Increased padding to accommodate blur */
-            padding-right: 30px;
+            overflow: hidden; /* Hide overflowing groups */
+            width: 100%;
+            height: 250px; /* Fixed height to control vertical space */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px; /* Add slight padding to container to show edge of items */
         }
-        .overlapping-grid-container.is-dragging { cursor: grabbing; }
 
-        .overlapping-grid-container::before,
-        .overlapping-grid-container::after {
-            content: '';
+        .work-heroes-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
             position: absolute;
             top: 0;
-            width: 50px; /* Wider blur/shadow effect */
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        html[lang="ar"] .overlapping-grid-container::before {
-            right: 0;
-            background: linear-gradient(to left, var(--section-bg-alt-end-color) 0%, rgba(230, 238, 245, 0) 100%); /* Use CSS variable for consistency */
-        }
-        html[lang="ar"] .overlapping-grid-container::after {
             left: 0;
-            background: linear-gradient(to right, var(--section-bg-alt-end-color) 0%, rgba(230, 238, 245, 0) 100%); /* Use CSS variable for consistency */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out; /* Fade transition for groups */
+            flex-wrap: nowrap; /* Ensure items stay in one row */
+            overflow: hidden; /* Hide any overflow within the group */
+        }
+        .work-heroes-group.active {
+            opacity: 1;
+            z-index: 1; /* Bring active group to front */
         }
 
-        html[lang="en"] .overlapping-grid-container::before {
-            left: 0;
-            background: linear-gradient(to right, var(--section-bg-alt-end-color) 0%, rgba(230, 238, 245, 0) 100%); /* Use CSS variable for consistency */
-        }
-        html[lang="en"] .overlapping-grid-container::after {
-            right: 0;
-            background: linear-gradient(to left, var(--section-bg-alt-end-color) 0%, rgba(230, 238, 245, 0) 100%); /* Use CSS variable for consistency */
-        }
-
-        .overlapping-grid {
-            display: flex;
-            flex-wrap: nowrap;
-            align-items: flex-start;
-            gap: 2rem; /* More space between items */
-            transition: transform 0.3s ease-out;
-        }
-
-        .overlapping-grid-item {
-            flex: 0 0 auto;
-            width: 300px; /* Slightly wider */
-            height: 220px; /* Slightly taller */
-            position: relative;
-            background-color: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        .work-heroes-item {
+            flex: 0 0 calc(25% - 10px); /* 4 items per row with 5px gap on each side (total 10px per item) */
+            max-width: calc(25% - 10px);
+            margin: 0 5px; /* 5px gap from left and right */
+            height: 200px; /* Fixed height for each image card */
+            border-radius: 1rem; /* Consistent border radius */
             overflow: hidden;
-            border-radius: 1.5rem; /* More rounded */
-            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background-color: var(--white); /* Or a subtle background for the card */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease; /* Smooth hover effect */
         }
-        .overlapping-grid-item:nth-child(even) {
-            margin-top: 40px; /* Increased offset */
+        .work-heroes-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
-        .overlapping-grid-item:hover {
-            transform: translateY(-20px) scale(1.1); /* More dramatic lift and scale */
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3); /* Stronger shadow */
-            z-index: 10;
-        }
-        .overlapping-grid-item img {
+
+        .work-heroes-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: brightness(0.8); /* More dimming */
-            transition: filter 0.4s ease;
-        }
-        .overlapping-grid-item:hover img {
-            filter: brightness(1);
+            object-position: center;
+            display: block;
         }
 
-        /* Responsive adjustments for overlapping-grid-item */
-        @media (max-width: 1024px) { /* Lg breakpoint */
-            .overlapping-grid-item {
-                width: 250px;
-                height: 180px;
+        /* Responsive adjustments for work-heroes-item - Forced 4 items on all screens */
+        @media (max-width: 1024px) {
+            .work-heroes-item {
+                flex: 0 0 calc(25% - 10px);
+                max-width: calc(25% - 10px);
+                height: 180px; /* Slightly smaller height for smaller screens */
             }
         }
-        @media (max-width: 768px) { /* Md breakpoint */
-            .overlapping-grid-item {
-                width: 200px;
-                height: 150px;
-                margin-top: 25px; /* Reduced offset for smaller screens */
-            }
-            .overlapping-grid {
-                gap: 1.5rem; /* Reduced gap */
+        @media (max-width: 768px) {
+            .work-heroes-item {
+                flex: 0 0 calc(25% - 10px);
+                max-width: calc(25% - 10px);
+                height: 140px; /* Even smaller height */
             }
         }
-        @media (max-width: 640px) { /* Sm breakpoint */
-            .overlapping-grid-item {
-                width: 180px;
-                height: 130px;
-                margin-top: 20px;
-            }
-            .overlapping-grid {
-                gap: 1rem;
-            }
-        }
-        @media (max-width: 480px) { /* Extra small screens */
-            .overlapping-grid-item {
-                width: 150px;
-                height: 110px;
-                margin-top: 15px;
-            }
-            .overlapping-grid {
-                gap: 0.75rem;
+        @media (max-width: 480px) {
+            .work-heroes-item {
+                flex: 0 0 calc(25% - 10px);
+                max-width: calc(25% - 10px);
+                height: 100px; /* Very small height for mobile */
             }
         }
 
-        /* About Section Vision/Mission Cards Border */
-        .about-vision-mission-card {
-            border-right: 5px solid var(--secondary); /* Thicker, vibrant border */
-            padding-right: 1.5rem; /* Add padding to the right for text to not touch border */
+        /* Style for images in About Us section for proper display next to text */
+        .about-images-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem; /* Adjust gap as needed */
+            place-items: start; /* Align items to the start of their grid cells */
         }
-        html[lang="en"] .about-vision-mission-card {
-            border-left: 5px solid var(--secondary);
-            border-right: none;
-            padding-left: 1.5rem;
-            padding-right: 0;
+
+        /* Mobile specific adjustments for About Us images and text */
+        @media (max-width: 768px) {
+            .about-section-content {
+                flex-direction: column; /* Stack text and images vertically on small screens */
+            }
+            .about-images-container {
+                margin-top: 2rem; /* Add some space above images on mobile */
+            }
+            /* Smaller service/project card content on mobile */
+            .glass-card .image-wrapper {
+                height: 180px; /* Smaller image height for service/projects */
+            }
+            .glass-card .p-8 { /* Applies to both service and project content */
+                padding: 1.5rem; /* Smaller padding */
+            }
+            .glass-card h3 { /* Applies to both service and project titles */
+                font-size: 1.75rem; /* Smaller title */
+            }
+            #projects-container .glass-card h3 { /* Specific smaller title for projects on mobile */
+                font-size: 1.5rem; /* Even smaller title for projects on mobile */
+            }
+            .glass-card p { /* Applies to both service and project text */
+                font-size: 0.9rem; /* Smaller text */
+            }
+
+            /* Smaller client logos on mobile */
+            #clients-container .glass-card {
+                padding: 0.75rem; /* Smaller padding */
+            }
+            #clients-container .glass-card img {
+                max-height: 70px; /* Smaller logo size */
+            }
         }
+
 
         /* Global Language Display Rules - Ensure proper display behavior */
         html[lang="en"] [data-lang="ar"] { display: none; }
@@ -464,13 +438,68 @@
         .whatsapp-notification span[data-lang="en"] {
             display: none; /* Hidden by default, JS will show the correct one */
         }
-
         /* Ensure that data-lang attributes don't conflict with elements that should always be visible (e.g., logo) */
         .scrolled-header img,
         .hero-slider .container img {
             display: block !important; /* Ensure logo is always visible */
         }
-    </style>
+        /* Style for the "View All Projects" link and new "View All Services/Clients" links */
+        .view-all-link {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1.125rem;
+            font-weight: bold;
+            display: block;
+            margin: 2rem auto 0 auto; /* Center the link and add top margin */
+            width: fit-content;
+            text-decoration: none; /* Remove underline for link */
+            transition: all 0.3s ease;
+        }
+        .view-all-link:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        /* Footer Styles - IMPROVED */
+        .footer {
+            background-color: var(--primary); /* Use primary color */
+            color: var(--white);
+            padding: 2rem 1rem; /* More vertical padding */
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        .footer .container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem; /* Space between paragraphs */
+        }
+        .footer p {
+            margin: 0; /* Reset default paragraph margin */
+            line-height: 1.5;
+        }
+        .footer a {
+            color: var(--secondary); /* Highlight links with secondary color */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer a:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+        /* Added responsiveness for footer */
+        @media (min-width: 768px) {
+            .footer .container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left; /* Align text left on larger screens */
+            }
+            html[lang="ar"] .footer .container {
+                text-align: right; /* Align text right for Arabic on larger screens */
+            }
+        }    </style>
 </head>
 <body>
     <header id="scrolled-header" class="scrolled-header">
@@ -504,39 +533,41 @@
 
     <section id="about" class="py-20 section-bg">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">من نحن</h2>
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">About Us</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                <div class="fade-in">
-                    <div class="glass-card p-8 rounded-2xl mb-8">
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">من نحن</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">About Us</h2>
+            <div class="glass-card p-8 rounded-2xl mb-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start about-section-content">
+                    <div>
                         <p id="about-p1-ar" class="text-lg mb-6 text-gray-700" data-lang="ar"></p>
                         <p id="about-p1-en" class="text-lg mb-6 text-gray-700" data-lang="en"></p>
+
+                        <div class="mb-8">
+                            <h3 id="vision-title-ar" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar"></h3>
+                            <h3 id="vision-title-en" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en"></h3>
+                            <p id="vision-p1-ar" class="text-gray-700" data-lang="ar"></p>
+                            <p id="vision-p1-en" class="text-gray-700" data-lang="en"></p>
+                        </div>
+
+                        <div>
+                            <h3 id="mission-title-ar" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar"></h3>
+                            <h3 id="mission-title-en" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en"></h3>
+                            <p id="mission-speed-ar" class="text-gray-700 font-bold mb-2" data-lang="ar"></p>
+                            <p id="mission-speed-en" class="text-gray-700 font-bold mb-2" data-lang="en"></p>
+                            <p id="mission-speed-desc-ar" class="text-gray-700 mb-6" data-lang="ar"></p>
+                            <p id="mission-speed-desc-en" class="text-gray-700 mb-6" data-lang="en"></p>
+                            <p id="mission-price-ar" class="text-gray-700 font-bold mb-2" data-lang="ar"></p>
+                            <p id="mission-price-en" class="text-gray-700 font-bold mb-2" data-lang="en"></p>
+                            <p id="mission-price-desc-ar" class="text-gray-700" data-lang="ar"></p>
+                            <p id="mission-price-desc-en" class="text-gray-700" data-lang="en"></p>
+                        </div>
                     </div>
-                    <div class="glass-card p-8 rounded-2xl mb-8 about-vision-mission-card">
-                        <h3 id="vision-title-ar" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar"></h3>
-                        <h3 id="vision-title-en" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en"></h3>
-                        <p id="vision-p1-ar" class="text-gray-700" data-lang="ar"></p>
-                        <p id="vision-p1-en" class="text-gray-700" data-lang="en"></p>
-                    </div>
-                    <div class="glass-card p-8 rounded-2xl about-vision-mission-card">
-                        <h3 id="mission-title-ar" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar"></h3>
-                        <h3 id="mission-title-en" class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en"></h3>
-                        <p id="mission-speed-ar" class="text-gray-700 font-bold mb-2" data-lang="ar"></p>
-                        <p id="mission-speed-en" class="text-gray-700 font-bold mb-2" data-lang="en"></p>
-                        <p id="mission-speed-desc-ar" class="text-gray-700 mb-6" data-lang="ar"></p>
-                        <p id="mission-speed-desc-en" class="text-gray-700 mb-6" data-lang="en"></p>
-                        <p id="mission-price-ar" class="text-gray-700 font-bold mb-2" data-lang="ar"></p>
-                        <p id="mission-price-en" class="text-gray-700 font-bold mb-2" data-lang="en"></p>
-                        <p id="mission-price-desc-ar" class="text-gray-700" data-lang="ar"></p>
-                        <p id="mission-price-desc-en" class="text-gray-700" data-lang="en"></p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-6 fade-in place-items-start">
-                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card w-full">
-                        <img id="about-img1" src="" alt="About Raslan Image 1" class="w-full h-full object-cover">
-                    </div>
-                    <div class="overflow-hidden rounded-2xl shadow-lg glass-card w-full mt-12">
-                        <img id="about-img2" src="" alt="About Raslan Image 2" class="w-full h-full object-cover">
+                    <div class="about-images-container">
+                        <div class="overflow-hidden rounded-2xl shadow-lg glass-card w-full">
+                            <img id="about-img1" src="" alt="About Raslan Image 1" class="w-full h-full object-cover">
+                        </div>
+                        <div class="overflow-hidden rounded-2xl shadow-lg glass-card w-full mt-12 lg:mt-0">
+                            <img id="about-img2" src="" alt="About Raslan Image 2" class="w-full h-full object-cover">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -545,103 +576,108 @@
 
     <section id="services" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">خدماتنا</h2>
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Services</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">خدماتنا</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Our Services</h2>
             <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                </div>
+            </div>
+            <a href="YOUR_SERVICES_PAGE_URL_HERE" target="_blank" class="view-all-link" data-lang="ar">عرض كل الخدمات</a>
+            <a href="YOUR_SERVICES_PAGE_URL_HERE" target="_blank" class="view-all-link" data-lang="en">View All Services</a>
         </div>
     </section>
 
     <section id="projects" class="py-20 section-bg">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">مشاريعنا</h2>
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Projects</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">مشاريعنا</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Our Projects</h2>
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                </div>
+            </div>
+            <a href="projects.html" target="_blank" class="view-all-link" data-lang="ar">عرض جميع المشاريع</a>
+            <a href="projects.html" target="_blank" class="view-all-link" data-lang="en">View All Projects</a>
         </div>
     </section>
 
     <section id="work-heroes" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">أبطال أعمالنا</h2>
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Work Heroes</h2>
-            <div class="overlapping-grid-container fade-in">
-                <div id="work-heroes-container" class="overlapping-grid">
-                    </div>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">أبطال أعمالنا</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Our Work Heroes</h2>
+            <div class="work-heroes-carousel-container">
             </div>
         </div>
     </section>
 
     <section id="team" class="py-20 section-bg">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">تعرف على فريقنا</h2>
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Meet Our Team</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">تعرف على فريقنا</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Meet Our Team</h2>
             <div id="team-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                </div>
+            </div>
         </div>
     </section>
 
     <section id="clients" class="py-20 section-bg-alt">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">عملائنا</h2>
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Our Clients</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">عملائنا</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Our Clients</h2>
             <div id="clients-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-center justify-items-center mx-auto max-w-fit">
-                </div>
+            </div>
+            <a href="YOUR_CLIENTS_PAGE_URL_HERE" target="_blank" class="view-all-link" data-lang="ar">عرض كل عملائنا</a>
+            <a href="YOUR_CLIENTS_PAGE_URL_HERE" target="_blank" class="view-all-link" data-lang="en">View All Clients</a>
         </div>
     </section>
 
     <section id="contact" class="py-20 section-bg">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="ar">تواصل معنا</h2>
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873] fade-in" data-lang="en">Contact Us</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">تواصل معنا</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Contact Us</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div class="fade-in">
-                    <div class="glass-card rounded-2xl p-8 mb-8 space-y-6">
-                        <div class="flex items-start gap-4">
+                <div class="glass-card rounded-2xl p-8 space-y-8">
+                    <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="ar">معلومات التواصل</h3>
+                    <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="en">Contact Information</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4">
                             <div class="service-icon rounded-full flex items-center justify-center text-white">
                                 <i class="fas fa-map-marker-alt text-xl"></i>
                             </div>
-                            <div>
+                            <div class="flex-grow">
                                 <p id="contact-address-ar" class="text-gray-600" data-lang="ar"></p>
                                 <p id="contact-address-en" class="text-gray-600" data-lang="en"></p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-4">
+                        <div class="flex items-center gap-4">
                             <div class="service-icon rounded-full flex items-center justify-center text-white">
                                 <i class="fas fa-envelope text-xl"></i>
                             </div>
-                            <div>
+                            <div class="flex-grow">
                                 <a id="contact-email-link" href="#" class="text-gray-600 hover:text-[#0c4873]"></a>
                             </div>
                         </div>
-                        <div class="flex items-start gap-4">
+                        <div class="flex items-center gap-4">
                             <div class="service-icon rounded-full flex items-center justify-center text-white">
                                 <i class="fas fa-phone-alt text-xl"></i>
                             </div>
-                            <div>
+                            <div class="flex-grow">
                                 <a id="contact-phone-link" href="#" class="text-gray-600 hover:text-[#0c4873]" dir="ltr"></a>
                             </div>
                         </div>
                     </div>
-                    <div class="glass-card rounded-2xl p-8 space-y-6">
-                        <h3 class="text-xl font-bold text-gray-800" data-lang="ar">تابعنا</h3>
-                        <h3 class="text-xl font-bold text-gray-800" data-lang="en">Follow Us</h3>
-                        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
-                            <a href="https://www.facebook.com/Raslan2001/" target="_blank" class="contact-social-btn flex items-center justify-center hover:bg-blue-700 transition-colors">
-                                <span data-lang="ar">فيسبوك</span>
-                                <span data-lang="en">Facebook</span>
-                                <i class="fab fa-facebook-f text-xl"></i>
-                            </a>
-                            <a href="#" class="contact-social-btn flex items-center justify-center hover:bg-pink-600 transition-colors">
-                                <span data-lang="ar">انستجرام</span>
-                                <span data-lang="en">Instagram</span>
-                                <i class="fab fa-instagram text-xl"></i>
-                            </a>
-                        </div>
+
+                    <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="ar">تابعنا</h3>
+                    <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="en">Follow Us</h3>
+                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 md:gap-x-4 justify-center">
+                        <a href="https://www.facebook.com/Raslan2001/" target="_blank" class="contact-social-btn flex items-center justify-center hover:bg-blue-700 transition-colors">
+                            <span data-lang="ar">فيسبوك</span>
+                            <span data-lang="en">Facebook</span>
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="contact-social-btn flex items-center justify-center hover:bg-pink-600 transition-colors">
+                            <span data-lang="ar">انستجرام</span>
+                            <span data-lang="en">Instagram</span>
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="fade-in">
-                    <div class="glass-card rounded-2xl overflow-hidden h-full min-h-[400px]">
+                <div>
+                    <div class="glass-card rounded-2xl overflow-hidden h-full min-h-[300px]">
                         <iframe id="contact-map-iframe" src="" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
@@ -649,12 +685,12 @@
         </div>
     </section>
 
-    <footer class="bg-[#0c4873] text-white py-8">
-        <div class="container mx-auto px-4 text-center">
-            <p id="footer-copyright-ar" data-lang="ar"></p>
-            <p id="footer-copyright-en" data-lang="en"></p>
-            <p id="footer-powered-by-ar" data-lang="ar"></p>
-            <p id="footer-powered-by-en" data-lang="en"></p>
+    <footer class="footer">
+        <div class="container mx-auto px-4">
+            <p id="footer-copyright-ar" class="order-2 md:order-1" data-lang="ar"></p>
+            <p id="footer-copyright-en" class="order-2 md:order-1" data-lang="en"></p>
+            <p id="footer-powered-by-ar" class="order-1 md:order-2" data-lang="ar"></p>
+            <p id="footer-powered-by-en" class="order-1 md:order-2" data-lang="en"></p>
         </div>
     </footer>
 
@@ -665,7 +701,6 @@
         <span data-lang="ar">اطلب استشارتك المجانية الان</span>
         <span data-lang="en">Get your free consultation now</span>
     </div>
-    
     <div onclick="toggleLanguage()" class="lang-switcher-btn">
         <span id="lang-text"></span>
     </div>
@@ -689,6 +724,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        let allProjectsData = []; // Global variable to store all projects
+        let allWorkHeroesData = []; // Global variable to store all work heroes
+
         // --- Helper function to fetch data ---
         async function fetchRealtimeData(path) {
             try {
@@ -697,7 +735,7 @@
                     const data = snapshot.val();
                     // Convert objects to arrays for lists, but not for single items like 'about'
                     if (path !== 'about' && path !== 'contact' && path !== 'footer' && typeof data === 'object' && data !== null) {
-                           return Object.values(data);
+                        return Object.values(data);
                     }
                     return data;
                 }
@@ -716,20 +754,40 @@
             if (!data) return;
             document.getElementById('about-p1-ar').textContent = data.aboutP1Ar || '';
             document.getElementById('about-p1-en').textContent = data.aboutP1En || '';
-            document.getElementById('vision-title-ar').textContent = data.visionTitleAr || '';
-            document.getElementById('vision-title-en').textContent = data.visionTitleEn || '';
-            document.getElementById('vision-p1-ar').textContent = data.visionP1Ar || '';
-            document.getElementById('vision-p1-en').textContent = data.visionP1En || '';
-            document.getElementById('mission-title-ar').textContent = data.missionTitleAr || '';
-            document.getElementById('mission-title-en').textContent = data.missionTitleEn || '';
-            document.getElementById('mission-speed-ar').textContent = data.missionSpeedAr || '';
-            document.getElementById('mission-speed-en').textContent = data.missionSpeedEn || '';
-            document.getElementById('mission-speed-desc-ar').textContent = data.missionSpeedDescAr || '';
-            document.getElementById('mission-speed-desc-en').textContent = data.missionSpeedDescEn || '';
-            document.getElementById('mission-price-ar').textContent = data.missionPriceAr || '';
-            document.getElementById('mission-price-en').textContent = data.missionPriceEn || '';
-            document.getElementById('mission-price-desc-ar').textContent = data.missionPriceDescAr || '';
-            document.getElementById('mission-price-desc-en').textContent = data.missionPriceDescEn || '';
+            
+            // Re-adding Vision and Mission content without card wrappers
+            const visionTitleAr = document.getElementById('vision-title-ar');
+            const visionTitleEn = document.getElementById('vision-title-en');
+            const visionP1Ar = document.getElementById('vision-p1-ar');
+            const visionP1En = document.getElementById('vision-p1-en');
+
+            const missionTitleAr = document.getElementById('mission-title-ar');
+            const missionTitleEn = document.getElementById('mission-title-en');
+            const missionSpeedAr = document.getElementById('mission-speed-ar');
+            const missionSpeedEn = document.getElementById('mission-speed-en');
+            const missionSpeedDescAr = document.getElementById('mission-speed-desc-ar');
+            const missionSpeedDescEn = document.getElementById('mission-speed-desc-en');
+            const missionPriceAr = document.getElementById('mission-price-ar');
+            const missionPriceEn = document.getElementById('mission-price-en');
+            const missionPriceDescAr = document.getElementById('mission-price-desc-ar');
+            const missionPriceDescEn = document.getElementById('mission-price-desc-en');
+
+            if (visionTitleAr) visionTitleAr.textContent = data.visionTitleAr || '';
+            if (visionTitleEn) visionTitleEn.textContent = data.visionTitleEn || '';
+            if (visionP1Ar) visionP1Ar.textContent = data.visionP1Ar || '';
+            if (visionP1En) visionP1En.textContent = data.visionP1En || '';
+
+            if (missionTitleAr) missionTitleAr.textContent = data.missionTitleAr || '';
+            if (missionTitleEn) missionTitleEn.textContent = data.missionTitleEn || '';
+            if (missionSpeedAr) missionSpeedAr.textContent = data.missionSpeedAr || '';
+            if (missionSpeedEn) missionSpeedEn.textContent = data.missionSpeedEn || '';
+            if (missionSpeedDescAr) missionSpeedDescAr.textContent = data.missionSpeedDescAr || '';
+            if (missionSpeedDescEn) missionSpeedDescEn.textContent = data.missionSpeedDescEn || '';
+            if (missionPriceAr) missionPriceAr.textContent = data.missionPriceAr || '';
+            if (missionPriceEn) missionPriceEn.textContent = data.missionPriceEn || '';
+            if (missionPriceDescAr) missionPriceDescAr.textContent = data.missionPriceDescAr || '';
+            if (missionPriceDescEn) missionPriceDescEn.textContent = data.missionPriceDescEn || '';
+            
             document.getElementById('about-img1').src = data.aboutImg1Url || '';
             document.getElementById('about-img2').src = data.aboutImg2Url || '';
         }
@@ -739,30 +797,37 @@
             const container = document.getElementById('services-container');
             if (!data || !container) return;
             container.innerHTML = '';
-            data.forEach(service => {
+            // Now, service cards will use the same structure and classes as project cards
+            data.forEach((service) => {
                 container.innerHTML += `
-                    <div class="service-card fade-in">
-                        <div class="service-card-header" style="background-image: url('${service.imageUrl || ''}');">
-                            <h3 data-lang="ar">${service.titleAr || ''}</h3>
-                            <h3 data-lang="en">${service.titleEn || ''}</h3>
+                    <div class="glass-card rounded-2xl overflow-hidden shadow-lg">
+                        <div class="image-wrapper">
+                            <img src="${service.imageUrl || ''}" alt="${service.titleAr}" class="w-full object-cover">
                         </div>
-                        <div class="service-card-description">
-                            <p data-lang="ar">${service.descAr || ''}</p>
-                            <p data-lang="en">${service.descEn || ''}</p>
+                        <div class="p-8 service-card-content">
+                            <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">${service.titleAr || ''}</h3>
+                            <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">${service.titleEn || ''}</h3>
+                            <p class="text-gray-700" data-lang="ar">${service.descAr || ''}</p>
+                            <p class="text-gray-700" data-lang="en">${service.descEn || ''}</p>
                         </div>
                     </div>`;
             });
         }
-        
+
         async function loadProjects() {
-            const data = await fetchRealtimeData('projects');
+            allProjectsData = await fetchRealtimeData('projects'); // Store all projects
             const container = document.getElementById('projects-container');
-            if (!data || !container) return;
+            if (!allProjectsData || !container) return;
+
+            // Display only a limited number of projects on the home page (e.g., first 4)
             container.innerHTML = '';
-            data.forEach(project => {
+            const limitedProjects = allProjectsData.slice(0, 4); // Display first 4 projects
+            limitedProjects.forEach(project => {
                 container.innerHTML += `
-                    <div class="glass-card rounded-2xl overflow-hidden shadow-lg fade-in">
-                        <img src="${project.imageUrl || ''}" alt="${project.titleAr}" class="w-full h-64 object-cover">
+                    <div class="glass-card rounded-2xl overflow-hidden shadow-lg">
+                        <div class="image-wrapper">
+                            <img src="${project.mainImageUrl || ''}" alt="${project.titleAr}" class="w-full object-cover">
+                        </div>
                         <div class="p-8">
                             <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">${project.titleAr || ''}</h3>
                             <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">${project.titleEn || ''}</h3>
@@ -772,18 +837,38 @@
                     </div>`;
             });
         }
-        
+
         async function loadWorkHeroes() {
-            const data = await fetchRealtimeData('workHeroes');
-            const container = document.getElementById('work-heroes-container');
-            if (!data || !container) return;
-            container.innerHTML = '';
-            data.forEach(hero => {
-                container.innerHTML += `
-                    <div class="overlapping-grid-item">
-                        <img src="${hero.imageUrl || ''}" alt="Work Hero">
-                    </div>`;
-            });
+            allWorkHeroesData = await fetchRealtimeData('workHeroes'); // Store all work heroes data
+            const container = document.querySelector('.work-heroes-carousel-container');
+            if (!allWorkHeroesData || !container) return;
+            container.innerHTML = ''; // Clear previous content
+
+            // Group images into sets of 4 for the carousel
+            const itemsPerGroup = 4;
+            const totalGroups = Math.ceil(allWorkHeroesData.length / itemsPerGroup);
+
+            for (let i = 0; i < totalGroups; i++) {
+                const groupDiv = document.createElement('div');
+                groupDiv.classList.add('work-heroes-group');
+                if (i === 0) {
+                    groupDiv.classList.add('active'); // First group is active initially
+                }
+
+                const startIndex = i * itemsPerGroup;
+                const endIndex = Math.min(startIndex + itemsPerGroup, allWorkHeroesData.length);
+                const currentGroupItems = allWorkHeroesData.slice(startIndex, endIndex);
+
+                currentGroupItems.forEach(hero => {
+                    groupDiv.innerHTML += `
+                        <div class="work-heroes-item">
+                            <img src="${hero.imageUrl || ''}" alt="Work Hero">
+                        </div>
+                    `;
+                });
+                container.appendChild(groupDiv);
+            }
+            startWorkHeroesCarousel(); // Start the carousel after loading
         }
 
         async function loadTeam() {
@@ -792,8 +877,8 @@
             if (!data || !container) return;
             container.innerHTML = '';
             data.forEach(member => {
-                   container.innerHTML += `
-                    <div class="team-card glass-card rounded-2xl overflow-hidden fade-in">
+                container.innerHTML += `
+                    <div class="team-card glass-card rounded-2xl overflow-hidden">
                         <div class="overflow-hidden h-80">
                             <img src="${member.imageUrl || ''}" alt="${member.nameAr}" class="w-full h-full object-cover">
                         </div>
@@ -808,13 +893,14 @@
         }
 
         async function loadClients() {
-            const data = await fetchRealtimeData('clients');
+            const data = await fetchRealtimeData('clients'); // Fetch all client data
             const container = document.getElementById('clients-container');
             if (!data || !container) return;
             container.innerHTML = '';
-            data.forEach(client => {
+            const limitedClients = data.slice(0, 4); // Display first 4 clients
+            limitedClients.forEach(client => {
                 container.innerHTML += `
-                    <div class="glass-card p-6 rounded-2xl fade-in flex justify-center items-center">
+                    <div class="glass-card p-6 rounded-2xl flex justify-center items-center">
                         <img src="${client.logoUrl || ''}" alt="Client Logo" class="max-h-24 w-auto">
                     </div>`;
             });
@@ -832,7 +918,7 @@
             document.getElementById('contact-map-iframe').src = data.mapIframeSrc || '';
             document.getElementById('whatsapp-float-link').href = `https://wa.me/${data.whatsappFloatPhone || ''}`;
         }
-        
+
         async function loadFooter() {
             const data = await fetchRealtimeData('footer');
             if (!data) return;
@@ -840,50 +926,37 @@
             document.getElementById('footer-copyright-en').textContent = data.copyrightEn || '';
             const poweredByAr = document.getElementById('footer-powered-by-ar');
             const poweredByEn = document.getElementById('footer-powered-by-en');
+            // Ensure the link is properly rendered within the paragraph
             poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
             poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
         }
-        
+
         // --- Static UI Logic (Slider, Language, Scroll) ---
         function setupUI() {
-            // Slider
-            let currentSlide = 0;
-            const slides = document.querySelectorAll('.slide');
-            const totalSlides = slides.length; // Get the total number of slides
+            // Hero Slider
+            let currentHeroSlide = 0;
+            const heroSlides = document.querySelectorAll('.hero-slider .slide');
+            const totalHeroSlides = heroSlides.length;
 
-            function showSlide(index) {
-                slides.forEach(slide => slide.classList.remove('active'));
-
-                // Handle looping for slider
-                if (index >= totalSlides) {
-                    currentSlide = 0;
+            function showHeroSlide(index) {
+                heroSlides.forEach(slide => slide.classList.remove('active'));
+                if (index >= totalHeroSlides) {
+                    currentHeroSlide = 0;
                 } else if (index < 0) {
-                    currentSlide = totalSlides - 1;
+                    currentHeroSlide = totalHeroSlides - 1;
                 } else {
-                    currentSlide = index;
+                    currentHeroSlide = index;
                 }
-                slides[currentSlide].classList.add('active');
+                heroSlides[currentHeroSlide].classList.add('active');
             }
 
-            if (slides.length > 0) {
-                 setInterval(() => {
-                    showSlide(currentSlide + 1);
-                }, 3000); // 3 seconds interval as before
+            if (heroSlides.length > 0) {
+                setInterval(() => {
+                    showHeroSlide(currentHeroSlide + 1);
+                }, 3000); // 3 seconds interval
             }
 
-            // Fade-in on scroll
-            const fadeElements = document.querySelectorAll('.fade-in');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    } else {
-                        // Optional: remove visible class if element scrolls out of view
-                        // entry.target.classList.remove('visible'); 
-                    }
-                });
-            }, { threshold: 0.1 });
-            fadeElements.forEach(el => observer.observe(el));
+            // Removed Fade-in on scroll (IntersectionObserver) to prevent lag
         }
 
         // --- Language Switcher ---
@@ -942,98 +1015,41 @@
             }
         });
 
-        // --- Horizontal Auto-Scrolling and Dragging for Work Heroes ---
-        const scrollContainer = document.querySelector('.overlapping-grid-container');
-        const scrollContent = document.querySelector('.overlapping-grid');
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-        let scrollInterval;
-        const autoScrollSpeed = 0.5; // Adjusted auto-scroll speed
-        const autoScrollDelay = 3000; // Delay before auto-scrolling resumes
+        // --- Work Heroes Carousel Logic ---
+        let currentGroupIndex = 0;
+        let workHeroesCarouselInterval;
+        const fadeDuration = 500; // milliseconds for fade in/out
+        const displayDuration = 1000; // milliseconds to display each group (1 second as requested)
 
-        function startAutoScroll() {
-            if (!scrollContainer || !scrollContent) return;
-            stopAutoScroll();
+        function startWorkHeroesCarousel() {
+            stopWorkHeroesCarousel(); // Clear any existing interval
+            const groups = document.querySelectorAll('.work-heroes-group');
+            if (groups.length === 0) return;
 
-            // Only start auto-scroll if content overflows
-            if (scrollContent.scrollWidth <= scrollContainer.clientWidth + 5) {
-                return;
-            }
+            // Immediately show the first group and then start cycling
+            groups[0].classList.add('active');
 
-            scrollInterval = setInterval(() => {
-                // Check if scrolled to end (accounting for potential floating point issues)
-                if (Math.abs(scrollContainer.scrollLeft + scrollContainer.clientWidth - scrollContent.scrollWidth) < 1) {
-                    scrollContainer.scrollTo({
-                        left: 0,
-                        behavior: 'smooth'
-                    });
-                } else {
-                    scrollContainer.scrollLeft += autoScrollSpeed;
-                }
-            }, 10);
+            workHeroesCarouselInterval = setInterval(() => {
+                const prevGroupIndex = currentGroupIndex;
+                currentGroupIndex = (currentGroupIndex + 1) % groups.length;
+
+                // Fade out the previous group
+                groups[prevGroupIndex].style.opacity = 0;
+                groups[prevGroupIndex].style.zIndex = 0;
+
+                // After fadeDuration, fade in the next group
+                setTimeout(() => {
+                    groups[prevGroupIndex].classList.remove('active');
+                    groups[currentGroupIndex].classList.add('active');
+                    groups[currentGroupIndex].style.opacity = 1;
+                    groups[currentGroupIndex].style.zIndex = 1;
+                }, fadeDuration); // Wait for previous to fade out before activating next
+            }, displayDuration + fadeDuration); // Total time for one cycle (display + fade)
         }
 
-        function stopAutoScroll() {
-            clearInterval(scrollInterval);
+        function stopWorkHeroesCarousel() {
+            clearInterval(workHeroesCarouselInterval);
         }
-
-        // Start auto-scroll on page load
-        window.addEventListener('load', startAutoScroll);
-
-        // Mouse dragging functionality
-        scrollContainer.addEventListener('mousedown', (e) => {
-            isDown = true;
-            scrollContainer.classList.add('is-dragging');
-            startX = e.pageX - scrollContainer.offsetLeft;
-            scrollLeft = scrollContainer.scrollLeft;
-            stopAutoScroll(); // Stop auto-scroll on manual interaction
-        });
-
-        scrollContainer.addEventListener('mouseleave', () => {
-            if (isDown) { // Only resume if was dragging
-                isDown = false;
-                scrollContainer.classList.remove('is-dragging');
-                setTimeout(startAutoScroll, autoScrollDelay);
-            }
-        });
-
-        scrollContainer.addEventListener('mouseup', () => {
-            if (isDown) { // Only resume if was dragging
-                isDown = false;
-                scrollContainer.classList.remove('is-dragging');
-                setTimeout(startAutoScroll, autoScrollDelay);
-            }
-        });
-
-        scrollContainer.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault(); // Prevent text selection etc.
-            const x = e.pageX - scrollContainer.offsetLeft;
-            const walk = (x - startX) * 2; // Multiplier for faster drag sensitivity
-            scrollContainer.scrollLeft = scrollLeft - walk;
-        });
-
-        // Touch dragging functionality for mobile
-        scrollContainer.addEventListener('touchstart', (e) => {
-            isDown = true;
-            startX = e.touches[0].pageX - scrollContainer.offsetLeft;
-            scrollLeft = scrollContainer.scrollLeft;
-            stopAutoScroll(); // Stop auto-scroll on manual interaction
-        });
-
-        scrollContainer.addEventListener('touchend', () => {
-            isDown = false;
-            setTimeout(startAutoScroll, autoScrollDelay); // Resume auto-scroll after delay
-        });
-
-        scrollContainer.addEventListener('touchmove', (e) => {
-            if (!isDown) return;
-            const x = e.touches[0].pageX - scrollContainer.offsetLeft;
-            const walk = (x - startX) * 2; // Multiplier for faster drag sensitivity
-            scrollContainer.scrollLeft = scrollLeft - walk;
-        });
-        // --- End of Horizontal Auto-Scrolling and Dragging ---
 
         // --- Initial Load ---
         document.addEventListener('DOMContentLoaded', async () => {
@@ -1042,27 +1058,23 @@
                 loadAboutSection(),
                 loadServices(),
                 loadProjects(),
-                loadWorkHeroes(),
+                loadWorkHeroes(), // This will now set up the carousel
                 loadTeam(),
                 loadClients(),
                 loadContact(),
                 loadFooter()
             ]);
-            
+
             // Setup static UI interactions
             setupUI();
 
-            // Set initial language based on browser preference (since manual toggle is removed)
+            // Set initial language based on browser preference
             let initialLang = localStorage.getItem('preferredLanguage');
             if (!initialLang) {
                 const browserLang = navigator.language || navigator.languages[0];
                 initialLang = browserLang.startsWith('ar') ? 'ar' : 'en';
             }
-            setLanguage(initialLang); // This will also trigger showWhatsappNotification()
-
-            // Removed explicit setTimeout for whatsapp notification here
-            // as setLanguage already calls it. If you need a *separate* initial call
-            // after content loads, you can add it back here, but be mindful of duplicate calls.
+            setLanguage(initialLang);
         });
     </script>
 </body>
