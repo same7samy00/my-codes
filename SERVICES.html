@@ -167,6 +167,45 @@
             transform: translateX(0);
         }
 
+        /* Contact Icons & Social Buttons */
+        .service-icon, .contact-social-btn {
+            background-color: var(--primary); /* Use primary color */
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            color: var(--white);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .service-icon:hover, .contact-social-btn:hover {
+            background-color: var(--secondary); /* Vibrant blue on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
+        }
+        .service-icon {
+            width: 55px; /* Larger icon circle */
+            height: 55px;
+            font-size: 24px; /* Larger icon */
+            border-radius: 50%; /* Ensure it's circular */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; /* Prevent shrinking in flex layouts */
+        }
+        .contact-social-btn {
+            padding: 0.75rem 1.5rem; /* Increased padding */
+            border-radius: 0.75rem; /* Consistent with other buttons */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem; /* Space between text and icon */
+        }
+        .contact-info-item { /* For contact text fields */
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .page-hero-text h1 {
@@ -201,6 +240,26 @@
                 right: 90px;
                 padding: 10px 15px;
                 font-size: 14px;
+            }
+            .contact-grid { /* Adjust contact section grid for mobile */
+                grid-template-columns: 1fr;
+            }
+            .contact-info-block { /* Adjust spacing for contact block */
+                padding: 1.5rem;
+                text-align: center;
+            }
+            .contact-info-item { /* Center align items in contact info */
+                flex-direction: column;
+                text-align: center;
+            }
+            .contact-info-item .flex-grow {
+                text-align: center;
+            }
+            html[lang="ar"] .contact-info-item .flex-grow {
+                text-align: center;
+            }
+            .contact-social-btn {
+                width: 100%; /* Full width social buttons */
             }
         }
 
@@ -284,12 +343,12 @@
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">تواصل معنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Contact Us</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div class="glass-card rounded-2xl p-8 space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 contact-grid">
+                <div class="glass-card rounded-2xl p-8 space-y-8 contact-info-block">
                     <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="ar">معلومات التواصل</h3>
                     <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="en">Contact Information</h3>
                     <div class="space-y-6">
-                        <div class="flex items-center gap-4">
+                        <div class="contact-info-item">
                             <div class="service-icon rounded-full flex items-center justify-center text-white">
                                 <i class="fas fa-map-marker-alt text-xl"></i>
                             </div>
@@ -298,7 +357,7 @@
                                 <p id="contact-address-en" class="text-gray-600" data-lang="en"></p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-4">
+                        <div class="contact-info-item">
                             <div class="service-icon rounded-full flex items-center justify-center text-white">
                                 <i class="fas fa-envelope text-xl"></i>
                             </div>
@@ -306,7 +365,7 @@
                                 <a id="contact-email-link" href="#" class="text-gray-600 hover:text-[#0c4873]"></a>
                             </div>
                         </div>
-                        <div class="flex items-center gap-4">
+                        <div class="contact-info-item">
                             <div class="service-icon rounded-full flex items-center justify-center text-white">
                                 <i class="fas fa-phone-alt text-xl"></i>
                             </div>
@@ -331,7 +390,11 @@
                         </a>
                     </div>
                 </div>
+                <div class="glass-card rounded-2xl overflow-hidden h-full min-h-[300px] flex items-center justify-center text-gray-500">
+                    <p data-lang="ar">الخريطة ستظهر هنا في الصفحة الرئيسية</p>
+                    <p data-lang="en">Map will appear here on the main page</p>
                 </div>
+            </div>
         </div>
     </section>
 
@@ -426,9 +489,8 @@
             document.getElementById('contact-email-link').textContent = data.email || '';
             document.getElementById('contact-phone-link').href = 'tel:' + (data.phone || '');
             document.getElementById('contact-phone-link').textContent = data.phone || '';
-            // Removed map-related elements from projects.html, so no need for map iframe src
-            // document.getElementById('contact-map-iframe').src = data.mapIframeSrc || '';
-            // Removed whatsapp float link from html, but still need the number for the button
+            // Removed map-related elements from services.html, so added a placeholder div instead
+            // document.getElementById('contact-map-iframe').src = data.mapIframeSrc || ''; 
             document.getElementById('whatsapp-float-link').href = `https://wa.me/${data.whatsappFloatPhone || ''}`;
         }
 
