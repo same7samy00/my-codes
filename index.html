@@ -6,9 +6,9 @@
     <title data-lang="ar">رسلان - لحلول المقاولات والإنشاءات المتطورة في مصر والشرق الأوسط</title>
     <title data-lang="en">Raslan - Advanced Contracting & Construction Solutions in Egypt & Middle East</title>
 
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/HktJ2y6z/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="https://i.postimg.cc/HktJ2y6z/favicon-96x96.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Raslan - رسلان" />
     <link rel="manifest" href="/site.webmanifest" />
@@ -63,8 +63,9 @@
         }
         .slide::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
-            /* backdrop-filter: blur(5px); */ /* Reduced blur for performance */
+            background-color: rgba(0, 0, 0, 0.3); /* Changed to 30% opacity (0.3) */
+            backdrop-filter: blur(8px); /* Added blur for hero background */
+            -webkit-backdrop-filter: blur(8px); /* For Safari support */
         }
         .slide.active { opacity: 1; }
 
@@ -235,7 +236,7 @@
         .lang-switcher-btn {
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            color: var(--white);
+            color: var(--white) !important; /* Ensure text color remains white */
             font-weight: bold;
             background: rgba(255, 255, 255, 0.2); /* Slightly more opaque glass */
             /* backdrop-filter: blur(5px); */ /* Reduced blur for performance */
@@ -243,12 +244,12 @@
             border: 1px solid var(--glass-border);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             padding: 0.4rem 0.8rem; /* Significantly smaller padding */
-            border-radius: 0.75rem; /* More rounded to match smaller size */
+            border-radius: 0.75rem; /* Changed to match btn-glass */
             font-size: 0.85rem; /* Smaller font size */
             display: flex;
             align-items: center;
             position: fixed; /* Keep it fixed on screen */
-            top: 10px;
+            top: 15px; /* Moved down by 5px (was 10px) */
             z-index: 2000; /* Extremely high z-index to ensure it's always on top */
         }
         html[lang="en"] .lang-switcher-btn {
@@ -260,7 +261,7 @@
             left: auto;
         }
         .lang-switcher-btn:hover {
-            color: var(--secondary); /* Vibrant blue on hover */
+            color: var(--white) !important; /* Ensure text color remains white on hover */
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.05);
             box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
@@ -522,7 +523,7 @@
             </div>
         </div>
     </section>
-    <section id="about" class="py-20 section-bg">
+    <section id="about" class="py-16 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">من نحن</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">About Us</h2>
@@ -564,7 +565,7 @@
             </div>
         </div>
     </section>
-    <section id="services" class="py-20 section-bg-alt">
+    <section id="services" class="py-16 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">خدماتنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Our Services</h2>
@@ -574,7 +575,7 @@
             <a href="https://raslan-eg.com/Services/" target="_blank" class="view-all-link" data-lang="en">View All Services</a>
         </div>
     </section>
-    <section id="projects" class="py-20 section-bg">
+    <section id="projects" class="py-16 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">مشاريعنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Our Projects</h2>
@@ -584,7 +585,7 @@
             <a href="https://raslan-eg.com/Projects/" target="_blank" class="view-all-link" data-lang="en">View All Projects</a>
         </div>
     </section>
-    <section id="work-heroes" class="py-20 section-bg-alt">
+    <section id="work-heroes" class="py-16 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">أبطال أعمالنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Our Work Heroes</h2>
@@ -592,7 +593,7 @@
             </div>
         </div>
     </section>
-    <section id="team" class="py-20 section-bg">
+    <section id="team" class="py-16 section-bg">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">تعرف على فريقنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Meet Our Team</h2>
@@ -600,7 +601,7 @@
             </div>
         </div>
     </section>
-    <section id="clients" class="py-20 section-bg-alt">
+    <section id="clients" class="py-16 section-bg-alt">
         <div class="container mx-auto px-4">
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">عملائنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Our Clients</h2>
@@ -610,62 +611,52 @@
             <a href="https://raslan-eg.com/Clients/" target="_blank" class="view-all-link" data-lang="en">View All Clients</a>
         </div>
     </section>
-    <section id="contact" class="py-20 section-bg">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">تواصل معنا</h2>
+    <section id="contact" class="py-16 section-bg">
+        <div class="container mx-auto px-4 max-w-2xl"> <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">تواصل معنا</h2>
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Contact Us</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div class="glass-card rounded-2xl p-8 space-y-8">
-                    <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="ar">معلومات التواصل</h3>
-                    <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="en">Contact Information</h3>
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-4">
-                            <div class="service-icon rounded-full flex items-center justify-center text-white">
-                                <i class="fas fa-map-marker-alt text-xl"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <p id="contact-address-ar" class="text-gray-600" data-lang="ar"></p>
-                                <p id="contact-address-en" class="text-gray-600" data-lang="en"></p>
-                            </div>
+            
+            <div class="glass-card rounded-2xl p-8 space-y-8">
+                <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="ar">معلومات التواصل</h3>
+                <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="en">Contact Information</h3>
+                <div class="space-y-6">
+                    <div class="flex items-center gap-4"> <div class="service-icon rounded-full flex items-center justify-center text-white">
+                            <i class="fas fa-map-marker-alt text-xl"></i>
                         </div>
-                        <div class="flex items-center gap-4">
-                            <div class="service-icon rounded-full flex items-center justify-center text-white">
-                                <i class="fas fa-envelope text-xl"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <a id="contact-email-link" href="#" class="text-gray-600 hover:text-[#0c4873]"></a>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="service-icon rounded-full flex items-center justify-center text-white">
-                                <i class="fas fa-phone-alt text-xl"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <a id="contact-phone-link" href="#" class="text-gray-600 hover:text-[#0c4873]" dir="ltr"></a>
-                            </div>
+                        <div class="flex-grow">
+                            <p id="contact-address-ar" class="text-gray-600 text-lg" data-lang="ar"></p>
+                            <p id="contact-address-en" class="text-gray-600 text-lg" data-lang="en"></p>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="ar">تابعنا</h3>
-                    <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="en">Follow Us</h3>
-                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 md:gap-x-4 justify-center">
-                        <a href="https://www.facebook.com/Raslan2001/" target="_blank" class="contact-social-btn flex items-center justify-center hover:bg-blue-700 transition-colors">
-                            <span data-lang="ar">فيسبوك</span>
-                            <span data-lang="en">Facebook</span>
-                            <i class="fab fa-facebook-f text-xl"></i>
-                        </a>
-                        <a href="#" class="contact-social-btn flex items-center justify-center hover:bg-pink-600 transition-colors">
-                            <span data-lang="ar">انستجرام</span>
-                            <span data-lang="en">Instagram</span>
-                            <i class="fab fa-instagram text-xl"></i>
-                        </a>
+                    <div class="flex items-center gap-4"> <div class="service-icon rounded-full flex items-center justify-center text-white">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <a id="contact-email-link" href="#" class="text-gray-600 hover:text-[#0c4873] text-lg"></a>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4"> <div class="service-icon rounded-full flex items-center justify-center text-white">
+                            <i class="fas fa-phone-alt text-xl"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <a id="contact-phone-link" href="#" class="text-gray-600 hover:text-[#0c4873] text-lg" dir="ltr"></a>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <div class="glass-card rounded-2xl overflow-hidden h-full min-h-[300px]">
-                        <iframe id="contact-map-iframe" src="" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
+                <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="ar">تابعنا</h3>
+                <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="en">Follow Us</h3>
+                <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 md:gap-x-4 justify-center">
+                    <a href="https://www.facebook.com/Raslan2001/" target="_blank" class="contact-social-btn flex items-center justify-center hover:bg-blue-700 transition-colors">
+                        <span data-lang="ar">فيسبوك</span>
+                        <span data-lang="en">Facebook</span>
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="contact-social-btn flex items-center justify-center hover:bg-pink-600 transition-colors">
+                        <span data-lang="ar">انستجرام</span>
+                        <span data-lang="en">Instagram</span>
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
                 </div>
-            </div>
+                </div>
         </div>
     </section>
     <footer class="footer">
@@ -683,7 +674,7 @@
         <span data-lang="ar">اطلب استشارتك المجانية الان</span>
         <span data-lang="en">Get your free consultation now</span>
     </div>
-        <div onclick="toggleLanguage()" class="lang-switcher-btn">
+    <div onclick="toggleLanguage()" class="lang-switcher-btn">
         <span id="lang-text"></span>
     </div>
     <script type="module">
@@ -905,7 +896,8 @@
             document.getElementById('contact-email-link').textContent = data.email || '';
             document.getElementById('contact-phone-link').href = 'tel:' + (data.phone || '');
             document.getElementById('contact-phone-link').textContent = data.phone || '';
-            document.getElementById('contact-map-iframe').src = data.mapIframeSrc || '';
+            // الخريطة تم إزالتها، لذا لا داعي لهذا السطر
+            // document.getElementById('contact-map-iframe').src = data.mapIframeSrc || ''; 
             document.getElementById('whatsapp-float-link').href = `https://wa.me/${data.whatsappFloatPhone || ''}`;
         }
 
@@ -940,6 +932,8 @@
             }
 
             if (heroSlides.length > 0) {
+                // Ensure the first slide is active on load
+                showHeroSlide(0); 
                 setInterval(() => {
                     showHeroSlide(currentHeroSlide + 1);
                 }, 3000); // 3 seconds interval
