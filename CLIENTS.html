@@ -1,1 +1,453 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="ar">رسلان - عملائنا</title>
+    <title data-lang="en">Raslan - Our Clients</title>
+    <link rel="icon" href="https://i.postimg.cc/mDcf1TN3/Untitle22d-8-01.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* CSS Shared from Main Page - Essential for consistent styling */
+        :root {
+            --primary: #0a3d62; /* Darker blue for a more professional feel */
+            --secondary: #1a73e8; /* A vibrant blue for accents */
+            --white: #ffffff;
+            --light-gray: #f8fbfd; /* Lighter background */
+            --dark-gray: #4a5568;
+            /* Reduced opacity for glass effect to improve performance */
+            --glass-bg: rgba(255, 255, 255, 0.1); 
+            --glass-border: rgba(255, 255, 255, 0.2);
+            /* Define variables for section backgrounds to be used in gradients for blur/shadow effects */
+            --section-bg-start-color: #f8fbfd;
+            --section-bg-end-color: #eef5fb;
+            --section-bg-alt-start-color: #eef5fb;
+            --section-bg-alt-end-color: #f8fbfd;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; scroll-behavior: smooth; }
+        body { overflow-x: hidden; background-color: var(--light-gray); }
 
+        /* Enhanced Glass Card Effect */
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 1.5rem;
+            /* Clients cards are not clickable for modal */
+        }
+        /* No hover effect needed for client logos, as they are not interactive beyond being displayed */
+        
+        /* Header for the Pages - Modified to be short */
+        .page-header {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 0.5rem 1rem; /* Much shorter padding */
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .page-header .header-content-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        .page-header .header-logo img {
+            height: 40px; /* Same as main page header */
+            width: auto;
+        }
+
+        /* Hero-like section just below the short header */
+        .page-hero-text {
+            background-color: var(--primary); /* Keep background consistent with header */
+            color: var(--white);
+            padding: 3rem 1rem 4rem; /* Padding for the text section */
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .page-hero-text h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .page-hero-text p {
+            font-size: 1.25rem;
+            opacity: 0.8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Client specific card styles */
+        .client-card-logo {
+            max-height: 120px; /* Larger max height for client logos */
+            width: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .client-card-logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* WhatsApp Float Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: rgba(37, 211, 102, 0.8);
+            color: white;
+            border-radius: 50%;
+            width: 65px; /* Slightly larger */
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px; /* Slightly larger icon */
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.15) rotate(5deg);
+            background-color: rgba(37, 211, 102, 1);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+        }
+        .whatsapp-notification {
+            position: fixed;
+            bottom: 50px; /* Adjusted to be higher than float button */
+            right: 110px; /* Adjusted to position next to float button */
+            background-color: var(--primary); /* Primary color for notification */
+            color: var(--white);
+            padding: 12px 18px; /* More padding */
+            border-radius: 10px; /* More rounded */
+            font-size: 15px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(20px); /* Slide in effect */
+            transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
+            z-index: 999;
+            white-space: nowrap;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        .whatsapp-notification.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .page-hero-text h1 {
+                font-size: 2.5rem;
+            }
+            .page-hero-text p {
+                font-size: 1rem;
+            }
+            /* Smaller client logos on mobile */
+            .client-card-logo {
+                max-height: 80px; /* Smaller max height for client logos on mobile */
+            }
+            .glass-card {
+                padding: 1rem; /* Smaller padding for client cards on mobile */
+            }
+            /* WhatsApp float button adjustments for smaller screens */
+            .whatsapp-float {
+                width: 55px; /* Smaller size on mobile */
+                height: 55px;
+                font-size: 28px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .whatsapp-notification {
+                bottom: 40px;
+                right: 90px;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+
+        /* Global Language Display Rules */
+        html[lang="en"] [data-lang="ar"] { display: none; }
+        html[lang="ar"] [data-lang="en"] { display: none; }
+        html[lang="en"] { direction: ltr; }
+        html[lang="ar"] { direction: rtl; }
+
+        /* Keyframes for fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Footer styles (copied from main page) */
+        .footer {
+            background-color: var(--primary); /* Use primary color */
+            color: var(--white);
+            padding: 2rem 1rem; /* More vertical padding */
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        .footer .container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem; /* Space between paragraphs */
+        }
+        .footer p {
+            margin: 0; /* Reset default paragraph margin */
+            line-height: 1.5;
+        }
+        .footer a {
+            color: var(--secondary); /* Highlight links with secondary color */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer a:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+        @media (min-width: 768px) {
+            .footer .container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left; /* Align text left on larger screens */
+            }
+            html[lang="ar"] .footer .container {
+                text-align: right; /* Align text right for Arabic on larger screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <div class="header-content-container">
+            <div class="header-logo">
+                <img src="https://i.postimg.cc/vTSqdn65/20250620-0236-Soapstone-on-Quarry-remix-01jy58qdz9eyxrq9wmb23hy49x-01.png" alt="Raslan Logo" class="h-10 w-auto">
+            </div>
+        </div>
+    </header>
+
+    <section class="page-hero-text">
+        <div class="container mx-auto px-4">
+            <h1 data-lang="ar">عملائنا</h1>
+            <h1 data-lang="en">Our Clients</h1>
+            <p data-lang="ar">نفخر بثقة عملائنا في مختلف القطاعات، ونسعى دائمًا لتقديم أفضل الحلول التي تتجاوز توقعاتهم.</p>
+            <p data-lang="en">We pride ourselves on the trust of our clients across various sectors, always striving to deliver the best solutions that exceed their expectations.</p>
+        </div>
+    </section>
+
+    <section id="all-clients" class="py-20 section-bg">
+        <div class="container mx-auto px-4">
+            <div id="clients-full-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-center justify-items-center mx-auto max-w-fit">
+                </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 section-bg-alt">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">تواصل معنا</h2>
+            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Contact Us</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="glass-card rounded-2xl p-8 space-y-8">
+                    <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="ar">معلومات التواصل</h3>
+                    <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="en">Contact Information</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4">
+                            <div class="service-icon rounded-full flex items-center justify-center text-white">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <p id="contact-address-ar" class="text-gray-600" data-lang="ar"></p>
+                                <p id="contact-address-en" class="text-gray-600" data-lang="en"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="service-icon rounded-full flex items-center justify-center text-white">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <a id="contact-email-link" href="#" class="text-gray-600 hover:text-[#0c4873]"></a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="service-icon rounded-full flex items-center justify-center text-white">
+                                <i class="fas fa-phone-alt text-xl"></i>
+                            </div>
+                            <div class="flex-grow">
+                                <a id="contact-phone-link" href="#" class="text-gray-600 hover:text-[#0c4873]" dir="ltr"></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="ar">تابعنا</h3>
+                    <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="en">Follow Us</h3>
+                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 md:gap-x-4 justify-center">
+                        <a href="https://www.facebook.com/Raslan2001/" target="_blank" class="contact-social-btn flex items-center justify-center hover:bg-blue-700 transition-colors">
+                            <span data-lang="ar">فيسبوك</span>
+                            <span data-lang="en">Facebook</span>
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="contact-social-btn flex items-center justify-center hover:bg-pink-600 transition-colors">
+                            <span data-lang="ar">انستجرام</span>
+                            <span data-lang="en">Instagram</span>
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container mx-auto px-4">
+            <p id="footer-copyright-ar" class="order-2 md:order-1" data-lang="ar"></p>
+            <p id="footer-copyright-en" class="order-2 md:order-1" data-lang="en"></p>
+            <p id="footer-powered-by-ar" class="order-1 md:order-2" data-lang="ar"></p>
+            <p id="footer-powered-by-en" class="order-1 md:order-2" data-lang="en"></p>
+        </div>
+    </footer>
+
+    <a id="whatsapp-float-link" href="#" target="_blank" class="whatsapp-float">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <div class="whatsapp-notification" id="whatsapp-notification">
+        <span data-lang="ar">اطلب استشارتك المجانية الان</span>
+        <span data-lang="en">Get your free consultation now</span>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
+
+        // Your provided Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA12fSyvBCdVF62xVwGaEuJXlJOpGEMoKI",
+            authDomain: "raslan2025-47c6c.firebaseapp.com",
+            databaseURL: "https://raslan2025-47c6c-default-rtdb.firebaseio.com",
+            projectId: "raslan2025-47c6c",
+            storageBucket: "raslan2025-47c6c.appspot.com",
+            messagingSenderId: "320802083048",
+            appId: "1:320802083048:web:3c2d279b270443bfbc395d",
+            measurementId: "G-W1GWY4X7D6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Helper function to fetch data
+        async function fetchRealtimeData(path) {
+            try {
+                const snapshot = await get(ref(db, path));
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    // Convert objects to arrays for lists, but not for single items like 'about'
+                    if (path !== 'about' && path !== 'contact' && path !== 'footer' && typeof data === 'object' && data !== null) {
+                        return Object.values(data);
+                    }
+                    return data;
+                }
+                console.warn(`No data found at path: ${path}`);
+                return null;
+            } catch (error) {
+                console.error(`Error fetching data from ${path}:`, error);
+                return null;
+            }
+        }
+
+        async function loadAllClients() {
+            const data = await fetchRealtimeData('clients');
+            const container = document.getElementById('clients-full-container');
+            if (!data || !container) return;
+            container.innerHTML = '';
+
+            // Render clients without explicit sorting. Firebase default order (by key creation time) will apply.
+            const clientsArray = Object.values(data); 
+
+            clientsArray.forEach((client) => {
+                container.innerHTML += `
+                    <div class="glass-card p-6 rounded-2xl flex flex-col justify-center items-center">
+                        <img src="${client.logoUrl || ''}" alt="${client.nameAr || 'Client Logo'}" class="client-card-logo mb-4">
+                        <h3 class="text-xl font-bold text-[#0c4873]" data-lang="ar">${client.nameAr || ''}</h3>
+                        <h3 class="text-xl font-bold text-[#0c4873]" data-lang="en">${client.nameEn || ''}</h3>
+                    </div>`;
+            });
+        }
+
+        // Load contact and footer data
+        async function loadContact() {
+            const data = await fetchRealtimeData('contact');
+            if (!data) return;
+            document.getElementById('contact-address-ar').textContent = data.addressAr || '';
+            document.getElementById('contact-address-en').textContent = data.addressEn || '';
+            document.getElementById('contact-email-link').href = 'mailto:' + (data.email || '');
+            document.getElementById('contact-email-link').textContent = data.email || '';
+            document.getElementById('contact-phone-link').href = 'tel:' + (data.phone || '');
+            document.getElementById('contact-phone-link').textContent = data.phone || '';
+            // Removed map-related elements from clients.html, so no need for map iframe src
+            // document.getElementById('contact-map-iframe').src = data.mapIframeSrc || '';
+            // Removed whatsapp float link from html, but still need the number for the button
+            document.getElementById('whatsapp-float-link').href = `https://wa.me/${data.whatsappFloatPhone || ''}`;
+        }
+
+        async function loadFooter() {
+            const data = await fetchRealtimeData('footer');
+            if (!data) return;
+            document.getElementById('footer-copyright-ar').textContent = data.copyrightAr || '';
+            document.getElementById('footer-copyright-en').textContent = data.copyrightEn || '';
+            const poweredByAr = document.getElementById('footer-powered-by-ar');
+            const poweredByEn = document.getElementById('footer-powered-by-en');
+            poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+            poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+        }
+
+        // WhatsApp Notification (retained for functionality, even if the float button is the primary focus)
+        function showWhatsappNotification() {
+            const notification = document.getElementById('whatsapp-notification');
+            const currentLang = document.documentElement.getAttribute('lang');
+            notification.querySelectorAll('span').forEach(span => {
+                span.style.display = 'none';
+            });
+            const currentLangSpan = notification.querySelector(`span[data-lang="${currentLang}"]`);
+            if (currentLangSpan) {
+                currentLangSpan.style.display = 'inline';
+            }
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+
+        // Language setting logic for this page (no language switcher button)
+        function setLanguage(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            localStorage.setItem('preferredLanguage', lang); // Store for future visits
+            // Update page title
+            const titleAr = document.querySelector('title[data-lang="ar"]');
+            const titleEn = document.querySelector('title[data-lang="en"]');
+            if (titleAr) titleAr.style.display = lang === 'ar' ? 'block' : 'none';
+            if (titleEn) titleEn.style.display = lang === 'en' ? 'block' : 'none';
+            showWhatsappNotification(); // Show notification in correct language
+        }
+        
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await Promise.all([
+                loadAllClients(),
+                loadContact(),
+                loadFooter()
+            ]);
+
+            // Set initial language based on localStorage from main page
+            let initialLang = localStorage.getItem('preferredLanguage');
+            if (!initialLang) {
+                const browserLang = navigator.language || navigator.languages[0];
+                initialLang = browserLang.startsWith('ar') ? 'ar' : 'en';
+            }
+            setLanguage(initialLang);
+        });
+    </script>
+</body>
+</html>
