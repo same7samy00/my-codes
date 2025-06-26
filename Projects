@@ -18,7 +18,7 @@
             --light-gray: #f8fbfd; /* Lighter background */
             --dark-gray: #4a5568;
             /* Reduced opacity for glass effect to improve performance */
-            --glass-bg: rgba(255, 255, 255, 0.1); 
+            --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
             /* Define variables for section backgrounds to be used in gradients for blur/shadow effects */
             --section-bg-start-color: #f8fbfd;
@@ -332,7 +332,7 @@
                 font-size: 1.rem;
             }
             .project-card-title-mobile { /* Specific smaller title for projects on mobile */
-                font-size: 1.5rem; 
+                font-size: 1.5rem;
             }
             .glass-card .image-wrapper {
                 height: 180px; /* Smaller image height for service/projects */
@@ -511,12 +511,12 @@
             if (!projects || !container) return;
 
             // Render projects without explicit sorting. Firebase default order (by key creation time) will apply.
-            const projectsArray = projects; 
+            const projectsArray = projects;
 
             container.innerHTML = '';
             projectsArray.forEach(project => {
                 const projectCard = document.createElement('div');
-                projectCard.classList.add('glass-card', 'rounded-2xl', 'overflow-hidden', 'shadow-lg', 'cursor-pointer'); 
+                projectCard.classList.add('glass-card', 'rounded-2xl', 'overflow-hidden', 'shadow-lg', 'cursor-pointer');
 
                 projectCard.innerHTML = `
                     <div class="image-wrapper">
@@ -531,7 +531,7 @@
                         <p class="text-gray-700" data-lang="en">${project.descEn || ''}</p>
                     </div>
                 `;
-                
+
                 // Add fade-in effect when image loads
                 const mainImage = projectCard.querySelector('.image-wrapper img');
                 mainImage.onload = () => {
@@ -544,7 +544,7 @@
 
                 // Store all project data for the modal
                 const allProjectImages = [project.mainImageUrl || ''].concat(project.galleryImages || []).filter(url => url);
-                
+
                 // Store project data as attributes for modal use
                 projectCard.dataset.projectData = JSON.stringify({
                     images: allProjectImages,
@@ -567,7 +567,7 @@
                 console.warn("No images available for this project gallery.");
                 return; // Do not open modal if no images
             }
-            
+
             // Populate modal text content
             modalProjectTitleAr.textContent = projectData.titleAr || '';
             modalProjectTitleEn.textContent = projectData.titleEn || '';
@@ -598,7 +598,7 @@
             if (currentGalleryImages.length > 0) {
                 modalImage.src = ''; // Clear src to trigger fade-out before new image loads
                 modalImage.classList.remove('loaded'); // Remove loaded class for fade-out
-                
+
                 // Set new image source and add loaded class on load
                 modalImage.onload = () => {
                     modalImage.classList.add('loaded');
@@ -640,7 +640,7 @@
                 modalImage.classList.remove('loaded'); // Ensure modal image fades out on close
             }
         });
-        
+
         // This function will be used to fetch the whatsapp phone number
         async function getWhatsappPhoneNumber() {
             const contactData = await fetchRealtimeData('contact');
@@ -680,7 +680,7 @@
             if (titleEn) titleEn.style.display = lang === 'en' ? 'block' : 'none';
             showWhatsappNotification(); // Show notification in correct language
         }
-        
+
         // Initial Load
         document.addEventListener('DOMContentLoaded', async () => {
             await Promise.all([
