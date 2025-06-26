@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -580,8 +579,8 @@
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Our Services</h2>
             <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             </div>
-            <a href="YOUR_SERVICES_PAGE_URL_HERE" target="_blank" class="view-all-link" data-lang="ar">عرض كل الخدمات</a>
-            <a href="YOUR_SERVICES_PAGE_URL_HERE" target="_blank" class="view-all-link" data-lang="en">View All Services</a>
+            <a href="https://same7samy00.github.io/my-codes/SERVICES.html" target="_blank" class="view-all-link" data-lang="ar">عرض كل الخدمات</a>
+            <a href="https://same7samy00.github.io/my-codes/SERVICES.html" target="_blank" class="view-all-link" data-lang="en">View All Services</a>
         </div>
     </section>
 
@@ -591,8 +590,8 @@
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Our Projects</h2>
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-12">
             </div>
-            <a href="projects.html" target="_blank" class="view-all-link" data-lang="ar">عرض جميع المشاريع</a>
-            <a href="projects.html" target="_blank" class="view-all-link" data-lang="en">View All Projects</a>
+            <a href="https://same7samy00.github.io/my-codes/Projects.html" target="_blank" class="view-all-link" data-lang="ar">عرض جميع المشاريع</a>
+            <a href="https://same7samy00.github.io/my-codes/Projects.html" target="_blank" class="view-all-link" data-lang="en">View All Projects</a>
         </div>
     </section>
 
@@ -620,8 +619,8 @@
             <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Our Clients</h2>
             <div id="clients-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 items-center justify-items-center mx-auto max-w-fit">
             </div>
-            <a href="YOUR_CLIENTS_PAGE_URL_HERE" target="_blank" class="view-all-link" data-lang="ar">عرض كل عملائنا</a>
-            <a href="YOUR_CLIENTS_PAGE_URL_HERE" target="_blank" class="view-all-link" data-lang="en">View All Clients</a>
+            <a href="https://same7samy00.github.io/my-codes/CLIENTS.html" target="_blank" class="view-all-link" data-lang="ar">عرض كل عملائنا</a>
+            <a href="https://same7samy00.github.io/my-codes/CLIENTS.html" target="_blank" class="view-all-link" data-lang="en">View All Clients</a>
         </div>
     </section>
 
@@ -701,7 +700,7 @@
         <span data-lang="ar">اطلب استشارتك المجانية الان</span>
         <span data-lang="en">Get your free consultation now</span>
     </div>
-    <div onclick="toggleLanguage()" class="lang-switcher-btn">
+        <div onclick="toggleLanguage()" class="lang-switcher-btn">
         <span id="lang-text"></span>
     </div>
 
@@ -797,8 +796,11 @@
             const container = document.getElementById('services-container');
             if (!data || !container) return;
             container.innerHTML = '';
-            // Now, service cards will use the same structure and classes as project cards
-            data.forEach((service) => {
+
+            // Render services without explicit sorting. Firebase default order (by key creation time) will apply.
+            const servicesArray = Object.values(data); 
+
+            servicesArray.forEach((service) => {
                 container.innerHTML += `
                     <div class="glass-card rounded-2xl overflow-hidden shadow-lg">
                         <div class="image-wrapper">
@@ -819,9 +821,12 @@
             const container = document.getElementById('projects-container');
             if (!allProjectsData || !container) return;
 
+            // Render projects without explicit sorting. Firebase default order (by key creation time) will apply.
+            const projectsArray = allProjectsData; 
+
             // Display only a limited number of projects on the home page (e.g., first 4)
             container.innerHTML = '';
-            const limitedProjects = allProjectsData.slice(0, 4); // Display first 4 projects
+            const limitedProjects = projectsArray.slice(0, 4); // Display first 4 projects
             limitedProjects.forEach(project => {
                 container.innerHTML += `
                     <div class="glass-card rounded-2xl overflow-hidden shadow-lg">
@@ -893,11 +898,15 @@
         }
 
         async function loadClients() {
-            const data = await fetchRealtimeData('clients'); // Fetch all client data
+            const data = await fetchRealtimeData('clients');
             const container = document.getElementById('clients-container');
             if (!data || !container) return;
             container.innerHTML = '';
-            const limitedClients = data.slice(0, 4); // Display first 4 clients
+            
+            // Render clients without explicit sorting. Firebase default order (by key creation time) will apply.
+            const clientsArray = Object.values(data);
+
+            const limitedClients = clientsArray.slice(0, 4); // Display first 4 clients
             limitedClients.forEach(client => {
                 container.innerHTML += `
                     <div class="glass-card p-6 rounded-2xl flex justify-center items-center">
