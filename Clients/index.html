@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -36,7 +37,7 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             border-radius: 1.5rem;
-            cursor: pointer; /* Now clickable for modal */
+            /* No cursor: pointer; for non-clickable cards */
         }
         .glass-card:hover {
             transform: translateY(-8px) scale(1.01);
@@ -46,12 +47,17 @@
         .glass-card .image-wrapper {
             position: relative;
             overflow: hidden;
-            height: 256px; /* h-64 in Tailwind CSS */
+            /* تم تعديل الارتفاع ليكون مرناً بناءً على محتوى الصورة */
+            height: auto;
+            min-height: 150px; /* لتوفير حد أدنى لارتفاع الحاوية */
+            display: flex; /* لتوسيط الصورة عمودياً وأفقياً */
+            justify-content: center;
+            align-items: center;
         }
         .glass-card .image-wrapper img {
             height: 100%;
             width: 100%;
-            object-fit: cover;
+            object-fit: contain; /* تغيير من cover إلى contain للحفاظ على نسبة الصورة */
             object-position: center;
             opacity: 0; /* Initial state for fade-in */
             transition: opacity 0.5s ease-in-out; /* Fade transition */
@@ -59,21 +65,17 @@
         .glass-card .image-wrapper img.loaded {
             opacity: 1; /* Final state for fade-in */
         }
+        /* Removed the ::before pseudo-element for the dark overlay */
         .glass-card .image-wrapper::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1;
+            content: none !important; /* إزالة التراكب الأسود تمامًا وبقوة */
+            background: none !important;
         }
-        .glass-card:hover .image-wrapper::before {
-            opacity: 1;
+        /* Removed the ::after pseudo-element that previously contained "Click to view all images" text or gradient */
+        .glass-card .image-wrapper::after {
+            content: none !important; /* إزالة التراكب النصي أو التدرج تمامًا وبقوة */
+            background: none !important;
         }
+
 
         /* Header for the Pages - Modified to be short */
         .page-header {
@@ -121,169 +123,10 @@
             width: auto;
             object-fit: contain;
             transition: transform 0.3s ease;
+            padding: 10px; /* إضافة بادينغ داخل الصورة لضمان عدم ملامستها للحواف */
         }
         .client-card-logo:hover {
             transform: scale(1.05);
-        }
-
-        /* Gallery Modal Styles - UPDATED (copied from projects) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 2000; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(255, 255, 255, 0.9); /* White with high opacity */
-            backdrop-filter: blur(10px); /* Apply blur effect */
-            -webkit-backdrop-filter: blur(10px); /* For Safari */
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease-out; /* Fade-in for modal itself */
-        }
-        .modal-content-wrapper {
-            position: relative;
-            margin: auto;
-            max-width: 90%;
-            max-height: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: transparent; /* Wrapper doesn't need its own background */
-            border-radius: 1.5rem;
-            padding: 20px;
-            box-shadow: none; /* No shadow on wrapper itself */
-        }
-        .modal-main-image-container {
-            width: 100%;
-            max-width: 900px; /* Max width for main image */
-            height: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px; /* Space below main image */
-        }
-        .modal-content-image {
-            max-width: 100%;
-            max-height: 65vh; /* Adjusted for better fit with text and thumbnails */
-            width: auto; /* Ensure aspect ratio */
-            object-fit: contain;
-            opacity: 0; /* Initial state for modal image fade-in */
-            transition: opacity 0.3s ease-in-out; /* Fade transition for modal image */
-        }
-        .modal-content-image.loaded {
-            opacity: 1; /* Final state for modal image fade-in */
-        }
-        .modal-text-content {
-            color: var(--dark-gray); /* Darker text for white background */
-            text-align: center;
-            max-width: 900px; /* Max width for text content */
-            padding: 0 15px;
-            margin-bottom: 20px; /* Space below text content */
-        }
-        .modal-text-content h3 {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.75rem;
-            color: var(--primary); /* Primary color for title */
-        }
-        .modal-text-content p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-        .modal-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-            max-width: 900px; /* Max width for thumbnail grid */
-            overflow-x: auto; /* Enable horizontal scroll if many thumbnails */
-            padding-bottom: 10px; /* Space for scrollbar */
-            justify-content: center; /* Center thumbnails */
-            align-items: center;
-        }
-        .modal-gallery-grid img {
-            width: 100%;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: border-color 0.2s ease, transform 0.2s ease;
-        }
-        .modal-gallery-grid img.active-thumbnail {
-            border-color: var(--secondary);
-            transform: scale(1.05);
-        }
-        .modal-gallery-nav {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            padding: 0 5px; /* Reduced padding */
-        }
-        .modal-gallery-nav button {
-            background-color: rgba(10, 61, 98, 0.7); /* Darker buttons */
-            border: none;
-            color: white;
-            padding: 8px 12px; /* Smaller buttons */
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 20px; /* Smaller font */
-            transition: background-color 0.3s ease;
-        }
-        .modal-gallery-nav button:hover {
-            background-color: var(--secondary); /* Vibrant blue on hover */
-        }
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            color: var(--dark-gray); /* Darker close button for white background */
-            font-size: 35px; /* Slightly smaller close button */
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .close-button:hover,
-        .close-button:focus {
-            color: var(--primary); /* Primary color on hover */
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* "Click to view all images" text - Always visible */
-        .view-all-images-text {
-            position: absolute;
-            bottom: 10px; /* Adjust as needed */
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--white);
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-align: center;
-            width: 100%;
-            pointer-events: none; /* Allows click through to card */
-            z-index: 2; /* Above gradient but below content if any */
-            opacity: 1; /* Always visible */
-            transition: opacity 0.3s ease;
-        }
-        /* Make sure the text is readable over the image */
-        .glass-card .image-wrapper::after { /* New overlay to make text readable */
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 20%; /* Height for darker background for text */
-            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6));
-            z-index: 1;
-            pointer-events: none;
         }
 
         /* WhatsApp Float Button */
@@ -333,74 +176,6 @@
             transform: translateX(0);
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .page-hero-text h1 {
-                font-size: 2.5rem;
-            }
-            .page-hero-text p {
-                font-size: 1rem;
-            }
-            /* Smaller client logos on mobile */
-            .client-card-logo {
-                max-height: 80px; /* Smaller max height for client logos on mobile */
-            }
-            .glass-card {
-                padding: 1rem; /* Smaller padding for client cards on mobile */
-            }
-            .modal-content-image {
-                max-height: 55vh; /* Adjust for small screens */
-            }
-            .modal-text-content h3 {
-                font-size: 1.5rem;
-            }
-            .modal-text-content p {
-                font-size: 1rem;
-            }
-            .modal-gallery-grid img {
-                height: 60px; /* Smaller thumbnails on mobile */
-            }
-            .modal-gallery-nav button {
-                padding: 5px 8px; /* Even smaller buttons */
-                font-size: 18px;
-            }
-            .close-button {
-                font-size: 30px;
-                top: 5px;
-                right: 10px;
-            }
-            .view-all-images-text {
-                font-size: 0.8rem; /* Smaller text on mobile */
-                bottom: 5px;
-            }
-            /* WhatsApp float button adjustments for smaller screens */
-            .whatsapp-float {
-                width: 55px; /* Smaller size on mobile */
-                height: 55px;
-                font-size: 28px;
-                bottom: 20px;
-                right: 20px;
-            }
-            .whatsapp-notification {
-                bottom: 40px;
-                right: 90px;
-                padding: 10px 15px;
-                font-size: 14px;
-            }
-        }
-
-        /* Global Language Display Rules */
-        html[lang="en"] [data-lang="ar"] { display: none; }
-        html[lang="ar"] [data-lang="en"] { display: none; }
-        html[lang="en"] { direction: ltr; }
-        html[lang="ar"] { direction: rtl; }
-
-        /* Keyframes for fade-in animation */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         /* Footer styles (copied from main page) */
         .footer {
             background-color: var(--primary); /* Use primary color */
@@ -438,6 +213,49 @@
                 text-align: right; /* Align text right for Arabic on larger screens */
             }
         }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .page-hero-text h1 {
+                font-size: 2.5rem;
+            }
+            .page-hero-text p {
+                font-size: 1rem;
+            }
+            /* Smaller client logos on mobile */
+            .client-card-logo {
+                max-height: 80px; /* Smaller max height for client logos on mobile */
+            }
+            .glass-card {
+                padding: 1rem; /* Smaller padding for client cards on mobile */
+            }
+            /* WhatsApp float button adjustments for smaller screens */
+            .whatsapp-float {
+                width: 55px; /* Smaller size on mobile */
+                height: 55px;
+                font-size: 28px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .whatsapp-notification {
+                bottom: 40px;
+                right: 90px;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+
+        /* Global Language Display Rules */
+        html[lang="en"] [data-lang="ar"] { display: none; }
+        html[lang="ar"] [data-lang="en"] { display: none; }
+        html[lang="en"] { direction: ltr; }
+        html[lang="ar"] { direction: rtl; }
+
+        /* Keyframes for fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -462,86 +280,6 @@
         <div class="container mx-auto px-4">
             <div id="clients-full-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 </div>
-        </div>
-    </section>
-
-    <div id="clientGalleryModal" class="modal">
-        <span class="close-button">&times;</span>
-        <div class="modal-content-wrapper">
-            <div class="modal-main-image-container">
-                <img class="modal-content-image" id="modalImage">
-            </div>
-            <div class="modal-text-content">
-                <h3 id="modalClientTitleAr" data-lang="ar"></h3>
-                <h3 id="modalClientTitleEn" data-lang="en"></h3>
-                <p id="modalClientDescAr" data-lang="ar"></p>
-                <p id="modalClientDescEn" data-lang="en"></p>
-                <div id="modalGalleryThumbnails" class="modal-gallery-grid"></div>
-            </div>
-            <div class="modal-gallery-nav">
-                <button id="prevImageBtn">&lt;</button>
-                <button id="nextImageBtn">&gt;</button>
-            </div>
-        </div>
-    </div>
-
-
-    <section id="contact" class="py-20 section-bg-alt">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">تواصل معنا</h2>
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Contact Us</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div class="glass-card rounded-2xl p-8 space-y-8">
-                    <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="ar">معلومات التواصل</h3>
-                    <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="en">Contact Information</h3>
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-4">
-                            <div class="service-icon rounded-full flex items-center justify-center text-white">
-                                <i class="fas fa-map-marker-alt text-xl"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <p id="contact-address-ar" class="text-gray-600" data-lang="ar"></p>
-                                <p id="contact-address-en" class="text-gray-600" data-lang="en"></p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="service-icon rounded-full flex items-center justify-center text-white">
-                                <i class="fas fa-envelope text-xl"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <a id="contact-email-link" href="#" class="text-gray-600 hover:text-[#0c4873]"></a>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="service-icon rounded-full flex items-center justify-center text-white">
-                                <i class="fas fa-phone-alt text-xl"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <a id="contact-phone-link" href="#" class="text-gray-600 hover:text-[#0c4873]" dir="ltr"></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="ar">تابعنا</h3>
-                    <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="en">Follow Us</h3>
-                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 md:gap-x-4 justify-center">
-                        <a href="https://www.facebook.com/Raslan2001/" target="_blank" class="contact-social-btn flex items-center justify-center hover:bg-blue-700 transition-colors">
-                            <span data-lang="ar">فيسبوك</span>
-                            <span data-lang="en">Facebook</span>
-                            <i class="fab fa-facebook-f text-xl"></i>
-                        </a>
-                        <a href="#" class="contact-social-btn flex items-center justify-center hover:bg-pink-600 transition-colors">
-                            <span data-lang="ar">انستجرام</span>
-                            <span data-lang="en">Instagram</span>
-                            <i class="fab fa-instagram text-xl"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="glass-card rounded-2xl overflow-hidden h-full min-h-[300px] flex items-center justify-center text-gray-500">
-                    <p data-lang="ar">الخريطة ستظهر هنا في الصفحة الرئيسية</p>
-                    <p data-lang="en">Map will appear here on the main page</p>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -581,20 +319,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        let currentGalleryImages = []; // For modal, even if client has one image
-        let currentImageIndex = 0;
-        const clientGalleryModal = document.getElementById('clientGalleryModal'); // Changed ID
-        const modalImage = document.getElementById('modalImage');
-        const closeButton = clientGalleryModal.querySelector('.close-button'); // Select from modal
-        const prevImageBtn = clientGalleryModal.querySelector('#prevImageBtn'); // Select from modal
-        const nextImageBtn = clientGalleryModal.querySelector('#nextImageBtn'); // Select from modal
-        const modalClientTitleAr = document.getElementById('modalClientTitleAr'); // Changed ID
-        const modalClientTitleEn = document.getElementById('modalClientTitleEn'); // Changed ID
-        const modalClientDescAr = document.getElementById('modalClientDescAr'); // Changed ID
-        const modalClientDescEn = document.getElementById('modalClientDescEn'); // Changed ID
-        const modalGalleryThumbnails = document.getElementById('modalGalleryThumbnails');
-
-
         // Helper function to fetch data
         async function fetchRealtimeData(path) {
             try {
@@ -621,17 +345,16 @@
             if (!data || !container) return;
             container.innerHTML = '';
 
-            const clientsArray = data; // Assuming data is already an array from fetchRealtimeData
+            const clientsArray = data;
 
             clientsArray.forEach((client) => {
                 const clientCard = document.createElement('div');
-                clientCard.classList.add('glass-card', 'rounded-2xl', 'overflow-hidden', 'shadow-lg', 'cursor-pointer', 'flex', 'flex-col', 'justify-center', 'items-center'); // Added flexbox for centering client logo
+                // لا يوجد 'cursor-pointer' لأن البطاقة غير قابلة للنقر لفتح تفاصيل
+                clientCard.classList.add('glass-card', 'rounded-2xl', 'overflow-hidden', 'shadow-lg', 'flex', 'flex-col', 'justify-center', 'items-center', 'p-6'); /* Add padding directly to card for consistency with main page */
 
                 clientCard.innerHTML = `
-                    <div class="image-wrapper">
-                        <img src="${client.logoUrl || ''}" alt="${client.nameAr || 'Client Logo'}" class="client-card-logo mb-4">
-                        <span class="view-all-images-text" data-lang="ar">اضغط لعرض التفاصيل</span>
-                        <span class="view-all-images-text" data-lang="en">Click to view details</span>
+                    <div class="image-wrapper" style="height: auto; min-height: 120px; display: flex; justify-content: center; align-items: center; width: 100%;">
+                        <img src="${client.logoUrl || ''}" alt="${client.nameAr || 'Client Logo'}" class="client-card-logo">
                     </div>
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-[#0c4873]" data-lang="ar">${client.nameAr || ''}</h3>
@@ -649,115 +372,18 @@
                     mainImage.classList.add('loaded');
                 }
 
-                // Store all client data for the modal
-                // Assume 'logoUrl' is the main image, and 'galleryImages' can be an optional array for more details
-                const allClientImages = [client.logoUrl || ''].concat(client.galleryImages || []).filter(url => url);
-
-                clientCard.dataset.clientData = JSON.stringify({
-                    images: allClientImages,
-                    titleAr: client.nameAr, // Use name as title for clients
-                    titleEn: client.nameEn,
-                    descAr: client.descriptionAr || '', // Assume description exists in Firebase
-                    descEn: client.descriptionEn || ''
-                });
-
-                clientCard.addEventListener('click', () => openGallery(clientCard));
+                // تم إزالة مستمع الحدث للنقر على البطاقة لفتح المودال
                 container.appendChild(clientCard);
             });
         }
 
-        // Function to open gallery/modal
-        function openGallery(cardElement) {
-            const clientData = JSON.parse(cardElement.dataset.clientData);
-            currentGalleryImages = clientData.images;
+        // Removed all modal-related functions (openGallery, updateModalImage, and their event listeners)
+        // since the modal is no longer part of this page.
 
-            if (currentGalleryImages.length === 0) {
-                console.warn("No images available for this client gallery.");
-                // Optionally, show a simplified modal with only text or a fallback image
-                // For now, we return if no images
-                return;
-            }
-
-            // Populate modal text content
-            modalClientTitleAr.textContent = clientData.titleAr || '';
-            modalClientTitleEn.textContent = clientData.titleEn || '';
-            modalClientDescAr.textContent = clientData.descAr || '';
-            modalClientDescEn.textContent = clientData.descEn || '';
-
-            // Populate modal gallery thumbnails
-            modalGalleryThumbnails.innerHTML = '';
-            currentGalleryImages.forEach((url, index) => {
-                const thumb = document.createElement('img');
-                thumb.src = url;
-                thumb.alt = `Thumbnail ${index + 1}`;
-                thumb.classList.add('w-full', 'h-auto', 'object-cover', 'rounded-md', 'cursor-pointer');
-                thumb.addEventListener('click', () => {
-                    currentImageIndex = index;
-                    updateModalImage();
-                });
-                modalGalleryThumbnails.appendChild(thumb);
-            });
-
-            currentImageIndex = 0;
-            updateModalImage();
-            clientGalleryModal.style.display = 'flex'; // Show modal
-        }
-
-        // Function to update modal image
-        function updateModalImage() {
-            if (currentGalleryImages.length > 0) {
-                modalImage.src = ''; // Clear src to trigger fade-out before new image loads
-                modalImage.classList.remove('loaded'); // Remove loaded class for fade-out
-
-                modalImage.onload = () => {
-                    modalImage.classList.add('loaded');
-                };
-                modalImage.src = currentGalleryImages[currentImageIndex];
-
-                // Update active thumbnail indicator
-                modalGalleryThumbnails.querySelectorAll('img').forEach((thumb, index) => {
-                    if (index === currentImageIndex) {
-                        thumb.classList.add('active-thumbnail');
-                    } else {
-                        thumb.classList.remove('active-thumbnail');
-                    }
-                });
-            }
-        }
-
-        // Event Listeners for modal
-        closeButton.addEventListener('click', () => {
-            clientGalleryModal.style.display = 'none';
-            modalImage.classList.remove('loaded');
-        });
-
-        prevImageBtn.addEventListener('click', () => {
-            currentImageIndex = (currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
-            updateModalImage();
-        });
-
-        nextImageBtn.addEventListener('click', () => {
-            currentImageIndex = (currentImageIndex + 1) % currentGalleryImages.length;
-            updateModalImage();
-        });
-
-        clientGalleryModal.addEventListener('click', (e) => {
-            if (e.target === clientGalleryModal) {
-                clientGalleryModal.style.display = 'none';
-                modalImage.classList.remove('loaded');
-            }
-        });
-
-        // Load contact and footer data (already present and correct)
-        async function loadContact() {
+        async function loadContactForWhatsapp() {
+            // هذه الوظيفة لجلب رقم الواتساب للزر العائم فقط
             const data = await fetchRealtimeData('contact');
             if (!data) return;
-            document.getElementById('contact-address-ar').textContent = data.addressAr || '';
-            document.getElementById('contact-address-en').textContent = data.addressEn || '';
-            document.getElementById('contact-email-link').href = 'mailto:' + (data.email || '');
-            document.getElementById('contact-email-link').textContent = data.email || '';
-            document.getElementById('contact-phone-link').href = 'tel:' + (data.phone || '');
-            document.getElementById('contact-phone-link').textContent = data.phone || '';
             document.getElementById('whatsapp-float-link').href = `https://wa.me/${data.whatsappFloatPhone || ''}`;
         }
 
@@ -768,11 +394,11 @@
             document.getElementById('footer-copyright-en').textContent = data.copyrightEn || '';
             const poweredByAr = document.getElementById('footer-powered-by-ar');
             const poweredByEn = document.getElementById('footer-powered-by-en');
-            poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
-            poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+            // التأكد من وجود العناصر قبل محاولة تعديل innerHTML
+            if (poweredByAr) poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+            if (poweredByEn) poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
         }
 
-        // WhatsApp Notification (already present and correct)
         function showWhatsappNotification() {
             const notification = document.getElementById('whatsapp-notification');
             const currentLang = document.documentElement.getAttribute('lang');
@@ -789,7 +415,6 @@
             }, 2000);
         }
 
-        // Language setting logic (already present and correct)
         function setLanguage(lang) {
             document.documentElement.setAttribute('lang', lang);
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
@@ -801,11 +426,10 @@
             showWhatsappNotification();
         }
 
-        // Initial Load
         document.addEventListener('DOMContentLoaded', async () => {
             await Promise.all([
                 loadAllClients(),
-                loadContact(),
+                loadContactForWhatsapp(), // تبقى هذه الوظيفة لجلب رقم الواتساب للزر العائم
                 loadFooter()
             ]);
 
