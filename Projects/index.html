@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang="ar">رسلان - جميع المشاريع</title>
-    <title data-lang="en">Raslan - All Projects</title>
+    <title data-lang="ar">رسلان - جميع الخدمات</title>
+    <title data-lang="en">Raslan - All Services</title>
     <link rel="icon" href="https://i.postimg.cc/mDcf1TN3/Untitle22d-8-01.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -36,7 +37,7 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             border-radius: 1.5rem;
-            cursor: pointer;
+            /* No cursor: pointer for services page */
         }
         .glass-card:hover {
             transform: translateY(-8px) scale(1.01);
@@ -75,7 +76,7 @@
             opacity: 1;
         }
 
-        /* Header for the Projects page - Modified to be short */
+        /* Header for the Pages - Modified to be short */
         .page-header {
             background-color: var(--primary);
             color: var(--white);
@@ -95,19 +96,19 @@
         }
 
         /* Hero-like section just below the short header */
-        .projects-hero-text {
+        .page-hero-text {
             background-color: var(--primary); /* Keep background consistent with header */
             color: var(--white);
             padding: 3rem 1rem 4rem; /* Padding for the text section */
             text-align: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .projects-hero-text h1 {
+        .page-hero-text h1 {
             font-size: 3rem;
             font-weight: bold;
             margin-bottom: 1rem;
         }
-        .projects-hero-text p {
+        .page-hero-text p {
             font-size: 1.25rem;
             opacity: 0.8;
             max-width: 800px;
@@ -115,152 +116,14 @@
             margin-right: auto;
         }
 
-        /* Gallery Modal Styles - UPDATED */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 2000; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(255, 255, 255, 0.9); /* White with high opacity */
-            backdrop-filter: blur(10px); /* Apply blur effect */
-            -webkit-backdrop-filter: blur(10px); /* For Safari */
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease-out; /* Fade-in for modal itself */
-        }
-        .modal-content-wrapper {
-            position: relative;
-            margin: auto;
-            max-width: 90%;
-            max-height: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: transparent; /* Wrapper doesn't need its own background */
-            border-radius: 1.5rem;
-            padding: 20px;
-            box-shadow: none; /* No shadow on wrapper itself */
-        }
-        .modal-main-image-container {
-            width: 100%;
-            max-width: 900px; /* Max width for main image */
-            height: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px; /* Space below main image */
-        }
-        .modal-content-image {
-            max-width: 100%;
-            max-height: 65vh; /* Adjusted for better fit with text and thumbnails */
-            width: auto; /* Ensure aspect ratio */
-            object-fit: contain;
-            opacity: 0; /* Initial state for modal image fade-in */
-            transition: opacity 0.3s ease-in-out; /* Fade transition for modal image */
-        }
-        .modal-content-image.loaded {
-            opacity: 1; /* Final state for modal image fade-in */
-        }
-        .modal-text-content {
-            color: var(--dark-gray); /* Darker text for white background */
-            text-align: center;
-            max-width: 900px; /* Max width for text content */
-            padding: 0 15px;
-            margin-bottom: 20px; /* Space below text content */
-        }
-        .modal-text-content h3 {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.75rem;
-            color: var(--primary); /* Primary color for title */
-        }
-        .modal-text-content p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-        .modal-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-            max-width: 900px; /* Max width for thumbnail grid */
-            overflow-x: auto; /* Enable horizontal scroll if many thumbnails */
-            padding-bottom: 10px; /* Space for scrollbar */
-            justify-content: center; /* Center thumbnails */
-            align-items: center;
-        }
-        .modal-gallery-grid img {
-            width: 100%;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: border-color 0.2s ease, transform 0.2s ease;
-        }
-        .modal-gallery-grid img.active-thumbnail {
-            border-color: var(--secondary);
-            transform: scale(1.05);
-        }
-        .modal-gallery-nav {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            padding: 0 5px; /* Reduced padding */
-        }
-        .modal-gallery-nav button {
-            background-color: rgba(10, 61, 98, 0.7); /* Darker buttons */
-            border: none;
-            color: white;
-            padding: 8px 12px; /* Smaller buttons */
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 20px; /* Smaller font */
-            transition: background-color 0.3s ease;
-        }
-        .modal-gallery-nav button:hover {
-            background-color: var(--secondary); /* Vibrant blue on hover */
-        }
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            color: var(--dark-gray); /* Darker close button for white background */
-            font-size: 35px; /* Slightly smaller close button */
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .close-button:hover,
-        .close-button:focus {
-            color: var(--primary); /* Primary color on hover */
-            text-decoration: none;
-            cursor: pointer;
+        /* Services specific card styles (matching projects cards) */
+        .service-card-content { /* Applied to the p-8 div in service cards */
+            padding: 1.5rem 2rem; /* Slightly reduced top padding to move text up */
         }
 
-        /* "Click to view all images" text - Always visible */
+        /* "Click to view all images" text - Hidden for Services page as per request */
         .view-all-images-text {
-            position: absolute;
-            bottom: 10px; /* Adjust as needed */
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--white);
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-align: center;
-            width: 100%;
-            pointer-events: none; /* Allows click through to card */
-            z-index: 2; /* Above gradient but below content if any */
-            opacity: 1; /* Always visible */
-            transition: opacity 0.3s ease;
+            display: none; /* Hide this text */
         }
         /* Make sure the text is readable over the image */
         .glass-card .image-wrapper::after { /* New overlay to make text readable */
@@ -270,10 +133,11 @@
             left: 0;
             width: 100%;
             height: 20%; /* Height for darker background for text */
-            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6));
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)); /* Adjusted gradient direction */
             z-index: 1;
             pointer-events: none;
         }
+
 
         /* WhatsApp Float Button */
         .whatsapp-float {
@@ -322,54 +186,65 @@
             transform: translateX(0);
         }
 
+        /* Footer styles (copied from main page) */
+        .footer {
+            background-color: var(--primary); /* Use primary color */
+            color: var(--white);
+            padding: 2rem 1rem; /* More vertical padding */
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        .footer .container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem; /* Space between paragraphs */
+        }
+        .footer p {
+            margin: 0; /* Reset default paragraph margin */
+            line-height: 1.5;
+        }
+        .footer a {
+            color: var(--secondary); /* Highlight links with secondary color */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer a:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+        @media (min-width: 768px) {
+            .footer .container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left; /* Align text left on larger screens */
+            }
+            html[lang="ar"] .footer .container {
+                text-align: right; /* Align text right for Arabic on larger screens */
+            }
+        }
+
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
-            .projects-hero-text h1 {
+            .page-hero-text h1 {
                 font-size: 2.5rem;
             }
-            .projects-hero-text p {
-                font-size: 1.rem;
-            }
-            .project-card-title-mobile { /* Specific smaller title for projects on mobile */
-                font-size: 1.5rem;
-            }
-            .glass-card .image-wrapper {
-                height: 180px; /* Smaller image height for service/projects */
-            }
-            .glass-card .p-8 { /* Applies to both service and project content */
-                padding: 1.5rem; /* Smaller padding */
-            }
-            .glass-card h3 { /* Applies to both service and project titles */
-                font-size: 1.75rem; /* Smaller title */
-            }
-            .glass-card p { /* Applies to both service and project text */
-                font-size: 0.9rem; /* Smaller text */
-            }
-            .modal-content-image {
-                max-height: 55vh; /* Adjust for small screens */
-            }
-            .modal-text-content h3 {
-                font-size: 1.5rem;
-            }
-            .modal-text-content p {
+            .page-hero-text p {
                 font-size: 1rem;
             }
-            .modal-gallery-grid img {
-                height: 60px; /* Smaller thumbnails on mobile */
+            /* Smaller service card content on mobile */
+            .glass-card .image-wrapper {
+                height: 180px; /* Smaller image height for service cards */
             }
-            .modal-gallery-nav button {
-                padding: 5px 8px; /* Even smaller buttons */
-                font-size: 18px;
+            .glass-card .p-8 { /* Applies to service content */
+                padding: 1.5rem; /* Smaller padding */
             }
-            .close-button {
-                font-size: 30px;
-                top: 5px;
-                right: 10px;
+            .glass-card h3 { /* Applies to service titles */
+                font-size: 1.75rem; /* Smaller title */
             }
-            .view-all-images-text {
-                font-size: 0.8rem; /* Smaller text on mobile */
-                bottom: 5px;
+            .glass-card p { /* Applies to service text */
+                font-size: 0.9rem; /* Smaller text */
             }
             /* WhatsApp float button adjustments for smaller screens */
             .whatsapp-float {
@@ -409,41 +284,30 @@
         </div>
     </header>
 
-    <section class="projects-hero-text">
+    <section class="page-hero-text">
         <div class="container mx-auto px-4">
-            <h1 data-lang="ar">جميع مشاريعنا</h1>
-            <h1 data-lang="en">All Our Projects</h1>
-            <p data-lang="ar">استكشف مجموعة كاملة من المشاريع التي أنجزناها بنجاح.</p>
-            <p data-lang="en">Explore the complete collection of projects we've successfully completed.</p>
+            <h1 data-lang="ar">جميع الخدمات</h1>
+            <h1 data-lang="en">All Services</h1>
+            <p data-lang="ar">نقدم مجموعة واسعة من الخدمات الهندسية المتكاملة، المصممة لتلبية احتياجات مشاريعك بدقة وجودة.</p>
+            <p data-lang="en">We offer a wide range of integrated engineering services, precisely designed to meet your project needs with quality.</p>
         </div>
     </section>
 
-    <section id="all-projects" class="py-20 section-bg">
+    <section id="all-services" class="py-20 section-bg">
         <div class="container mx-auto px-4">
-            <div id="projects-full-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div id="services-full-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 </div>
         </div>
     </section>
 
-    <div id="projectGalleryModal" class="modal">
-        <span class="close-button">&times;</span>
-        <div class="modal-content-wrapper">
-            <div class="modal-main-image-container">
-                <img class="modal-content-image" id="modalImage">
-            </div>
-            <div class="modal-text-content">
-                <h3 id="modalProjectTitleAr" data-lang="ar"></h3>
-                <h3 id="modalProjectTitleEn" data-lang="en"></h3>
-                <p id="modalProjectDescAr" data-lang="ar"></p>
-                <p id="modalProjectDescEn" data-lang="en"></p>
-                <div id="modalGalleryThumbnails" class="modal-gallery-grid"></div>
-            </div>
-            <div class="modal-gallery-nav">
-                <button id="prevImageBtn">&lt;</button>
-                <button id="nextImageBtn">&gt;</button>
-            </div>
+    <footer class="footer">
+        <div class="container mx-auto px-4">
+            <p id="footer-copyright-ar" class="order-2 md:order-1" data-lang="ar"></p>
+            <p id="footer-copyright-en" class="order-2 md:order-1" data-lang="en"></p>
+            <p id="footer-powered-by-ar" class="order-1 md:order-2" data-lang="ar"></p>
+            <p id="footer-powered-by-en" class="order-1 md:order-2" data-lang="en"></p>
         </div>
-    </div>
+    </footer>
 
     <a id="whatsapp-float-link" href="#" target="_blank" class="whatsapp-float">
         <i class="fab fa-whatsapp"></i>
@@ -472,27 +336,14 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        let currentGalleryImages = [];
-        let currentImageIndex = 0;
-        const projectGalleryModal = document.getElementById('projectGalleryModal');
-        const modalImage = document.getElementById('modalImage');
-        const closeButton = document.querySelector('.close-button');
-        const prevImageBtn = document.getElementById('prevImageBtn');
-        const nextImageBtn = document.getElementById('nextImageBtn');
-        const modalProjectTitleAr = document.getElementById('modalProjectTitleAr');
-        const modalProjectTitleEn = document.getElementById('modalProjectTitleEn');
-        const modalProjectDescAr = document.getElementById('modalProjectDescAr');
-        const modalProjectDescEn = document.getElementById('modalProjectDescEn');
-        const modalGalleryThumbnails = document.getElementById('modalGalleryThumbnails');
-
-
         // Helper function to fetch data
         async function fetchRealtimeData(path) {
             try {
                 const snapshot = await get(ref(db, path));
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    if (typeof data === 'object' && data !== null) {
+                    // Convert objects to arrays for lists, but not for single items like 'about', 'contact', 'footer'
+                    if (path !== 'about' && path !== 'contact' && path !== 'footer' && typeof data === 'object' && data !== null) {
                         return Object.values(data);
                     }
                     return data;
@@ -505,35 +356,33 @@
             }
         }
 
-        async function loadAllProjects() {
-            const projects = await fetchRealtimeData('projects');
-            const container = document.getElementById('projects-full-container');
-            if (!projects || !container) return;
-
-            // Render projects without explicit sorting. Firebase default order (by key creation time) will apply.
-            const projectsArray = projects;
-
+        async function loadAllServices() {
+            const data = await fetchRealtimeData('services');
+            const container = document.getElementById('services-full-container');
+            if (!data || !container) return;
             container.innerHTML = '';
-            projectsArray.forEach(project => {
-                const projectCard = document.createElement('div');
-                projectCard.classList.add('glass-card', 'rounded-2xl', 'overflow-hidden', 'shadow-lg', 'cursor-pointer');
 
-                projectCard.innerHTML = `
+            const servicesArray = data;
+
+            servicesArray.forEach((service) => {
+                const serviceCard = document.createElement('div');
+                // لا يوجد 'cursor-pointer' لأن البطاقة غير قابلة للنقر لفتح تفاصيل
+                serviceCard.classList.add('glass-card', 'rounded-2xl', 'overflow-hidden', 'shadow-lg'); 
+
+                serviceCard.innerHTML = `
                     <div class="image-wrapper">
-                        <img src="${project.mainImageUrl || ''}" alt="${project.titleAr}" class="w-full object-cover">
-                        <span class="view-all-images-text" data-lang="ar">اضغط لعرض جميع الصور</span>
-                        <span class="view-all-images-text" data-lang="en">Click to view all images</span>
-                    </div>
-                    <div class="p-8">
-                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873] project-card-title-mobile" data-lang="ar">${project.titleAr || ''}</h3>
-                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873] project-card-title-mobile" data-lang="en">${project.titleEn || ''}</h3>
-                        <p class="text-gray-700" data-lang="ar">${project.descAr || ''}</p>
-                        <p class="text-gray-700" data-lang="en">${project.descEn || ''}</p>
+                        <img src="${service.imageUrl || ''}" alt="${service.titleAr}" class="w-full object-cover">
+                        </div>
+                    <div class="p-8 service-card-content">
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">${service.titleAr || ''}</h3>
+                        <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">${service.titleEn || ''}</h3>
+                        <p class="text-gray-700" data-lang="ar">${service.descAr || ''}</p>
+                        <p class="text-gray-700" data-lang="en">${service.descEn || ''}</p>
                     </div>
                 `;
 
                 // Add fade-in effect when image loads
-                const mainImage = projectCard.querySelector('.image-wrapper img');
+                const mainImage = serviceCard.querySelector('.image-wrapper img');
                 mainImage.onload = () => {
                     mainImage.classList.add('loaded');
                 };
@@ -542,116 +391,35 @@
                     mainImage.classList.add('loaded');
                 }
 
-                // Store all project data for the modal
-                const allProjectImages = [project.mainImageUrl || ''].concat(project.galleryImages || []).filter(url => url);
-
-                // Store project data as attributes for modal use
-                projectCard.dataset.projectData = JSON.stringify({
-                    images: allProjectImages,
-                    titleAr: project.titleAr,
-                    titleEn: project.titleEn,
-                    descAr: project.descAr,
-                    descEn: project.descEn
-                });
-
-                projectCard.addEventListener('click', () => openGallery(projectCard));
-                container.appendChild(projectCard);
+                // تم إزالة مستمع الحدث للنقر على البطاقة لفتح المودال
+                container.appendChild(serviceCard);
             });
         }
 
-        function openGallery(cardElement) {
-            const projectData = JSON.parse(cardElement.dataset.projectData);
-            currentGalleryImages = projectData.images;
+        // Removed all modal-related functions (openGallery, updateModalImage, and their event listeners)
+        // since the modal is no longer part of this page.
 
-            if (currentGalleryImages.length === 0) {
-                console.warn("No images available for this project gallery.");
-                return; // Do not open modal if no images
-            }
-
-            // Populate modal text content
-            modalProjectTitleAr.textContent = projectData.titleAr || '';
-            modalProjectTitleEn.textContent = projectData.titleEn || '';
-            modalProjectDescAr.textContent = projectData.descAr || '';
-            modalProjectDescEn.textContent = projectData.descEn || '';
-
-            // Populate modal gallery thumbnails
-            modalGalleryThumbnails.innerHTML = '';
-            currentGalleryImages.forEach((url, index) => {
-                const thumb = document.createElement('img');
-                thumb.src = url;
-                thumb.alt = `Thumbnail ${index + 1}`;
-                thumb.classList.add('w-full', 'h-auto', 'object-cover', 'rounded-md', 'cursor-pointer');
-                thumb.addEventListener('click', () => {
-                    currentImageIndex = index;
-                    updateModalImage();
-                });
-                modalGalleryThumbnails.appendChild(thumb);
-            });
-
-
-            currentImageIndex = 0;
-            updateModalImage();
-            projectGalleryModal.style.display = 'flex'; // Show modal
+        async function loadContact() {
+            // Note: This function is kept for consistency with other pages' scripts,
+            // but its outputs are not used in this specific services.html page since the contact section is removed.
+            // It primarily serves to fetch whatsapp phone for the floating button.
+            const data = await fetchRealtimeData('contact');
+            if (!data) return;
+            document.getElementById('whatsapp-float-link').href = `https://wa.me/${data.whatsappFloatPhone || ''}`;
         }
 
-        function updateModalImage() {
-            if (currentGalleryImages.length > 0) {
-                modalImage.src = ''; // Clear src to trigger fade-out before new image loads
-                modalImage.classList.remove('loaded'); // Remove loaded class for fade-out
-
-                // Set new image source and add loaded class on load
-                modalImage.onload = () => {
-                    modalImage.classList.add('loaded');
-                };
-                modalImage.src = currentGalleryImages[currentImageIndex];
-
-                // Update active thumbnail indicator
-                modalGalleryThumbnails.querySelectorAll('img').forEach((thumb, index) => {
-                    if (index === currentImageIndex) {
-                        thumb.classList.add('active-thumbnail');
-                    } else {
-                        thumb.classList.remove('active-thumbnail');
-                    }
-                });
-
-            }
+        async function loadFooter() {
+            const data = await fetchRealtimeData('footer');
+            if (!data) return;
+            document.getElementById('footer-copyright-ar').textContent = data.copyrightAr || '';
+            document.getElementById('footer-copyright-en').textContent = data.copyrightEn || '';
+            const poweredByAr = document.getElementById('footer-powered-by-ar');
+            const poweredByEn = document.getElementById('footer-powered-by-en');
+            // التأكد من وجود العناصر قبل محاولة تعديل innerHTML
+            if (poweredByAr) poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+            if (poweredByEn) poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
         }
 
-        closeButton.addEventListener('click', () => {
-            projectGalleryModal.style.display = 'none';
-            modalImage.classList.remove('loaded'); // Ensure modal image fades out on close
-        });
-
-        prevImageBtn.addEventListener('click', () => {
-            currentImageIndex = (currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
-            updateModalImage();
-        });
-
-        nextImageBtn.addEventListener('click', () => {
-            currentImageIndex = (currentImageIndex + 1) % currentGalleryImages.length;
-            updateModalImage();
-        });
-
-        // Close modal when clicking outside the modal content
-        projectGalleryModal.addEventListener('click', (e) => {
-            // Only close if clicked directly on the modal background, not on its children
-            if (e.target === projectGalleryModal) {
-                projectGalleryModal.style.display = 'none';
-                modalImage.classList.remove('loaded'); // Ensure modal image fades out on close
-            }
-        });
-
-        // This function will be used to fetch the whatsapp phone number
-        async function getWhatsappPhoneNumber() {
-            const contactData = await fetchRealtimeData('contact');
-            if (contactData && contactData.whatsappFloatPhone) {
-                document.getElementById('whatsapp-float-link').href = `https://wa.me/${contactData.whatsappFloatPhone}`;
-            } else {
-                console.warn("WhatsApp phone number not found in Firebase 'contact' data.");
-            }
-        }
-
-        // WhatsApp Notification (retained for functionality, even if the float button is the primary focus)
         function showWhatsappNotification() {
             const notification = document.getElementById('whatsapp-notification');
             const currentLang = document.documentElement.getAttribute('lang');
@@ -668,30 +436,26 @@
             }, 2000);
         }
 
-        // Language setting logic - modified for projects.html
         function setLanguage(lang) {
             document.documentElement.setAttribute('lang', lang);
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-            localStorage.setItem('preferredLanguage', lang); // Store for future visits
-            // Update page title
+            localStorage.setItem('preferredLanguage', lang);
             const titleAr = document.querySelector('title[data-lang="ar"]');
             const titleEn = document.querySelector('title[data-lang="en"]');
             if (titleAr) titleAr.style.display = lang === 'ar' ? 'block' : 'none';
             if (titleEn) titleEn.style.display = lang === 'en' ? 'block' : 'none';
-            showWhatsappNotification(); // Show notification in correct language
+            showWhatsappNotification();
         }
 
-        // Initial Load
         document.addEventListener('DOMContentLoaded', async () => {
             await Promise.all([
-                loadAllProjects(),
-                getWhatsappPhoneNumber() // Load whatsapp number for float button
+                loadAllServices(),
+                loadContact(), // تبقى هذه الوظيفة لجلب رقم الواتساب للزر العائم
+                loadFooter()
             ]);
 
-            // Set initial language based on localStorage from main page
             let initialLang = localStorage.getItem('preferredLanguage');
             if (!initialLang) {
-                // Fallback if no language is set (should not happen if main page sets it)
                 const browserLang = navigator.language || navigator.languages[0];
                 initialLang = browserLang.startsWith('ar') ? 'ar' : 'en';
             }
