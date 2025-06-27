@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -36,7 +37,7 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             border-radius: 1.5rem;
-            cursor: pointer; /* Services cards are now clickable for modal */
+            /* No cursor: pointer for services page */
         }
         .glass-card:hover {
             transform: translateY(-8px) scale(1.01);
@@ -120,152 +121,9 @@
             padding: 1.5rem 2rem; /* Slightly reduced top padding to move text up */
         }
 
-        /* Gallery Modal Styles - UPDATED (copied from projects) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 2000; /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(255, 255, 255, 0.9); /* White with high opacity */
-            backdrop-filter: blur(10px); /* Apply blur effect */
-            -webkit-backdrop-filter: blur(10px); /* For Safari */
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease-out; /* Fade-in for modal itself */
-        }
-        .modal-content-wrapper {
-            position: relative;
-            margin: auto;
-            max-width: 90%;
-            max-height: 90%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: transparent; /* Wrapper doesn't need its own background */
-            border-radius: 1.5rem;
-            padding: 20px;
-            box-shadow: none; /* No shadow on wrapper itself */
-        }
-        .modal-main-image-container {
-            width: 100%;
-            max-width: 900px; /* Max width for main image */
-            height: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px; /* Space below main image */
-        }
-        .modal-content-image {
-            max-width: 100%;
-            max-height: 65vh; /* Adjusted for better fit with text and thumbnails */
-            width: auto; /* Ensure aspect ratio */
-            object-fit: contain;
-            opacity: 0; /* Initial state for modal image fade-in */
-            transition: opacity 0.3s ease-in-out; /* Fade transition for modal image */
-        }
-        .modal-content-image.loaded {
-            opacity: 1; /* Final state for modal image fade-in */
-        }
-        .modal-text-content {
-            color: var(--dark-gray); /* Darker text for white background */
-            text-align: center;
-            max-width: 900px; /* Max width for text content */
-            padding: 0 15px;
-            margin-bottom: 20px; /* Space below text content */
-        }
-        .modal-text-content h3 {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.75rem;
-            color: var(--primary); /* Primary color for title */
-        }
-        .modal-text-content p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-        .modal-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-            max-width: 900px; /* Max width for thumbnail grid */
-            overflow-x: auto; /* Enable horizontal scroll if many thumbnails */
-            padding-bottom: 10px; /* Space for scrollbar */
-            justify-content: center; /* Center thumbnails */
-            align-items: center;
-        }
-        .modal-gallery-grid img {
-            width: 100%;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: border-color 0.2s ease, transform 0.2s ease;
-        }
-        .modal-gallery-grid img.active-thumbnail {
-            border-color: var(--secondary);
-            transform: scale(1.05);
-        }
-        .modal-gallery-nav {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            padding: 0 5px; /* Reduced padding */
-        }
-        .modal-gallery-nav button {
-            background-color: rgba(10, 61, 98, 0.7); /* Darker buttons */
-            border: none;
-            color: white;
-            padding: 8px 12px; /* Smaller buttons */
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 20px; /* Smaller font */
-            transition: background-color 0.3s ease;
-        }
-        .modal-gallery-nav button:hover {
-            background-color: var(--secondary); /* Vibrant blue on hover */
-        }
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            color: var(--dark-gray); /* Darker close button for white background */
-            font-size: 35px; /* Slightly smaller close button */
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .close-button:hover,
-        .close-button:focus {
-            color: var(--primary); /* Primary color on hover */
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* "Click to view all images" text - Always visible */
+        /* "Click to view all images" text - Hidden for Services page as per request */
         .view-all-images-text {
-            position: absolute;
-            bottom: 10px; /* Adjust as needed */
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--white);
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-align: center;
-            width: 100%;
-            pointer-events: none; /* Allows click through to card */
-            z-index: 2; /* Above gradient but below content if any */
-            opacity: 1; /* Always visible */
-            transition: opacity 0.3s ease;
+            display: none; /* Hide this text */
         }
         /* Make sure the text is readable over the image */
         .glass-card .image-wrapper::after { /* New overlay to make text readable */
@@ -275,7 +133,7 @@
             left: 0;
             width: 100%;
             height: 20%; /* Height for darker background for text */
-            background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6));
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)); /* Adjusted gradient direction */
             z-index: 1;
             pointer-events: none;
         }
@@ -328,139 +186,6 @@
             transform: translateX(0);
         }
 
-        /* Contact Icons & Social Buttons */
-        .service-icon, .contact-social-btn {
-            background-color: var(--primary); /* Use primary color */
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            color: var(--white);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .service-icon:hover, .contact-social-btn:hover {
-            background-color: var(--secondary); /* Vibrant blue on hover */
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3);
-        }
-        .service-icon {
-            width: 55px; /* Larger icon circle */
-            height: 55px;
-            font-size: 24px; /* Larger icon */
-            border-radius: 50%; /* Ensure it's circular */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0; /* Prevent shrinking in flex layouts */
-        }
-        .contact-social-btn {
-            padding: 0.75rem 1.5rem; /* Increased padding */
-            border-radius: 0.75rem; /* Consistent with other buttons */
-            font-size: 1.125rem; /* text-lg */
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem; /* Space between text and icon */
-        }
-        .contact-info-item { /* For contact text fields */
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .page-hero-text h1 {
-                font-size: 2.5rem;
-            }
-            .page-hero-text p {
-                font-size: 1rem;
-            }
-            /* Smaller service card content on mobile */
-            .glass-card .image-wrapper {
-                height: 180px; /* Smaller image height for service cards */
-            }
-            .glass-card .p-8 { /* Applies to service content */
-                padding: 1.5rem; /* Smaller padding */
-            }
-            .glass-card h3 { /* Applies to service titles */
-                font-size: 1.75rem; /* Smaller title */
-            }
-            .glass-card p { /* Applies to service text */
-                font-size: 0.9rem; /* Smaller text */
-            }
-            .modal-content-image {
-                max-height: 55vh; /* Adjust for small screens */
-            }
-            .modal-text-content h3 {
-                font-size: 1.5rem;
-            }
-            .modal-text-content p {
-                font-size: 1rem;
-            }
-            .modal-gallery-grid img {
-                height: 60px; /* Smaller thumbnails on mobile */
-            }
-            .modal-gallery-nav button {
-                padding: 5px 8px; /* Even smaller buttons */
-                font-size: 18px;
-            }
-            .close-button {
-                font-size: 30px;
-                top: 5px;
-                right: 10px;
-            }
-            .view-all-images-text {
-                font-size: 0.8rem; /* Smaller text on mobile */
-                bottom: 5px;
-            }
-            /* WhatsApp float button adjustments for smaller screens */
-            .whatsapp-float {
-                width: 55px; /* Smaller size on mobile */
-                height: 55px;
-                font-size: 28px;
-                bottom: 20px;
-                right: 20px;
-            }
-            .whatsapp-notification {
-                bottom: 40px;
-                right: 90px;
-                padding: 10px 15px;
-                font-size: 14px;
-            }
-            .contact-grid { /* Adjust contact section grid for mobile */
-                grid-template-columns: 1fr;
-            }
-            .contact-info-block { /* Adjust spacing for contact block */
-                padding: 1.5rem;
-                text-align: center;
-            }
-            .contact-info-item { /* Center align items in contact info */
-                flex-direction: column;
-                text-align: center;
-            }
-            .contact-info-item .flex-grow {
-                text-align: center;
-            }
-            html[lang="ar"] .contact-info-item .flex-grow {
-                text-align: center;
-            }
-            .contact-social-btn {
-                width: 100%; /* Full width social buttons */
-            }
-        }
-
-        /* Global Language Display Rules */
-        html[lang="en"] [data-lang="ar"] { display: none; }
-        html[lang="ar"] [data-lang="en"] { display: none; }
-        html[lang="en"] { direction: ltr; }
-        html[lang="ar"] { direction: rtl; }
-
-        /* Keyframes for fade-in animation */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         /* Footer styles (copied from main page) */
         .footer {
             background-color: var(--primary); /* Use primary color */
@@ -498,6 +223,56 @@
                 text-align: right; /* Align text right for Arabic on larger screens */
             }
         }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .page-hero-text h1 {
+                font-size: 2.5rem;
+            }
+            .page-hero-text p {
+                font-size: 1rem;
+            }
+            /* Smaller service card content on mobile */
+            .glass-card .image-wrapper {
+                height: 180px; /* Smaller image height for service cards */
+            }
+            .glass-card .p-8 { /* Applies to service content */
+                padding: 1.5rem; /* Smaller padding */
+            }
+            .glass-card h3 { /* Applies to service titles */
+                font-size: 1.75rem; /* Smaller title */
+            }
+            .glass-card p { /* Applies to service text */
+                font-size: 0.9rem; /* Smaller text */
+            }
+            /* WhatsApp float button adjustments for smaller screens */
+            .whatsapp-float {
+                width: 55px; /* Smaller size on mobile */
+                height: 55px;
+                font-size: 28px;
+                bottom: 20px;
+                right: 20px;
+            }
+            .whatsapp-notification {
+                bottom: 40px;
+                right: 90px;
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+
+        /* Global Language Display Rules */
+        html[lang="en"] [data-lang="ar"] { display: none; }
+        html[lang="ar"] [data-lang="en"] { display: none; }
+        html[lang="en"] { direction: ltr; }
+        html[lang="ar"] { direction: rtl; }
+
+        /* Keyframes for fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -522,86 +297,6 @@
         <div class="container mx-auto px-4">
             <div id="services-full-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 </div>
-        </div>
-    </section>
-
-    <div id="serviceGalleryModal" class="modal">
-        <span class="close-button">&times;</span>
-        <div class="modal-content-wrapper">
-            <div class="modal-main-image-container">
-                <img class="modal-content-image" id="modalImage">
-            </div>
-            <div class="modal-text-content">
-                <h3 id="modalServiceTitleAr" data-lang="ar"></h3>
-                <h3 id="modalServiceTitleEn" data-lang="en"></h3>
-                <p id="modalServiceDescAr" data-lang="ar"></p>
-                <p id="modalServiceDescEn" data-lang="en"></p>
-                <div id="modalGalleryThumbnails" class="modal-gallery-grid"></div>
-            </div>
-            <div class="modal-gallery-nav">
-                <button id="prevImageBtn">&lt;</button>
-                <button id="nextImageBtn">&gt;</button>
-            </div>
-        </div>
-    </div>
-
-
-    <section id="contact" class="py-20 section-bg-alt">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="ar">تواصل معنا</h2>
-            <h2 class="text-4xl font-bold text-center mb-16 text-[#0c4873]" data-lang="en">Contact Us</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 contact-grid">
-                <div class="glass-card rounded-2xl p-8 space-y-8 contact-info-block">
-                    <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="ar">معلومات التواصل</h3>
-                    <h3 class="text-xl font-bold text-gray-800 text-center" data-lang="en">Contact Information</h3>
-                    <div class="space-y-6">
-                        <div class="contact-info-item">
-                            <div class="service-icon rounded-full flex items-center justify-center text-white">
-                                <i class="fas fa-map-marker-alt text-xl"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <p id="contact-address-ar" class="text-gray-600" data-lang="ar"></p>
-                                <p id="contact-address-en" class="text-gray-600" data-lang="en"></p>
-                            </div>
-                        </div>
-                        <div class="contact-info-item">
-                            <div class="service-icon rounded-full flex items-center justify-center text-white">
-                                <i class="fas fa-envelope text-xl"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <a id="contact-email-link" href="#" class="text-gray-600 hover:text-[#0c4873]"></a>
-                            </div>
-                        </div>
-                        <div class="contact-info-item">
-                            <div class="service-icon rounded-full flex items-center justify-center text-white">
-                                <i class="fas fa-phone-alt text-xl"></i>
-                            </div>
-                            <div class="flex-grow">
-                                <a id="contact-phone-link" href="#" class="text-gray-600 hover:text-[#0c4873]" dir="ltr"></a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="ar">تابعنا</h3>
-                    <h3 class="text-xl font-bold text-gray-800 text-center mt-8" data-lang="en">Follow Us</h3>
-                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8 md:gap-x-4 justify-center">
-                        <a href="https://www.facebook.com/Raslan2001/" target="_blank" class="contact-social-btn flex items-center justify-center hover:bg-blue-700 transition-colors">
-                            <span data-lang="ar">فيسبوك</span>
-                            <span data-lang="en">Facebook</span>
-                            <i class="fab fa-facebook-f text-xl"></i>
-                        </a>
-                        <a href="#" class="contact-social-btn flex items-center justify-center hover:bg-pink-600 transition-colors">
-                            <span data-lang="ar">انستجرام</span>
-                            <span data-lang="en">Instagram</span>
-                            <i class="fab fa-instagram text-xl"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="glass-card rounded-2xl overflow-hidden h-full min-h-[300px] flex items-center justify-center text-gray-500">
-                    <p data-lang="ar">الخريطة ستظهر هنا في الصفحة الرئيسية</p>
-                    <p data-lang="en">Map will appear here on the main page</p>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -641,20 +336,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        let currentGalleryImages = []; // For modal, even if service has one image
-        let currentImageIndex = 0;
-        const serviceGalleryModal = document.getElementById('serviceGalleryModal'); // Changed ID
-        const modalImage = document.getElementById('modalImage');
-        const closeButton = serviceGalleryModal.querySelector('.close-button'); // Select from modal
-        const prevImageBtn = serviceGalleryModal.querySelector('#prevImageBtn'); // Select from modal
-        const nextImageBtn = serviceGalleryModal.querySelector('#nextImageBtn'); // Select from modal
-        const modalServiceTitleAr = document.getElementById('modalServiceTitleAr'); // Changed ID
-        const modalServiceTitleEn = document.getElementById('modalServiceTitleEn'); // Changed ID
-        const modalServiceDescAr = document.getElementById('modalServiceDescAr'); // Changed ID
-        const modalServiceDescEn = document.getElementById('modalServiceDescEn'); // Changed ID
-        const modalGalleryThumbnails = document.getElementById('modalGalleryThumbnails');
-
-
         // Helper function to fetch data
         async function fetchRealtimeData(path) {
             try {
@@ -681,18 +362,17 @@
             if (!data || !container) return;
             container.innerHTML = '';
 
-            const servicesArray = data; // Assuming data is already an array from fetchRealtimeData
+            const servicesArray = data;
 
             servicesArray.forEach((service) => {
                 const serviceCard = document.createElement('div');
-                serviceCard.classList.add('glass-card', 'rounded-2xl', 'overflow-hidden', 'shadow-lg', 'cursor-pointer'); // Added cursor-pointer
+                // لا يوجد 'cursor-pointer' لأن البطاقة غير قابلة للنقر لفتح تفاصيل
+                serviceCard.classList.add('glass-card', 'rounded-2xl', 'overflow-hidden', 'shadow-lg'); 
 
                 serviceCard.innerHTML = `
                     <div class="image-wrapper">
                         <img src="${service.imageUrl || ''}" alt="${service.titleAr}" class="w-full object-cover">
-                        <span class="view-all-images-text" data-lang="ar">اضغط لعرض التفاصيل</span>
-                        <span class="view-all-images-text" data-lang="en">Click to view details</span>
-                    </div>
+                        </div>
                     <div class="p-8 service-card-content">
                         <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">${service.titleAr || ''}</h3>
                         <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">${service.titleEn || ''}</h3>
@@ -711,113 +391,20 @@
                     mainImage.classList.add('loaded');
                 }
 
-                // Store all service data for the modal
-                const allServiceImages = [service.imageUrl || ''].concat(service.galleryImages || []).filter(url => url);
-
-                serviceCard.dataset.serviceData = JSON.stringify({
-                    images: allServiceImages,
-                    titleAr: service.titleAr,
-                    titleEn: service.titleEn,
-                    descAr: service.descAr,
-                    descEn: service.descEn
-                });
-
-                serviceCard.addEventListener('click', () => openGallery(serviceCard));
+                // تم إزالة مستمع الحدث للنقر على البطاقة لفتح المودال
                 container.appendChild(serviceCard);
             });
         }
 
-        // Function to open gallery/modal
-        function openGallery(cardElement) {
-            const serviceData = JSON.parse(cardElement.dataset.serviceData);
-            currentGalleryImages = serviceData.images;
+        // Removed all modal-related functions (openGallery, updateModalImage, and their event listeners)
+        // since the modal is no longer part of this page.
 
-            if (currentGalleryImages.length === 0) {
-                console.warn("No images available for this service gallery.");
-                return; // Do not open modal if no images
-            }
-
-            // Populate modal text content
-            modalServiceTitleAr.textContent = serviceData.titleAr || '';
-            modalServiceTitleEn.textContent = serviceData.titleEn || '';
-            modalServiceDescAr.textContent = serviceData.descAr || '';
-            modalServiceDescEn.textContent = serviceData.descEn || '';
-
-            // Populate modal gallery thumbnails
-            modalGalleryThumbnails.innerHTML = '';
-            currentGalleryImages.forEach((url, index) => {
-                const thumb = document.createElement('img');
-                thumb.src = url;
-                thumb.alt = `Thumbnail ${index + 1}`;
-                thumb.classList.add('w-full', 'h-auto', 'object-cover', 'rounded-md', 'cursor-pointer');
-                thumb.addEventListener('click', () => {
-                    currentImageIndex = index;
-                    updateModalImage();
-                });
-                modalGalleryThumbnails.appendChild(thumb);
-            });
-
-            currentImageIndex = 0;
-            updateModalImage();
-            serviceGalleryModal.style.display = 'flex'; // Show modal
-        }
-
-        // Function to update modal image
-        function updateModalImage() {
-            if (currentGalleryImages.length > 0) {
-                modalImage.src = ''; // Clear src to trigger fade-out before new image loads
-                modalImage.classList.remove('loaded'); // Remove loaded class for fade-out
-
-                modalImage.onload = () => {
-                    modalImage.classList.add('loaded');
-                };
-                modalImage.src = currentGalleryImages[currentImageIndex];
-
-                // Update active thumbnail indicator
-                modalGalleryThumbnails.querySelectorAll('img').forEach((thumb, index) => {
-                    if (index === currentImageIndex) {
-                        thumb.classList.add('active-thumbnail');
-                    } else {
-                        thumb.classList.remove('active-thumbnail');
-                    }
-                });
-            }
-        }
-
-        // Event Listeners for modal
-        closeButton.addEventListener('click', () => {
-            serviceGalleryModal.style.display = 'none';
-            modalImage.classList.remove('loaded');
-        });
-
-        prevImageBtn.addEventListener('click', () => {
-            currentImageIndex = (currentImageIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
-            updateModalImage();
-        });
-
-        nextImageBtn.addEventListener('click', () => {
-            currentImageIndex = (currentImageIndex + 1) % currentGalleryImages.length;
-            updateModalImage();
-        });
-
-        serviceGalleryModal.addEventListener('click', (e) => {
-            if (e.target === serviceGalleryModal) {
-                serviceGalleryModal.style.display = 'none';
-                modalImage.classList.remove('loaded');
-            }
-        });
-
-
-        // Load contact and footer data (already present and correct)
         async function loadContact() {
+            // Note: This function is kept for consistency with other pages' scripts,
+            // but its outputs are not used in this specific services.html page since the contact section is removed.
+            // It primarily serves to fetch whatsapp phone for the floating button.
             const data = await fetchRealtimeData('contact');
             if (!data) return;
-            document.getElementById('contact-address-ar').textContent = data.addressAr || '';
-            document.getElementById('contact-address-en').textContent = data.addressEn || '';
-            document.getElementById('contact-email-link').href = 'mailto:' + (data.email || '');
-            document.getElementById('contact-email-link').textContent = data.email || '';
-            document.getElementById('contact-phone-link').href = 'tel:' + (data.phone || '');
-            document.getElementById('contact-phone-link').textContent = data.phone || '';
             document.getElementById('whatsapp-float-link').href = `https://wa.me/${data.whatsappFloatPhone || ''}`;
         }
 
@@ -828,11 +415,11 @@
             document.getElementById('footer-copyright-en').textContent = data.copyrightEn || '';
             const poweredByAr = document.getElementById('footer-powered-by-ar');
             const poweredByEn = document.getElementById('footer-powered-by-en');
-            poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
-            poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+            // التأكد من وجود العناصر قبل محاولة تعديل innerHTML
+            if (poweredByAr) poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+            if (poweredByEn) poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
         }
 
-        // WhatsApp Notification (already present and correct)
         function showWhatsappNotification() {
             const notification = document.getElementById('whatsapp-notification');
             const currentLang = document.documentElement.getAttribute('lang');
@@ -849,7 +436,6 @@
             }, 2000);
         }
 
-        // Language setting logic (already present and correct)
         function setLanguage(lang) {
             document.documentElement.setAttribute('lang', lang);
             document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
@@ -861,11 +447,10 @@
             showWhatsappNotification();
         }
 
-        // Initial Load
         document.addEventListener('DOMContentLoaded', async () => {
             await Promise.all([
                 loadAllServices(),
-                loadContact(),
+                loadContact(), // تبقى هذه الوظيفة لجلب رقم الواتساب للزر العائم
                 loadFooter()
             ]);
 
