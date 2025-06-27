@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -9,6 +8,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Shared variables */
+        :root {
+            --primary: #0a3d62;
+            --secondary: #1a73e8;
+            --white: #ffffff;
+            --light-gray: #f8fbfd;
+            --dark-gray: #4a5568;
+        }
+
         body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
         .sidebar-link.active { background-color: #2563eb; color: white; }
         .form-input { 
@@ -18,17 +26,26 @@
             border-radius: 0.5rem; 
             transition: all 0.2s ease-in-out;
             outline: none;
+            background-color: white; /* Ensure input background is white */
         }
         .form-input:focus {
             ring: 2px;
             ring-color: #2563eb;
             border-color: #2563eb;
         }
+        .form-input[readonly] {
+            background-color: #e2e8f0; /* Lighter background for read-only */
+            cursor: not-allowed;
+        }
+
         .modal {
             transition: opacity 0.3s ease;
         }
         .modal-content {
             transition: transform 0.3s ease;
+            background: white; /* Modal content background */
+            border-radius: 0.75rem; /* Consistent border radius */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
         .btn {
             padding: 0.75rem 1.5rem;
@@ -50,20 +67,21 @@
         /* Custom styles for layout and responsiveness */
         .sidebar-header {
             display: flex;
+            flex-direction: column; /* Changed to column for stacked logo and info */
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem; /* Smaller gap */
             padding: 1.5rem;
-            border-bottom: 1px solid #334155; /* Darker border for contrast */
-            background-color: #1e293b; /* Slightly darker background for header */
+            border-bottom: 1px solid #334155;
+            background-color: #1e293b;
         }
         .sidebar-header img {
-            width: 48px; /* Adjust logo size */
+            width: 48px;
             height: 48px;
             object-fit: contain;
         }
         .sidebar-header h1 {
-            font-size: 1.75rem; /* Larger font for title */
-            color: #f8fafc; /* Lighter text color for title */
+            font-size: 1.75rem;
+            color: #f8fafc;
         }
 
         /* Adjusting main content area for mobile */
@@ -71,20 +89,15 @@
             .sidebar {
                 position: fixed;
                 top: 0;
-                left: -100%; /* Initially hidden off-screen */
-                width: 250px; /* Slightly narrower sidebar on mobile */
+                left: -100%;
+                width: 250px;
                 transition: left 0.3s ease-in-out;
-                z-index: 50; /* Ensure sidebar is above content */
+                z-index: 50;
+                background-color: #1e293b; /* Solid background for mobile sidebar */
             }
-            .sidebar.open {
-                left: 0; /* Slide in when open */
-            }
-            .mr-64 {
-                margin-right: 0; /* Remove margin on mobile */
-            }
-            .main-content {
-                padding-top: 5rem; /* Add padding for fixed header */
-            }
+            .sidebar.open { left: 0; }
+            .mr-64 { margin-right: 0; }
+            .main-content { padding-top: 5rem; }
             .topbar {
                 display: flex;
                 justify-content: space-between;
@@ -93,17 +106,14 @@
                 top: 0;
                 right: 0;
                 left: 0;
-                height: 4rem; /* Height of the topbar */
-                background-color: #1e293b; /* Dark background for topbar */
+                height: 4rem;
+                background-color: #1e293b;
                 color: white;
                 padding: 0 1rem;
-                z-index: 45; /* Below auth overlay, above sidebar */
+                z-index: 45;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             }
-            .topbar .logo-sm {
-                height: 32px; /* Smaller logo for topbar */
-                width: auto;
-            }
+            .topbar .logo-sm { height: 32px; width: auto; }
             .topbar .menu-toggle {
                 background: none;
                 border: none;
@@ -111,16 +121,121 @@
                 font-size: 1.5rem;
                 cursor: pointer;
             }
-            .auth-overlay {
-                padding: 1rem;
-            }
+            .auth-overlay { padding: 1rem; }
         }
-        /* Removed Sortable.js ghost style */
+        /* Image Preview Styles */
+        .image-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .image-preview {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.25rem;
+            border: 1px solid #d1d5db;
+            background-color: #e2e8f0;
+        }
+
+        /* Notification Toast Styles */
+        #notification-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out;
+            z-index: 9999;
+            white-space: nowrap;
+            text-align: center;
+        }
+        #notification-toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        /* Samah Reda developer info */
+        .developer-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0.5rem; /* Reduced margin */
+            font-size: 0.8rem; /* Smaller font size */
+            color: #ccc; /* Lighter color for text */
+            gap: 0.5rem; /* Space between text and icon */
+            text-align: center;
+        }
+        .developer-info a {
+            color: #4ade80; /* WhatsApp green */
+            transition: color 0.2s;
+        }
+        .developer-info a:hover {
+            color: #22c55e;
+        }
+
+        /* Warning Modal Styles */
+        #warningModal {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000; /* Higher than other modals/toasts */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #warningModal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        #warningModalContent {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: fit-content; /* Adjust width to content */
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #warningModalImg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 15px;
+        }
+        #warningModalCloseBtn {
+            margin-top: 10px;
+            background-color: #ef4444; /* Red color for close button */
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s;
+        }
+        #warningModalCloseBtn:hover {
+            background-color: #dc2626;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-    <div id="auth-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 auth-overlay">
+    <div id="auth-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
         <div class="bg-white p-8 rounded-lg shadow-xl text-center w-full max-w-md">
             <h2 class="text-2xl font-bold mb-4 text-slate-800">Admin Raslan</h2>
             <input type="password" id="password-input" class="form-input mb-4" placeholder="أدخل كلمة المرور">
@@ -150,6 +265,15 @@
                 <a href="#" class="sidebar-link flex items-center gap-3 py-3 px-6 hover:bg-slate-700 transition" data-section="contact"><i class="fas fa-envelope w-5"></i><span>تواصل معنا</span></a>
                 <a href="#" class="sidebar-link flex items-center gap-3 py-3 px-6 hover:bg-slate-700 transition" data-section="footer"><i class="fas fa-copyright w-5"></i><span>التذييل</span></a>
             </nav>
+            <div class="flex flex-col items-center mt-6">
+                <button id="logout-button" class="btn bg-red-600 text-white hover:bg-red-700 py-3 px-6 mb-4"><i class="fas fa-sign-out-alt ml-2"></i> تسجيل الخروج</button>
+                <div class="developer-info">
+                    <span>Powered By: Sameh Reda</span>
+                    <a href="https://api.whatsapp.com/send/?phone=201023160657&text&type=phone_number&app_absent=0" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
         </aside>
 
         <main class="mr-64 p-8 main-content">
@@ -264,15 +388,18 @@
                     </div>
                     <div>
                         <label class="block font-semibold text-slate-600 mb-2">نص "تم التنفيذ بواسطة" (عربي)</label>
-                        <input type="text" id="poweredByAr" class="form-input">
+                        <input type="text" id="poweredByAr" class="form-input" readonly
+                            onclick="showWarningModal()" onkeydown="showWarningModal()" onpaste="showWarningModal()">
                     </div>
                     <div>
                         <label class="block font-semibold text-slate-600 mb-2">نص "Powered By" (إنجليزي)</label>
-                        <input type="text" id="poweredByEn" class="form-input">
+                        <input type="text" id="poweredByEn" class="form-input" readonly
+                            onclick="showWarningModal()" onkeydown="showWarningModal()" onpaste="showWarningModal()">
                     </div>
                     <div>
                         <label class="block font-semibold text-slate-600 mb-2">رابط واتساب للمطور</label>
-                        <input type="url" id="developerWhatsapp" class="form-input ltr-input">
+                        <input type="url" id="developerWhatsapp" class="form-input ltr-input" readonly
+                            onclick="showWarningModal()" onkeydown="showWarningModal()" onpaste="showWarningModal()">
                     </div>
                     <div class="md:col-span-2 pt-6 border-t">
                         <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
@@ -294,6 +421,15 @@
         </div>
     </div>
     
+    <div id="notification-toast"></div>
+
+    <div id="warningModal" class="hidden">
+        <div id="warningModalContent">
+            <img src="https://mediaaws.almasryalyoum.com/caricature/large/18256_caricature.png" alt="Warning" id="warningModalImg">
+            <button id="warningModalCloseBtn">إغلاق</button>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
         import { getDatabase, ref, get, set, update, remove, push } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js";
@@ -314,7 +450,71 @@
 
         let currentSection = 'about';
         let sectionsData = {};
-        let sortableInstance = null; // To store the Sortable.js instance
+        let sortableInstance = null;
+
+        // --- Notification Function ---
+        function showNotification(message, type = 'info') {
+            const toast = document.getElementById('notification-toast');
+            toast.textContent = message;
+            toast.className = ''; // Reset classes
+            
+            // Apply styling based on type (you can expand this with more colors)
+            if (type === 'success') {
+                toast.style.backgroundColor = 'rgba(40, 167, 69, 0.8)'; // Green
+            } else if (type === 'error') {
+                toast.style.backgroundColor = 'rgba(220, 53, 69, 0.8)'; // Red
+            } else {
+                toast.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'; // Default dark
+            }
+
+            // Determine display duration based on message length
+            const displayDuration = message.length > 50 ? 5000 : 3000; // 5 seconds for long messages, 3 for short
+
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, displayDuration);
+        }
+
+        // --- Warning Modal Function ---
+        let warningModalTimeout;
+        function showWarningModal() {
+            const modal = document.getElementById('warningModal');
+            const closeBtn = document.getElementById('warningModalCloseBtn');
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10); // Small delay for transition
+
+            // Auto-hide after 2 seconds
+            warningModalTimeout = setTimeout(() => {
+                hideWarningModal();
+            }, 2000);
+
+            // Close on button click
+            closeBtn.onclick = () => {
+                clearTimeout(warningModalTimeout); // Clear auto-hide timeout
+                hideWarningModal();
+            };
+
+            // Close on overlay click
+            modal.onclick = (event) => {
+                if (event.target === modal) {
+                    clearTimeout(warningModalTimeout); // Clear auto-hide timeout
+                    hideWarningModal();
+                }
+            };
+        }
+
+        function hideWarningModal() {
+            const modal = document.getElementById('warningModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // Wait for transition to complete before hiding
+        }
+
 
         // --- App Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -322,18 +522,24 @@
             const passwordInput = document.getElementById('password-input');
             const menuToggle = document.getElementById('menu-toggle');
             const sidebar = document.getElementById('sidebar');
-            
+            const logoutButton = document.getElementById('logout-button');
+
             const handleLogin = () => {
                 if (passwordInput.value === '12345') { // Change this password
                     document.getElementById('auth-overlay').classList.add('hidden');
                     document.getElementById('app-wrapper').classList.remove('hidden');
-                    // Show topbar on small screens after login
                     if (window.innerWidth < 768) {
                         document.getElementById('topbar').classList.remove('hidden');
                     }
                     initializeAppLogic();
                 } else {
-                    alert('كلمة المرور غير صحيحة!');
+                    showNotification('كلمة المرور غير صحيحة!', 'error');
+                }
+            };
+
+            const handleLogout = () => {
+                if (confirm('هل أنت متأكد أنك تريد تسجيل الخروج؟')) {
+                    location.reload(); // Simply reload to go back to login screen
                 }
             };
 
@@ -341,15 +547,14 @@
             passwordInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') handleLogin();
             });
+            logoutButton.addEventListener('click', handleLogout);
 
-            // Toggle sidebar for mobile
             if (menuToggle) {
                 menuToggle.addEventListener('click', () => {
                     sidebar.classList.toggle('open');
                 });
             }
 
-            // Close sidebar when a link is clicked on mobile
             document.querySelectorAll('.sidebar-link').forEach(link => {
                 link.addEventListener('click', () => {
                     if (window.innerWidth < 768) {
@@ -358,24 +563,23 @@
                 });
             });
 
-            // Handle window resize for responsive layout
             window.addEventListener('resize', () => {
                 if (window.innerWidth >= 768) {
-                    sidebar.classList.remove('open'); // Ensure sidebar is closed on desktop if open
-                    sidebar.classList.remove('fixed', 'top-0', 'left-[-100%]'); // Remove mobile specific positioning
-                    sidebar.classList.add('fixed', 'top-0', 'right-0', 'w-64'); // Apply desktop positioning
-                    document.getElementById('topbar').classList.add('hidden'); // Hide topbar on desktop
-                    document.querySelector('main').classList.add('mr-64'); // Apply desktop margin
-                    document.querySelector('main').classList.remove('padding-top'); // Remove mobile padding
+                    sidebar.classList.remove('open');
+                    sidebar.classList.remove('fixed', 'top-0', 'left-[-100%]');
+                    sidebar.classList.add('fixed', 'top-0', 'right-0', 'w-64');
+                    document.getElementById('topbar').classList.add('hidden');
+                    document.querySelector('main').classList.add('mr-64');
+                    document.querySelector('main').classList.remove('padding-top');
                 } else {
-                    sidebar.classList.add('fixed', 'top-0', 'left-[-100%]', 'w-64'); // Apply mobile specific positioning
-                    sidebar.classList.remove('right-0'); // Remove right positioning
-                    document.getElementById('topbar').classList.remove('hidden'); // Show topbar on mobile
-                    document.querySelector('main').classList.remove('mr-64'); // Remove desktop margin
-                    document.querySelector('main').classList.add('padding-top'); // Add mobile padding
+                    sidebar.classList.add('fixed', 'top-0', 'left-[-100%]', 'w-64');
+                    sidebar.classList.remove('right-0');
+                    document.getElementById('topbar').classList.remove('hidden');
+                    document.querySelector('main').classList.remove('mr-64');
+                    document.querySelector('main').classList.add('padding-top');
                 }
             });
-            // Initial check for mobile layout
+
             if (window.innerWidth < 768 && !document.getElementById('app-wrapper').classList.contains('hidden')) {
                 document.getElementById('topbar').classList.remove('hidden');
                 document.querySelector('main').classList.remove('mr-64');
@@ -401,11 +605,10 @@
                     sectionsData[section] = snapshot.exists() ? snapshot.val() : {};
                 }
             } catch (error) {
-                alert("فشل تحميل البيانات الأولية. تحقق من قواعد الأمان والاتصال.");
+                showNotification("فشل تحميل البيانات الأولية. تحقق من قواعد الأمان والاتصال.", 'error');
             }
         }
         
-        // --- Navigation ---
         function navigateToSection(sectionId) {
             currentSection = sectionId;
             document.querySelectorAll('.content-section').forEach(sec => sec.classList.add('hidden'));
@@ -417,7 +620,6 @@
             };
 
             if (sectionMap[sectionId]) {
-                // Destroy Sortable.js instance if switching from a sortable list
                 if (sortableInstance) {
                     sortableInstance.destroy();
                     sortableInstance = null;
@@ -430,7 +632,6 @@
             }
         }
 
-        // --- Event Listeners Setup ---
         function setupEventListeners() {
             document.querySelectorAll('.sidebar-link').forEach(link => {
                 link.addEventListener('click', (e) => {
@@ -456,19 +657,22 @@
         function populateStaticForm(sectionId) {
             const data = sectionsData[sectionId] || {};
             const formContainer = document.getElementById(`${sectionId}-form`);
-            formContainer.innerHTML = ''; // Clear previous fields
+            formContainer.innerHTML = '';
             staticFormsConfig[sectionId].forEach(key => {
-                const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()); // Simple label generation
+                const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
                 const value = data[key] || '';
                 const isTextarea = key.toLowerCase().includes('desc') || key.toLowerCase().includes('src');
                 const isUrl = key.toLowerCase().includes('url') || key.toLowerCase().includes('link') || key.toLowerCase().includes('src');
+                const isReadOnly = (sectionId === 'footer' && (key === 'poweredByAr' || key === 'poweredByEn' || key === 'developerWhatsapp'));
+
+                const readOnlyEvents = isReadOnly ? `onclick="showWarningModal()" onkeydown="showWarningModal()" onpaste="showWarningModal()"` : '';
 
                 const fieldHtml = `
                     <div>
                         <label class="block font-semibold text-slate-600 mb-2">${label}</label>
                         ${isTextarea ? 
-                            `<textarea id="${key}" class="form-input h-28">${value}</textarea>` :
-                            `<input type="${isUrl ? 'url' : 'text'}" id="${key}" value="${value}" class="form-input ${isUrl ? 'ltr-input' : ''}">`
+                            `<textarea id="${key}" class="form-input h-28" ${isReadOnly ? 'readonly' : ''} ${readOnlyEvents}>${value}</textarea>` :
+                            `<input type="${isUrl ? 'url' : 'text'}" id="${key}" value="${value}" class="form-input ${isUrl ? 'ltr-input' : ''}" ${isReadOnly ? 'readonly' : ''} ${readOnlyEvents}>`
                         }
                     </div>`;
                 formContainer.insertAdjacentHTML('beforeend', fieldHtml);
@@ -484,19 +688,23 @@
 
             const dataToSave = {};
             staticFormsConfig[sectionId].forEach(key => {
-                dataToSave[key] = document.getElementById(key).value;
+                if (!(sectionId === 'footer' && (key === 'poweredByAr' || key === 'poweredByEn' || key === 'developerWhatsapp'))) {
+                    dataToSave[key] = document.getElementById(key).value;
+                } else {
+                    dataToSave[key] = sectionsData[sectionId][key]; 
+                }
             });
 
             try {
                 await set(ref(db, sectionId), {...sectionsData[sectionId], ...dataToSave});
                 sectionsData[sectionId] = {...sectionsData[sectionId], ...dataToSave};
-                alert('تم الحفظ بنجاح!');
+                showNotification('تم الحفظ بنجاح!', 'success');
             }
-            catch (error) { // Catch block for error handling
-                alert(`خطأ في الحفظ: ${error.message}. تأكد من قواعد الأمان.`); // Alert message for error
-            } finally { // Finally block for cleanup
-                button.disabled = false; // Enable button
-                button.innerHTML = 'حفظ التغييرات'; // Restore button text
+            catch (error) {
+                showNotification(`خطأ في الحفظ: ${error.message}. تأكد من قواعد الأمان.`, 'error');
+            } finally {
+                button.disabled = false;
+                button.innerHTML = 'حفظ التغييرات';
             }
         }
 
@@ -510,13 +718,13 @@
                     titleEn: 'العنوان (إنجليزي)', 
                     descAr: 'الوصف (عربي)', 
                     descEn: 'الوصف (إنجليزي)', 
-                    mainImageUrl: 'رابط الصورة الرئيسية', // Changed from imageUrl
-                    galleryImages: 'روابط صور المعرض (افصل بينها بفاصلة ,)' // New field for multiple images
+                    mainImageUrl: 'رابط الصورة الرئيسية',
+                    galleryImages: 'روابط صور المعرض (افصل بينها بفاصلة ,)'
                 } 
             },
             team:        { title: 'فريق العمل', fields: { nameAr: 'الاسم (عربي)', nameEn: 'الاسم (إنجليزي)', positionAr: 'المنصب (عربي)', positionEn: 'المنصب (إنجليزي)', imageUrl: 'رابط الصورة' } },
             workHeroes: { title: 'أبطال أعمالنا', fields: { imageUrl: 'رابط الصورة' } },
-            clients:    { title: 'العملاء', fields: { nameAr: 'اسم العميل (عربي)', nameEn: 'اسم العميل (إنجليزي)', logoUrl: 'رابط الشعار' } }, // Added nameEn for consistency
+            clients:    { title: 'العملاء', fields: { nameAr: 'اسم العميل (عربي)', nameEn: 'اسم العميل (إنجليزي)', logoUrl: 'رابط الشعار' } },
         };
 
         function renderDynamicList(sectionId) {
@@ -525,7 +733,6 @@
             const container = document.getElementById('items-container');
             container.innerHTML = '';
             
-            // Destroy previous Sortable.js instance if it exists
             if (sortableInstance) {
                 sortableInstance.destroy();
                 sortableInstance = null;
@@ -534,27 +741,21 @@
             const items = sectionsData[sectionId] || {};
             let itemsArray = Object.entries(items).map(([id, item]) => ({ id, ...item }));
 
-            // Removed sorting by 'order' or any other field.
-            // Items will now be rendered in the default Firebase key order.
-
             if (itemsArray.length > 0) {
                 itemsArray.forEach(({ id, ...item }) => {
                     const title = item.titleAr || item.nameAr || 'عنصر بدون عنوان';
                     let image = item.imageUrl || item.logoUrl;
                     
-                    // For projects, use mainImageUrl
                     if (sectionId === 'projects') {
                         image = item.mainImageUrl;
                     }
 
-                    // Fallback for no image
                     if (!image) {
                         image = 'https://placehold.co/600x400/e2e8f0/cccccc?text=No+Image';
                     }
 
                     const card = document.createElement('div');
-                    // Removed cursor-grab class and data-item-id
-                    card.className = "bg-white p-4 rounded-lg shadow-md flex flex-col justify-between"; 
+                    card.className = "bg-white p-4 rounded-lg shadow-md flex flex-col justify-between";
                     card.innerHTML = `
                         <div>
                             <img src="${image}" class="h-40 w-full object-cover rounded-md mb-4 bg-slate-100" onerror="this.style.display='none'">
@@ -571,8 +772,6 @@
                     
                     container.appendChild(card);
                 });
-
-                // Removed Sortable.js initialization
             } else {
                 container.innerHTML = `<p class="text-slate-500 col-span-full text-center py-8">لا توجد عناصر في هذا القسم بعد.</p>`;
             }
@@ -607,10 +806,19 @@
                 let type = 'text';
                 let isTextarea = false;
                 let isLtr = false;
+                let uploadButtonHtml = '';
+                let isImageUrlField = false;
 
                 if (key.includes('Url') || key.includes('logoUrl') || key.includes('mainImageUrl')) {
                     type = 'url';
                     isLtr = true;
+                    isImageUrlField = true;
+                    uploadButtonHtml = `
+                        <button type="button" class="btn bg-blue-500 text-white hover:bg-blue-600 text-sm py-2 px-3 self-end" 
+                                onclick="openPostimageUploader()">
+                            <i class="fas fa-upload ml-1"></i> رفع (Postimage)
+                        </button>
+                    `;
                 }
                 if (key.includes('desc')) {
                     isTextarea = true;
@@ -618,24 +826,87 @@
                 if (key === 'galleryImages') {
                     isTextarea = true;
                     if (Array.isArray(value)) {
-                        value = value.join(', '); // Convert array to comma-separated string for textarea
+                        value = value.join('\n'); // Use newline for gallery images for easier pasting of multiple links
                     }
-                    isLtr = true; // URLs are LTR
+                    isLtr = true;
+                    isImageUrlField = true;
+                    uploadButtonHtml = `
+                        <button type="button" class="btn bg-blue-500 text-white hover:bg-blue-600 text-sm py-2 px-3 self-end" 
+                                onclick="openPostimageUploader()">
+                            <i class="fas fa-upload ml-1"></i> رفع (Postimage)
+                        </button>
+                    `;
                 }
-                // Removed 'order' field handling
                 
                 const fieldHtml = `
-                    <div>
-                        <label class="block font-semibold text-slate-600 mb-2">${label}</label>
-                        ${isTextarea ? 
-                            `<textarea id="modal-${key}" class="form-input h-28 ${isLtr ? 'ltr-input' : ''}">${value}</textarea>` :
-                            `<input type="${type}" id="modal-${key}" value="${value}" class="form-input ${isLtr ? 'ltr-input' : ''}">`
-                        }
+                    <div class="flex flex-col gap-1">
+                        <label class="block font-semibold text-slate-600 mb-1">${label}</label>
+                        ${isImageUrlField ? `<div id="preview-${key}" class="image-preview-container"></div>` : ''}
+                        <div class="flex items-end gap-2">
+                            <div class="flex-grow">
+                                ${isTextarea ? 
+                                    `<textarea id="modal-${key}" class="form-input h-28 ${isLtr ? 'ltr-input' : ''}" data-is-image-url="${isImageUrlField}" data-is-gallery="${key === 'galleryImages'}" oninput="handleUrlInput(this)">${value}</textarea>` :
+                                    `<input type="${type}" id="modal-${key}" value="${value}" class="form-input ${isLtr ? 'ltr-input' : ''}" data-is-image-url="${isImageUrlField}" data-is-gallery="${key === 'galleryImages'}" oninput="handleUrlInput(this)">`
+                                }
+                            </div>
+                            ${uploadButtonHtml}
+                        </div>
                     </div>`;
                 form.insertAdjacentHTML('beforeend', fieldHtml);
+
+                if (isImageUrlField && value) {
+                    const inputElement = form.querySelector(`#modal-${key}`);
+                    handleUrlInput(inputElement);
+                }
             }
         }
-        
+
+        window.openPostimageUploader = () => {
+            window.open('https://postimages.org/', '_blank');
+            showNotification('الرجاء رفع صورك على Postimage.org ونسخ الروابط. ثم الصقها في الحقل المناسب هنا. لحقول المعرض، يمكن لصق عدة روابط مفصولة بمسافات أو أسطر جديدة وسيتم فصلها تلقائياً.', 'info');
+        };
+
+        function handleUrlInput(inputElement) {
+            const isGallery = inputElement.dataset.isGallery === 'true';
+            const rawText = inputElement.value;
+            let urls = [];
+
+            const potentialUrls = rawText.split(/[\s,]+/).map(s => s.trim()).filter(s => s);
+            
+            potentialUrls.forEach(potentialUrl => {
+                try {
+                    const url = new URL(potentialUrl);
+                    if (url.protocol === 'http:' || url.protocol === 'https:') {
+                        urls.push(potentialUrl);
+                    }
+                } catch (e) {
+                    // Not a valid URL
+                }
+            });
+
+            if (isGallery) {
+                inputElement.value = urls.join('\n'); // Display with newlines for gallery
+            } else {
+                inputElement.value = urls[0] || ''; // Only first for single URL
+                urls = urls.slice(0, 1); // Only keep the first for preview
+            }
+
+            const previewContainerId = `preview-${inputElement.id.replace('modal-', '')}`;
+            const previewContainer = document.getElementById(previewContainerId);
+            if (previewContainer) {
+                previewContainer.innerHTML = '';
+                urls.forEach(url => {
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.className = 'image-preview';
+                    img.onerror = function() {
+                        this.src = 'https://placehold.co/80x80?text=Error';
+                    };
+                    previewContainer.appendChild(img);
+                });
+            }
+        }
+
         async function saveModalForm(e) {
             e.preventDefault();
             const button = document.getElementById('modal-save-btn');
@@ -647,11 +918,15 @@
             const fields = dynamicSectionsConfig[currentSection].fields;
             
             for (const key of Object.keys(fields)) {
-                let value = document.getElementById(`modal-${key}`).value;
+                let inputElement = document.getElementById(`modal-${key}`);
+                if (!inputElement) continue;
+
+                let value = inputElement.value;
                 if (key === 'galleryImages') {
-                    value = value.split(',').map(url => url.trim()).filter(url => url); // Convert comma-separated string to array, trim, and filter empty strings
-                } 
-                // Removed 'order' field handling
+                    value = value.split(/[\n,]+/).map(url => url.trim()).filter(url => url);
+                } else if (inputElement.dataset.isImageUrl === 'true') {
+                    value = value.split(/[\n,]+/).map(url => url.trim()).filter(url => url)[0] || '';
+                }
                 dataToSave[key] = value;
             }
             
@@ -666,12 +941,12 @@
 
             try {
                 await operation;
-                alert('تم الحفظ بنجاح!');
+                showNotification('تم الحفظ بنجاح!', 'success');
                 await loadAllData();
                 renderDynamicList(currentSection);
                 closeModal();
             } catch (error) {
-                alert(`خطأ في الحفظ: ${error.message}. تأكد من قواعد الأمان.`);
+                showNotification(`خطأ في الحفظ: ${error.message}. تأكد من قواعد الأمان.`, 'error');
             } finally {
                 button.disabled = false;
                 button.innerHTML = 'حفظ';
@@ -682,11 +957,11 @@
             if (confirm('هل أنت متأكد من حذف هذا العنصر؟')) {
                 try {
                     await remove(ref(db, `${sectionId}/${itemId}`));
-                    alert('تم الحذف بنجاح.');
+                    showNotification('تم الحذف بنجاح.', 'success');
                     await loadAllData();
                     renderDynamicList(sectionId);
                 } catch (error) {
-                    alert(`خطأ في الحذف: ${error.message}`);
+                    showNotification(`خطأ في الحذف: ${error.message}`, 'error');
                 }
             }
         }
@@ -706,6 +981,9 @@
             modal.querySelector('.modal-content').classList.add('scale-95');
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
+        // Expose to global scope for inline onclick
+        window.showWarningModal = showWarningModal;
+
     </script>
 </body>
 </html>
