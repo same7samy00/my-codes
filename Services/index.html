@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -37,7 +36,7 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             border-radius: 1.5rem;
-            /* No cursor: pointer for services page */
+            cursor: pointer; /* Added cursor pointer for clickability */
         }
         .glass-card:hover {
             transform: translateY(-8px) scale(1.01);
@@ -121,9 +120,137 @@
             padding: 1.5rem 2rem; /* Slightly reduced top padding to move text up */
         }
 
-        /* "Click to view all images" text - Hidden for Services page as per request */
+        /* Gallery Modal Styles - Copied from projects (index (1).html) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 2000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(255, 255, 255, 0.9); /* White with high opacity */
+            backdrop-filter: blur(10px); /* Apply blur effect */
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out; /* Fade-in for modal itself */
+        }
+        .modal-content-wrapper {
+            position: relative;
+            margin: auto;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: transparent; /* Wrapper doesn't need its own background */
+            border-radius: 1.5rem;
+            padding: 20px;
+            box-shadow: none; /* No shadow on wrapper itself */
+        }
+        .modal-main-image-container {
+            width: 100%;
+            max-width: 900px; /* Max width for main image */
+            height: 65vh; /* Fixed height for consistency */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px; /* Space below main image */
+            overflow: hidden; /* Ensure image doesn't overflow container */
+        }
+        .modal-content-image {
+            width: auto; /* Allow image to scale its width based on aspect ratio */
+            height: 100%;
+            max-width: 100%; /* Ensure image doesn't exceed container width */
+            object-fit: contain; /* This is key: image will scale down to fit without cropping, preserving aspect ratio */
+            flex-shrink: 0; /* Prevent image from shrinking */
+            opacity: 0; /* Initial state for modal image fade-in */
+            transition: opacity 0.3s ease-in-out; /* Fade transition for modal image */
+        }
+        .modal-content-image.loaded {
+            opacity: 1; /* Final state for modal image fade-in */
+        }
+        .modal-text-content {
+            color: var(--dark-gray); /* Darker text for white background */
+            text-align: center;
+            max-width: 900px; /* Max width for text content */
+            padding: 0 15px;
+            margin-bottom: 20px; /* Space below text content */
+        }
+        .modal-text-content h3 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+            color: var(--primary); /* Primary color for title */
+        }
+        .modal-text-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .modal-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+            max-width: 900px; /* Max width for thumbnail grid */
+            overflow-x: auto; /* Enable horizontal scroll if many thumbnails */
+            padding-bottom: 10px; /* Space for scrollbar */
+            justify-content: center; /* Center thumbnails */
+            align-items: center;
+        }
+        .modal-gallery-grid img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+        .modal-gallery-grid img.active-thumbnail {
+            border-color: var(--secondary);
+            transform: scale(1.05);
+        }
+        /* Hide navigation arrows completely */
+        .modal-gallery-nav {
+            display: none;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: var(--dark-gray); /* Darker close button for white background */
+            font-size: 35px; /* Slightly smaller close button */
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--primary); /* Primary color on hover */
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* "Click to view all images" text - Always visible */
         .view-all-images-text {
-            display: none; /* Hide this text */
+            position: absolute;
+            bottom: 10px; /* Adjust as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            width: 100%;
+            pointer-events: none; /* Allows click through to card */
+            z-index: 2; /* Above gradient but below content if any */
+            opacity: 1; /* Always visible */
+            transition: opacity 0.3s ease;
+            display: block; /* Ensure it's visible */
         }
         /* Make sure the text is readable over the image */
         .glass-card .image-wrapper::after { /* New overlay to make text readable */
@@ -137,7 +264,6 @@
             z-index: 1;
             pointer-events: none;
         }
-
 
         /* WhatsApp Float Button */
         .whatsapp-float {
@@ -246,6 +372,27 @@
             .glass-card p { /* Applies to service text */
                 font-size: 0.9rem; /* Smaller text */
             }
+            .modal-content-image {
+                max-height: 55vh; /* Adjust for small screens */
+            }
+            .modal-text-content h3 {
+                font-size: 1.5rem;
+            }
+            .modal-text-content p {
+                font-size: 1rem;
+            }
+            .modal-gallery-grid img {
+                height: 60px; /* Smaller thumbnails on mobile */
+            }
+            .close-button {
+                font-size: 30px;
+                top: 5px;
+                right: 10px;
+            }
+            .view-all-images-text {
+                font-size: 0.8rem; /* Smaller text on mobile */
+                bottom: 5px;
+            }
             /* WhatsApp float button adjustments for smaller screens */
             .whatsapp-float {
                 width: 55px; /* Smaller size on mobile */
@@ -300,6 +447,22 @@
         </div>
     </section>
 
+    <div id="serviceGalleryModal" class="modal">
+        <span class="close-button">&times;</span>
+        <div class="modal-content-wrapper">
+            <div class="modal-main-image-container">
+                <img class="modal-content-image" id="modalImage">
+            </div>
+            <div class="modal-text-content">
+                <h3 id="modalServiceTitleAr" data-lang="ar"></h3>
+                <h3 id="modalServiceTitleEn" data-lang="en"></h3>
+                <p id="modalServiceDescAr" data-lang="ar"></p>
+                <p id="modalServiceDescEn" data-lang="en"></p>
+                <div id="modalGalleryThumbnails" class="modal-gallery-grid"></div>
+            </div>
+        </div>
+    </div>
+
     <footer class="footer">
         <div class="container mx-auto px-4">
             <p id="footer-copyright-ar" class="order-2 md:order-1" data-lang="ar"></p>
@@ -336,6 +499,19 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        // Modal specific variables
+        let currentGalleryImages = [];
+        let currentImageIndex = 0;
+        const serviceGalleryModal = document.getElementById('serviceGalleryModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeButton = document.querySelector('.close-button');
+        const modalServiceTitleAr = document.getElementById('modalServiceTitleAr');
+        const modalServiceTitleEn = document.getElementById('modalServiceTitleEn');
+        const modalServiceDescAr = document.getElementById('modalServiceDescAr');
+        const modalServiceDescEn = document.getElementById('modalServiceDescEn');
+        const modalGalleryThumbnails = document.getElementById('modalGalleryThumbnails');
+
+
         // Helper function to fetch data
         async function fetchRealtimeData(path) {
             try {
@@ -366,13 +542,15 @@
 
             servicesArray.forEach((service) => {
                 const serviceCard = document.createElement('div');
-                // لا يوجد 'cursor-pointer' لأن البطاقة غير قابلة للنقر لفتح تفاصيل
-                serviceCard.classList.add('glass-card', 'rounded-2xl', 'overflow-hidden', 'shadow-lg'); 
+                // Added cursor-pointer for clickability
+                serviceCard.classList.add('glass-card', 'rounded-2xl', 'overflow-hidden', 'shadow-lg', 'cursor-pointer');
 
                 serviceCard.innerHTML = `
                     <div class="image-wrapper">
                         <img src="${service.imageUrl || ''}" alt="${service.titleAr}" class="w-full object-cover">
-                        </div>
+                        <span class="view-all-images-text" data-lang="ar">اضغط لعرض جميع الصور</span>
+                        <span class="view-all-images-text" data-lang="en">Click to view all images</span>
+                    </div>
                     <div class="p-8 service-card-content">
                         <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="ar">${service.titleAr || ''}</h3>
                         <h3 class="text-2xl font-bold mb-3 text-[#0c4873]" data-lang="en">${service.titleEn || ''}</h3>
@@ -391,33 +569,107 @@
                     mainImage.classList.add('loaded');
                 }
 
-                // تم إزالة مستمع الحدث للنقر على البطاقة لفتح المودال
+                // Store all service data for the modal (using imageUrl and galleryImages from Firebase)
+                // تأكد من أن service.imageUrl هو أول عنصر يتم إرساله إلى المعرض الداخلي
+                const allServiceImages = [service.imageUrl || ''].concat(service.galleryImages || []).filter(url => url);
+
+
+                // Store service data as attributes for modal use
+                serviceCard.dataset.serviceData = JSON.stringify({
+                    images: allServiceImages,
+                    titleAr: service.titleAr,
+                    titleEn: service.titleEn,
+                    descAr: service.descAr,
+                    descEn: service.descEn
+                });
+
+                // Add event listener to open the modal
+                serviceCard.addEventListener('click', () => openGallery(serviceCard));
                 container.appendChild(serviceCard);
             });
         }
 
-        // Removed all modal-related functions (openGallery, updateModalImage, and their event listeners)
-        // since the modal is no longer part of this page.
+        // Modal specific functions
+        function openGallery(cardElement) {
+            const serviceData = JSON.parse(cardElement.dataset.serviceData);
+            currentGalleryImages = serviceData.images;
 
-        async function loadContact() {
-            // Note: This function is kept for consistency with other pages' scripts,
-            // but its outputs are not used in this specific services.html page since the contact section is removed.
-            // It primarily serves to fetch whatsapp phone for the floating button.
-            const data = await fetchRealtimeData('contact');
-            if (!data) return;
-            document.getElementById('whatsapp-float-link').href = `https://wa.me/${data.whatsappFloatPhone || ''}`;
+            if (currentGalleryImages.length === 0) {
+                console.warn("No images available for this service gallery.");
+                return; // Do not open modal if no images
+            }
+
+            // Populate modal text content
+            modalServiceTitleAr.textContent = serviceData.titleAr || '';
+            modalServiceTitleEn.textContent = serviceData.titleEn || '';
+            modalServiceDescAr.textContent = serviceData.descAr || '';
+            modalServiceDescEn.textContent = serviceData.descEn || '';
+
+            // Populate modal gallery thumbnails
+            modalGalleryThumbnails.innerHTML = '';
+            currentGalleryImages.forEach((url, index) => {
+                const thumb = document.createElement('img');
+                thumb.src = url;
+                thumb.alt = `Thumbnail ${index + 1}`;
+                thumb.classList.add('w-full', 'h-auto', 'object-cover', 'rounded-md', 'cursor-pointer');
+                thumb.addEventListener('click', () => {
+                    currentImageIndex = index;
+                    updateModalImage();
+                });
+                modalGalleryThumbnails.appendChild(thumb);
+            });
+
+            currentImageIndex = 0; // Always start with the first image (mainImageUrl)
+            updateModalImage();
+            serviceGalleryModal.style.display = 'flex'; // Show modal
         }
 
-        async function loadFooter() {
-            const data = await fetchRealtimeData('footer');
-            if (!data) return;
-            document.getElementById('footer-copyright-ar').textContent = data.copyrightAr || '';
-            document.getElementById('footer-copyright-en').textContent = data.copyrightEn || '';
-            const poweredByAr = document.getElementById('footer-powered-by-ar');
-            const poweredByEn = document.getElementById('footer-powered-by-en');
-            // التأكد من وجود العناصر قبل محاولة تعديل innerHTML
-            if (poweredByAr) poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
-            if (poweredByEn) poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+        function updateModalImage() {
+            if (currentGalleryImages.length > 0) {
+                modalImage.src = ''; // Clear src to trigger fade-out before new image loads
+                modalImage.classList.remove('loaded'); // Remove loaded class for fade-out
+
+                // Set new image source and add loaded class on load
+                modalImage.onload = () => {
+                    modalImage.classList.add('loaded');
+                };
+                modalImage.src = currentGalleryImages[currentImageIndex];
+
+                // Update active thumbnail indicator
+                modalGalleryThumbnails.querySelectorAll('img').forEach((thumb, index) => {
+                    if (index === currentImageIndex) {
+                        thumb.classList.add('active-thumbnail');
+                    } else {
+                        thumb.classList.remove('active-thumbnail');
+                    }
+                });
+
+            }
+        }
+
+        closeButton.addEventListener('click', () => {
+            serviceGalleryModal.style.display = 'none';
+            modalImage.classList.remove('loaded'); // Ensure modal image fades out on close
+        });
+
+        // Close modal when clicking outside the modal content
+        serviceGalleryModal.addEventListener('click', (e) => {
+            // Only close if clicked directly on the modal background, not on its children
+            if (e.target === serviceGalleryModal) {
+                serviceGalleryModal.style.display = 'none';
+                modalImage.classList.remove('loaded'); // Ensure modal image fades out on close
+            }
+        });
+
+
+        // This function will be used to fetch the whatsapp phone number
+        async function getWhatsappPhoneNumber() {
+            const contactData = await fetchRealtimeData('contact');
+            if (contactData && contactData.whatsappFloatPhone) {
+                document.getElementById('whatsapp-float-link').href = `https://wa.me/${contactData.whatsappFloatPhone}`;
+            } else {
+                console.warn("WhatsApp phone number not found in Firebase 'contact' data.");
+            }
         }
 
         function showWhatsappNotification() {
@@ -447,10 +699,22 @@
             showWhatsappNotification();
         }
 
+        async function loadFooter() {
+            const data = await fetchRealtimeData('footer');
+            if (!data) return;
+            document.getElementById('footer-copyright-ar').textContent = data.copyrightAr || '';
+            document.getElementById('footer-copyright-en').textContent = data.copyrightEn || '';
+            const poweredByAr = document.getElementById('footer-powered-by-ar');
+            const poweredByEn = document.getElementById('footer-powered-by-en');
+            if (poweredByAr) poweredByAr.innerHTML = `${data.poweredByAr || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+            if (poweredByEn) poweredByEn.innerHTML = `${data.poweredByEn || ''} <a href="${data.developerWhatsapp || '#'}" target="_blank" class="font-bold hover:underline"><i class="fab fa-whatsapp"></i></a>`;
+        }
+
+        // Initial Load
         document.addEventListener('DOMContentLoaded', async () => {
             await Promise.all([
                 loadAllServices(),
-                loadContact(), // تبقى هذه الوظيفة لجلب رقم الواتساب للزر العائم
+                getWhatsappPhoneNumber(), // Load whatsapp number for float button
                 loadFooter()
             ]);
 
